@@ -56,7 +56,7 @@ void opcode_binary_to_bits(BitsCommand *pbc, int opcode_binary) {
 void assign_command_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     int opcode;
     opcode = to_opcode(ppc->command);
-    opcode = dec_to_binary(-7);
+    opcode = dec_to_binary(opcode);
     opcode_binary_to_bits(pbc, opcode);
 }
 

@@ -63,9 +63,6 @@ void routing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
         }
     }
 
-
-
-
     /**direct register address**/
     if (command_direct_register_address(ppc->command) == TRUE) {
         if (ppc->args_num == 1) {
@@ -80,8 +77,6 @@ void routing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
             run_direct_register_addressing(ppc, pbc, are);
             return;
         }
-
-
     }
     free(arg);
     /*if we here - none of the option is correct - the sentence isn't correct*/
