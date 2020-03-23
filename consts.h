@@ -51,6 +51,12 @@
 #define INDIRECT_REGISTER_ADDRESSING_NO 2
 #define DIRECT_REGISTER_ADDRESSING_NO 3
 
+/* Instruction method */
+#define DATA_NO 0
+#define STRING_NO 1
+#define ENTRY_NO 2
+#define EXTERN_NO 3
+
 /*General*/
 #define TRUE (1)
 #define FALSE (0)
