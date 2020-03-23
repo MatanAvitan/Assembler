@@ -7,58 +7,21 @@
 
 void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are)
 {
-    printf("run_direct_addressing");
-
     /**FIRST*/
 
-    /*command*/
-    /*0-2 bits*/
-    pbc->b0 = 0;
-    pbc->b1 = 0;
-    pbc->b2 = 1;
+    int i = 0;
 
-    /*3-6 bits*/
-    pbc->b3 = 0;
-    pbc->b4 = 1;
-    pbc->b5 = 0;
-    pbc->b6 = 0;
-
-    /*7-10 bits*/
-    pbc->b7 = 0;
-    pbc->b8 = 0;
-    pbc->b9 = 0;
-    pbc->b10 = 0;
-
-    /*opcode 11-14 bits*/
-    pbc->b11 = 0;
-    pbc->b12 = 0;
-    pbc->b13 = 0;
-    pbc->b14 = 0;
-
-    assign_command_bits(ppc,pbc);
+    /**First command**/
+    assign_first_command(ppc, pbc, are);
+    
 
     /*SECOND*/
-    /*adress of the label - we cant know here what is the adress (3-14 bits)*/
-
+   
     /*0-2 bits*/
-    switch(are)
-    {
-    	case 0:
-            (pbc+1)->b0 = 1;
-    		(pbc+1)->b1 = 0;
-    		(pbc+1)->b2 = 0;
-    		break;
-    	case 1:
-    		(pbc+1)->b0 = 0;
-    		(pbc+1)->b1 = 1;
-    		(pbc+1)->b2 = 0;
-    		break;
-    	case 2:
-    		(pbc+1)->b0 = 0;
-    		(pbc+1)->b1 = 0;
-    		(pbc+1)->b2 = 1;
-    		break;
-    }
+    are = 1;
+    assign_are_bits(pbc+1,are);
+  
+    /*adress of the label - we cant know here what is the adress (3-14 bits)*/
 
     /*11-14 bits*/
     (pbc+1)->b11 = 0;
@@ -67,4 +30,8 @@ void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are)
     (pbc+1)->b14 = 0;
 
     /*we dont need pbc[2]*/
+    for (; i < ppc->args_num + 1; i++) {
+        /**Write the command to the bin file**/
+        write_command_to_file(pbc + i);
+    }
 }
