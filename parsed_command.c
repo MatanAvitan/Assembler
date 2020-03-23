@@ -1,9 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-
-#include "consts.h"
 #include "parsed_command.h"
-#include "validator.h"
+
 
 #define FAILED_TO_FETCH_COMMAND "Failed to fetch a command\n"
 

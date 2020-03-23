@@ -9,7 +9,6 @@
 
 
 void routing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
-    char temp[4], *token, *seps_instanst = "#", *seps_indirect_register = "*";
     char *arg = (char *) malloc(sizeof(char *));
     strcpy(arg, ppc->src);
     if (ppc->args_num == 1) {

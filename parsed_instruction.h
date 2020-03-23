@@ -1,15 +1,20 @@
 #ifndef FINAL_PROJECT_PARSED_INSTRUCTION
 #define FINAL_PROJECT_PARSED_INSTRUCTION
 
-#include "consts.h"
-
-typedef struct ParsedInstruction
-{
-    char label[MAX_ARG_SIZE];
+typedef struct ParsedInstruction{
+    char label[MAX_INSTRUCTION_LEN];
     int instruction_addressing_method;
-    char* args[MAX_LINE];
-    int args_num;
+    LinkedList list;
+    int members_num;
 } ParsedInstruction;
+
+typedef struct LinkedList{
+    char *val;
+    LinkedList next;
+}LinkedList;
+
+
+#include "consts.h"
 
 ParsedInstruction *parse(char *, ParsedInstruction *);
 

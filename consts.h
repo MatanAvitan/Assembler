@@ -1,6 +1,7 @@
 /* Input */
 #define MAX_LINE 80
 #define MAX_ARG_SIZE 5
+#define MAX_INSTRUCTION_LEN 6
 
 /* Assembly language */
 #define R1 "r1"

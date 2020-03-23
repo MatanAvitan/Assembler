@@ -1,8 +1,11 @@
 #ifndef FINAL_PROJECT_PARSED_COMMAND_H
 #define FINAL_PROJECT_PARSED_COMMAND_H
 
+#include <stdio.h>
+#include <string.h>
 
 #include "consts.h"
+#include "validator.h"
 
 typedef struct ParsedCommand {
     char command[20];
