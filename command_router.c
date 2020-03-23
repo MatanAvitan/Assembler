@@ -66,10 +66,19 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
                     printf("Invalid register name");
                 }
             }
+            run_indirect_register_addressing(ppc, pbc, are);
+            return;
+        }
+    } else {
+        if (ppc->src_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO) {
+            if (compare_register(ppc->src) == FALSE) {
+                printf("Invalid source register name");
+            }
         }
         run_indirect_register_addressing(ppc, pbc, are);
         return;
     }
+
 
     /**direct register address**/
     if (ppc->src_addressing_method == DIRECT_REGISTER_ADDRESSING_NO &&
