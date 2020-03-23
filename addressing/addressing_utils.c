@@ -132,7 +132,9 @@ void convert_pbc_to_pchar(char *pcommand, BitsCommand *pbc) {
     pcommand[2] = pbc->b12 + '0';
     pcommand[1] = pbc->b13 + '0';
     pcommand[0] = pbc->b14 + '0';
-    pcommand[15] = '\n';
+    pcommand[15] = '\n';/*New Line*/
+    pcommand[16] = 0;/*Null terminator*/
+
 }
 
 void assign_first_command(ParsedCommand *ppc, BitsCommand *pbc, int are) {

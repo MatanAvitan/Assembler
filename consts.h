@@ -51,10 +51,23 @@
 #define INDIRECT_REGISTER_ADDRESSING_NO 2
 #define DIRECT_REGISTER_ADDRESSING_NO 3
 
+/* Instructions */
+#define DATA "data"
+#define DATA_NO 0
+#define STRING "string"
+#define STRING_NO 1
+#define ENTRY "entry"
+#define ENTRY_NO 2
+#define EXTERN "extern"
+#define EXTERN_NO 3
+
+
 /*General*/
 #define TRUE (1)
 #define FALSE (0)
 #define MAX_NUM_OF_TRANSLATION_COMMANDS 3
+#define TERMINATE "terminate"
+
 
 /* Output */
 #define BIN_FILENAME "../binary_output.txt"

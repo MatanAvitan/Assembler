@@ -1,14 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "router.h"
+#include "command_router.h"
 #include "addressing/instant_addressing.h"
 #include "addressing/direct_addressing.h"
 #include "addressing/indirect_register_addressing.h"
 #include "addressing/direct_register_addressing.h"
 
 
-void routing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
+void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
     char *arg = (char *) malloc(sizeof(char *));
     strcpy(arg, ppc->src);
     if (ppc->args_num == 1) {
@@ -66,8 +66,6 @@ void routing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
                     printf("Invalid register name");
                 }
             }
-        } else {
-            printf("Invalid command for the following indirect registers");
         }
         run_indirect_register_addressing(ppc, pbc, are);
         return;
@@ -97,8 +95,6 @@ void routing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
                     printf("Invalid register name");
                 }
             }
-        } else {
-            printf("Invalid command for the following indirect registers");
         }
         run_direct_register_addressing(ppc, pbc, are);
         return;

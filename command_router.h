@@ -2,7 +2,7 @@
 #include "bits_command.h"
 
 
-void routing(ParsedCommand *ppc, BitsCommand *pbc, int are);
+void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are);
 
 int to_decimal(char *number);
 

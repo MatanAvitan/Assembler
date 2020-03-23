@@ -26,13 +26,15 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
     strcpy(prefix, token);
     token = strtok(NULL, seps);
 
-    /*If the second token is not null then the : seperator seperates between the prefix and the rest of the command
+    /*If the second token is not null then the : separator separates between the label and the rest of the command
      *else the second argument just be null*/
     if (token) {
         strcpy(command_without_prefix, token);
         strcpy(ppc->prefix, prefix);
         /*Remove unneeded spaces */
         strcpy(command, command_without_prefix);
+        /**This is an instruction sentence because there is a label**/
+        return get_error_parser(ppc);
     }
 
     if (sscanf(command, " %[a-zA-Z] %n", ppc->command, &n) != 1) {

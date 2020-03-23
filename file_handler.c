@@ -6,7 +6,7 @@
 int ic = 100;
 
 void write_command_to_file(BitsCommand *pbc) {
-    char pcommand[16];
+    char pcommand[17];
     FILE *pfile = NULL;
     convert_pbc_to_pchar(pcommand, pbc);
 
@@ -19,7 +19,6 @@ void write_command_to_file(BitsCommand *pbc) {
         printf("Unable to create file.\n");
         exit(EXIT_FAILURE);
     }
-
 
     /* Write data to file */
     fputs(pcommand, pfile);
