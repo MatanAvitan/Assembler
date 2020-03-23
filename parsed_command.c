@@ -86,7 +86,7 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
     }
     if (ppc->src_addressing_method == -1) {
         /**It's none of the mentioned methods above, so if it's a valid command it has to be Direct addressing**/
-        ppc->src_addressing_method = DIRECT_ADDRESSING_NO;
+        ppc->dst_addressing_method = DIRECT_ADDRESSING_NO;
     }
 
 

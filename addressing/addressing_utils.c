@@ -9,8 +9,8 @@ int to_opcode(char *command) {
         opcode = CMP_NO;
     } else if (strcmp(command, SUB) == 0) {
         opcode = SUB_NO;
-    } else if (strcmp(command, CMP) == 0) {
-        opcode = CMP_NO;
+    } else if (strcmp(command, ADD) == 0) {
+        opcode = ADD_NO;
     } else if (strcmp(command, LEA) == 0) {
         opcode = LEA_NO;
     } else if (strcmp(command, CLR) == 0) {
@@ -251,7 +251,7 @@ void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, 
 }
 
 
-void assign_direct_register_number_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
+void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
     int bin_representation_of_arg, arg_as_dec;
     char register_number;
     char direct_register_arg[5];
@@ -262,9 +262,6 @@ void assign_direct_register_number_command(ParsedCommand *ppc, BitsCommand *pbc,
     }
     if (strstr(direct_register_arg, "r")) {
         register_number = direct_register_arg[1];
-    }
-    if (strstr(direct_register_arg, "*r")) {
-        register_number = direct_register_arg[2];
     }
     arg_as_dec = atoi(&register_number);
 

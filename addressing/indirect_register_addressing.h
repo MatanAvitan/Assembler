@@ -7,6 +7,8 @@
 
 #include "../parsed_command.h"
 #include "../bits_command.h"
+#include "../consts.h"
+#include "addressing_utils.h"
 
 void run_indirect_register_addressing(ParsedCommand *, BitsCommand *, int);
 
