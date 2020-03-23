@@ -5,9 +5,9 @@
 
 typedef struct ParsedInstruction
 {
-    char prefix[MAX_ARG_SIZE];
+    char label[MAX_ARG_SIZE];
     int instruction_addressing_method;
-    char args[70];
+    char* args[MAX_LINE];
     int args_num;
 } ParsedInstruction;
 
