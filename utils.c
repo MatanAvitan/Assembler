@@ -60,14 +60,6 @@ void increment_binary_buffer(char buffer[], int bits_count)
 	}
 }
 
-void print_array(char array[], int length)
-{
-	int i = 0;
-	for (i = 0; i < length; ++i)
-		printf("%d\n", array[i]);
-}
-
-
 int dec_to_binary(int n, int bits_count, char *out_buffer)
 {
 	if (n >= 0)
