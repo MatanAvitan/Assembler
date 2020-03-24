@@ -3,14 +3,15 @@
 #include "file_handler.h"
 
 
+
 int ic = 100;
 
-void write_command_to_file(BitsCommand *pbc) {
+void write_command_to_file(BitsCommand *pbc, char *filename) {
     char pcommand[17];
     FILE *pfile = NULL;
     convert_pbc_to_pchar(pcommand, pbc);
 
-    pfile = fopen(BIN_FILENAME, "a");
+    pfile = fopen(filename, "a");
     ic++;
 
     /* fopen() return NULL if last operation was unsuccessful */
@@ -25,3 +26,25 @@ void write_command_to_file(BitsCommand *pbc) {
     /* Close file to save file data */
     fclose(pfile);
 }
+
+void write_entry_or_extern_to_file(ParsedInstruction *ppi, char *filename) {
+    FILE *pfile = NULL;
+
+    pfile = fopen(filename, "a");
+
+    /* fopen() return NULL if last operation was unsuccessful */
+    if (pfile == NULL) {
+        /* File not created hence exit */
+        printf("Unable to create file.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    /* Write data to file */
+//    fputs(ic, pfile);
+    fputs(ppi->list.val_for_labels, pfile);
+    /* Close file to save file data */
+    fclose(pfile);
+}
+
+
+

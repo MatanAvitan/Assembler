@@ -61,16 +61,17 @@ void instruction_router(ParsedInstruction *ppi, BitsCommand *pbc) {
             /*checks id dec_to_binary works because the type parameter*/
             binary_member = dec_to_binary(temp_arg);
             assign_arg_to_all_bits(pbc + i, binary_member);
-            write_command_to_file(pbc + i);
+            write_command_to_file(pbc + i, BIN_FILENAME);
             temp_head = temp_head->next;
             i++;
         }
 
     }
 
-    if (strcmp(ppi->instruction_type, ENTRY_NO) == 0) {
+    if (ppi->instruction_type == ENTRY_NO) {
+        write_entry_or_extern_to_file(ppi, ENTRY_FILENAME);
 
-    } else if (strcmp(ppi->instruction_type, EXTERN_NO) == 0) {
-
+    } else if (ppi->instruction_type == EXTERN_NO) {
+        write_entry_or_extern_to_file(ppi, EXTERN_FILENAME);
     }
 }

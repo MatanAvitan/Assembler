@@ -64,19 +64,23 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
             if (ppc->dst_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO) {
                 if (compare_register(ppc->dst) == FALSE) {
                     printf("Invalid register name");
+                } else {
+                    run_indirect_register_addressing(ppc, pbc, are);
+                    return;
                 }
             }
-            run_indirect_register_addressing(ppc, pbc, are);
-            return;
+
         }
     } else {
         if (ppc->src_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO) {
             if (compare_register(ppc->src) == FALSE) {
                 printf("Invalid source register name");
+            } else {
+                run_indirect_register_addressing(ppc, pbc, are);
+                return;
             }
         }
-        run_indirect_register_addressing(ppc, pbc, are);
-        return;
+
     }
 
 
@@ -107,6 +111,16 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
         }
         run_direct_register_addressing(ppc, pbc, are);
         return;
+    } else {
+        if (ppc->src_addressing_method == DIRECT_REGISTER_ADDRESSING_NO) {
+            if (compare_register(ppc->src) == FALSE) {
+                printf("Invalid source register name");
+            } else {
+                run_direct_register_addressing(ppc, pbc, are);
+                return;
+            }
+        }
+
     }
     free(arg);
     /*if we here - none of the option is correct - the sentence isn't correct*/

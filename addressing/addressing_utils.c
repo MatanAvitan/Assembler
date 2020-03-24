@@ -255,7 +255,7 @@ void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, 
 
 void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
     int bin_representation_of_arg, arg_as_dec;
-    char register_number;
+    char register_number = 0;
     char direct_register_arg[5];
     if (is_src_arg) {
         strcpy(direct_register_arg, ppc->src);

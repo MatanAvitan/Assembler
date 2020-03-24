@@ -71,3 +71,5 @@
 
 /* Output */
 #define BIN_FILENAME "../binary_output.txt"
+#define ENTRY_FILENAME "../ps.ent"
+#define EXTERN_FILENAME "../ps.ext"

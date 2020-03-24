@@ -8,6 +8,7 @@
 
 typedef struct LinkedList {
     int val;
+    char val_for_labels[MAX_INSTRUCTION_LEN];
     struct LinkedList *next;
 } LinkedList;
 

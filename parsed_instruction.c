@@ -26,23 +26,55 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
         ppi->instruction_type = get_instruction_type(instruction);
     }
     token = strtok(NULL, seps);
-    if (token) {
-        node = (LinkedList *) malloc(sizeof(LinkedList));
-        node->val = atoi(token);
-        node->next = NULL;
-        ppi->list = *node;
-        ppi->members_num += 1;
-    }
-    token = strtok(NULL, seps);
-    while (token) {
-        node = (LinkedList *) malloc(sizeof(LinkedList));
-        node->val = atoi(token);
-        node->next = NULL;
-        runner = &ppi->list;
-        while (runner->next) runner = runner->next;
-        runner->next = node;
-        ppi->members_num += 1;
+    if (strcmp(instruction, DATA) == 0) {
+        if (token) {
+            node = (LinkedList *) malloc(sizeof(LinkedList));
+            node->val = atoi(token);
+            node->next = NULL;
+            ppi->list = *node;
+            ppi->members_num += 1;
+        }
         token = strtok(NULL, seps);
+        while (token) {
+            node = (LinkedList *) malloc(sizeof(LinkedList));
+            node->val = atoi(token);
+            node->next = NULL;
+            runner = &ppi->list;
+            while (runner->next) runner = runner->next;
+            runner->next = node;
+            ppi->members_num += 1;
+            token = strtok(NULL, seps);
+        }
+    } else if (strcmp(instruction, STRING) == 0) {
+        if (token) {
+            node = (LinkedList *) malloc(sizeof(LinkedList));
+            node->val = *token; /**Assign each char as int(ascii representation)**/
+            node->next = NULL;
+            ppi->list = *node;
+            ppi->members_num += 1;
+        }
+        token++;
+        while (*token) {
+            if (*token == "\n")break;
+            node = (LinkedList *) malloc(sizeof(LinkedList));
+            node->val = *token;/**Assign each char as int(ascii representation)**/
+            node->next = NULL;
+            runner = &ppi->list;
+            while (runner->next) runner = runner->next;
+            runner->next = node;
+            ppi->members_num += 1;
+            token++;
+        }
+    } else if ((strcmp(instruction, ENTRY) == 0) || (strcmp(instruction, EXTERN) == 0)) {
+        if (*token) {
+            node = (LinkedList *) malloc(sizeof(LinkedList));
+            strcpy(node->val_for_labels, token); /**Assign each char as int(ascii representation)**/
+            node->next = NULL;
+            ppi->list = *node;
+            ppi->members_num += 1;
+        } else {
+            /*todo: there is no label after entry*/
+        }
     }
 }
 

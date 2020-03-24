@@ -29,7 +29,7 @@ void run_instant_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
     }
     for (; i < ppc->args_num + 1; i++) {
         /**Write the command to the bin file**/
-        write_command_to_file(pbc + i);
+        write_command_to_file(pbc + i, BIN_FILENAME);
     }
 
 }

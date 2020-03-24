@@ -4,38 +4,65 @@
 #include "command_router.h"
 #include "parsed_instruction.h"
 #include "instruction_router.h"
+#include "data_structures/symbols_list.h"
+#include "data_structures/reading_two_list.h"
 
+extern ic;
 
 int main() {
     char command_input[MAX_LINE] = {0};
     ParsedCommand *ppc;
     ParsedInstruction *ppi;
     BitsCommand *pbc;
-    int are;
+    SymbolsList *sl = {0};
+    ReadingTwoList *rtl;
+    int are, is_entry_or_extern = 0;
     read_command(command_input);
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
     ppc = parse(command_input, ppc);
-    if ((strcmp(ppc->command, TERMINATE) == 0) && (ppc->prefix != NULL)) {
-        /**If the command parser failed to parse the command maybe it's an instruction sentence**/
-        ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
-        /**The command parser already caught the label**/
-        strcpy(ppi->label, ppc->prefix);
-        parse_instruction(command_input, ppi);
-        if (ppi->members_num == 0) {
-            /**Parsing error**/
-            printf("Failed to parse the given command");
-            return 0;
+    rtl = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
+    while (strcmp(ppc->command, STOP) != 0) {
+        if (strcmp(ppc->command, TERMINATE) == 0) {
+            if (strlen(ppc->prefix) != 0) {
+                /**If the command parser failed to parse the command maybe it's an instruction sentence**/
+                ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
+                /**The command parser already caught the label**/
+                strcpy(ppi->label, ppc->prefix);
+                parse_instruction(command_input, ppi);
+                if (ppi->members_num == 0) {
+                    /**Parsing error**/
+                    /**Fetch command**/
+                    read_command(command_input);
+                    continue;
+                } else {
+                    /**We have a valid instruction sentence command**/
+                    if (strlen(ppi->label) != 0) {
+                        if (strlen(ppi->list.val_for_labels) != 0) {
+                            is_entry_or_extern = 1;
+                        }
+                        add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val, ppi->list.val_for_labels,
+                                   is_entry_or_extern);
+                    }
+                    pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
+                    instruction_router(ppi, pbc);
+                    /**todo: free() dont forget to free all**/
+                    /**Fetch command**/
+                    read_command(command_input);
+                    ppc = parse(command_input, ppc);
+                    continue;
+                }
+            } else {
+                /**We got stop command**/
+                break;
+            }
         } else {
-            /**We have a valid instruction sentence command**/
-            pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
-            instruction_router(ppi, pbc);
-            /**todo: free() dont forget to free all**/
-            return 1;
+            /**Regular command**/
+            pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * MAX_NUM_OF_TRANSLATION_COMMANDS);
+            /**Run first time and assign all the declaration variables to three lists A, R, E.
+             *Then call to the get_are(command) and pass the output to the command_router function.**/
+            are = 2;
+            command_router(ppc, pbc, are);
         }
+
     }
-    pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * MAX_NUM_OF_TRANSLATION_COMMANDS);
-    /**Run first time and assign all the declaration variables to three lists A, R, E.
-     *Then call to the get_are(command) and pass the output to the command_router function.**/
-    are = 2;
-    command_router(ppc, pbc, are);
 }

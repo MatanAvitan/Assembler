@@ -38,7 +38,6 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
     }
 
     if (sscanf(command, " %[a-zA-Z] %n", ppc->command, &n) != 1) {
-        printf(FAILED_TO_FETCH_COMMAND);
         return get_error_parser(ppc);
     }
     command += n;
