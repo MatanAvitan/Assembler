@@ -39,25 +39,28 @@ int to_opcode(char *command) {
     return opcode;
 }
 
-void opcode_binary_to_bits(BitsCommand *pbc, int opcode_binary) {
-    pbc->b11 = opcode_binary % 10;
-    opcode_binary = opcode_binary / 10;
-
-    pbc->b12 = opcode_binary % 10;
-    opcode_binary = opcode_binary / 10;
-
-    pbc->b13 = opcode_binary % 10;
-    opcode_binary = opcode_binary / 10;
-
-    pbc->b14 = opcode_binary;
+void opcode_binary_to_bits(BitsCommand *pbc, char opcode_binary[])
+{
+    pbc->b11 = opcode_binary[MAX_BITS-1];
+    pbc->b12 = opcode_binary[MAX_BITS-2];
+    pbc->b13 = opcode_binary[MAX_BITS-3];
+    pbc->b14 = opcode_binary[MAX_BITS-4];
 }
-
 
 void assign_command_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     int opcode;
+    char covert_binary[MAX_BITS] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     opcode = to_opcode(ppc->command);
-    opcode = dec_to_binary(opcode);
-    opcode_binary_to_bits(pbc, opcode);
+    
+    if(dec_to_binary(opcode,MAX_BITS,covert_binary))
+    {
+        opcode_binary_to_bits(pbc, covert_binary);
+    }
+    else
+    {
+        printf("ERROR - the number is too big\n");
+    }
+    
 }
 
 void assign_src_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
@@ -79,6 +82,7 @@ void assign_src_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
 
     }
 }
+
 
 void assign_dst_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     switch (ppc->dst_addressing_method) {
@@ -152,70 +156,44 @@ void assign_first_command(ParsedCommand *ppc, BitsCommand *pbc, int are) {
     assign_are_bits(pbc, are);
 }
 
-void assign_arg_to_bit_3_till_14(BitsCommand *pbc, int binary_arg) {
-    pbc->b3 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b4 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b5 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b6 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b7 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b8 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b9 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b10 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b11 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b12 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b13 = binary_arg % 10;
-    binary_arg = binary_arg / 10;
-
-    pbc->b14 = binary_arg % 10;
-
+void assign_arg_to_bit_3_till_14(BitsCommand *pbc, char binary_arg[])
+{
+    pbc->b3 = binary_arg[MAX_BITS-1];
+    pbc->b4 = binary_arg[MAX_BITS-2];
+    pbc->b5 = binary_arg[MAX_BITS-3];
+    pbc->b6 = binary_arg[MAX_BITS-4];
+    pbc->b7 = binary_arg[MAX_BITS-5];
+    pbc->b8 = binary_arg[MAX_BITS-6];
+    pbc->b9 = binary_arg[MAX_BITS-7];
+    pbc->b10 = binary_arg[MAX_BITS-8];
+    pbc->b11 = binary_arg[MAX_BITS-9];
+    pbc->b12 = binary_arg[MAX_BITS-10];
+    pbc->b13 = binary_arg[MAX_BITS-11];
+    pbc->b14 = binary_arg[MAX_BITS-12];
 }
 
-
-void assign_register_number_to_bit(BitsCommand *pbc, int binary_arg, int is_src_reg) {
-    if (is_src_reg) {
-        pbc->b6 = binary_arg % 10;
-        binary_arg = binary_arg / 10;
-
-        pbc->b7 = binary_arg % 10;
-        binary_arg = binary_arg / 10;
-
-        pbc->b8 = binary_arg % 10;
-    } else {
-        pbc->b3 = binary_arg % 10;
-        binary_arg = binary_arg / 10;
-
-        pbc->b4 = binary_arg % 10;
-        binary_arg = binary_arg / 10;
-
-        pbc->b5 = binary_arg % 10;
+void assign_register_number_to_bit(BitsCommand *pbc, char binary_arg[], int is_src_reg)
+{
+    if(is_src_reg)
+    {
+        pbc->b6 = binary_arg[MAX_BITS-1];
+        pbc->b7 = binary_arg[MAX_BITS-2];
+        pbc->b8 = binary_arg[MAX_BITS-3];
     }
-
+    else
+    {
+        pbc->b3 = binary_arg[MAX_BITS-1];
+        pbc->b4 = binary_arg[MAX_BITS-2];
+        pbc->b5 = binary_arg[MAX_BITS-3];
+    }
 }
 
 
 void assign_instant_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
     int bin_representation_of_arg, arg_as_dec;
+    char covert_binary[MAX_BITS] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     char instant_arg[5];
+
     if (is_src_arg) {
         strcpy(instant_arg, ppc->src);
     } else {
@@ -223,10 +201,15 @@ void assign_instant_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int i
     }
     sscanf(instant_arg, "%d", &arg_as_dec);
 
-    bin_representation_of_arg = dec_to_binary(arg_as_dec);
-
-    /**Set the instant arg bits: 3-14**/
-    assign_arg_to_bit_3_till_14(pbc, bin_representation_of_arg);
+    if(dec_to_binary(arg_as_dec, MAX_BITS, covert_binary))
+    {
+        /**Set the instant arg bits: 3-14**/
+        assign_arg_to_bit_3_till_14(pbc, covert_binary);
+    }
+    else
+    {
+        printf("ERROR - the number is too big\n");
+    }
 
     /**Set the src arg bits: 0-2**/
     assign_are_bits(pbc, are);
@@ -234,7 +217,9 @@ void assign_instant_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int i
 
 void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
     int bin_representation_of_arg, arg_as_dec;
+    char covert_binary[MAX_BITS] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     char direct_register_arg[5];
+
     if (is_src_arg) {
         strcpy(direct_register_arg, ppc->src);
     } else {
@@ -243,10 +228,15 @@ void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, 
 
     arg_as_dec = atoi(&direct_register_arg[1]);
 
-    bin_representation_of_arg = dec_to_binary(arg_as_dec);
-
-    /**Set the instant arg bits: 3-14**/
-    assign_arg_to_bit_3_till_14(pbc, bin_representation_of_arg);
+    if(dec_to_binary(arg_as_dec, MAX_BITS, covert_binary))
+    {
+        /**Set the instant arg bits: 3-14**/
+        assign_arg_to_bit_3_till_14(pbc, covert_binary);
+    }
+    else
+    {
+        printf("ERROR - the number is too big\n");
+    }
 
     /**Set the src arg bits: 0-2**/
     assign_are_bits(pbc, are);
@@ -255,6 +245,7 @@ void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, 
 
 void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
     int bin_representation_of_arg, arg_as_dec;
+    char covert_binary[MAX_BITS] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     char register_number;
     char direct_register_arg[5];
     if (is_src_arg) {
@@ -267,10 +258,15 @@ void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, Bits
     }
     arg_as_dec = atoi(&register_number);
 
-    bin_representation_of_arg = dec_to_binary(arg_as_dec);
-
-    /**Set the direct register number arg bits: 3-5 or 6-8**/
-    assign_register_number_to_bit(pbc, bin_representation_of_arg, is_src_arg);
+    if(dec_to_binary(arg_as_dec, MAX_BITS, covert_binary))
+    {
+        /**Set the instant arg bits: 3-14**/
+        assign_arg_to_bit_3_till_14(pbc, covert_binary);
+    }
+    else
+    {
+        printf("ERROR - the number is too big\n");
+    }
 
     /**Set the src arg bits: 0-2**/
     assign_are_bits(pbc, are);
