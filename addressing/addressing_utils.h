@@ -15,7 +15,7 @@
 
 int to_opcode(char *command);
 
-void binary_to_bits(BitsCommand *pbc, int opcode_binary);
+void binary_to_bits(BitsCommand *pbc, char opcode_binary[]);
 
 void assign_command_bits(ParsedCommand *ppc, BitsCommand *pbc);
 
