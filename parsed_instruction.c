@@ -80,7 +80,7 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
 }
 
 
-int starts_with_valid_instruction(const char *str) {
+int starts_with_valid_instruction(char *str) {
     return (starts_with(DOT_DATA, str) ||
             starts_with(DOT_STRING, str) ||
             starts_with(DOT_ENTRY, str) ||
