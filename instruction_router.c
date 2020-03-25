@@ -4,21 +4,21 @@
 
 
 void assign_arg_to_all_bits(BitsCommand *pbc, char binary_arg[]) {
-    pbc->b0 = binary_arg[MAX_BITS-1]
-    pbc->b1 = binary_arg[MAX_BITS-2]
-    pbc->b2 = binary_arg[MAX_BITS-3]
-    pbc->b3 = binary_arg[MAX_BITS-4]
-    pbc->b4 = binary_arg[MAX_BITS-5]
-    pbc->b5 = binary_arg[MAX_BITS-6]
-    pbc->b6 = binary_arg[MAX_BITS-7]
-    pbc->b7 = binary_arg[MAX_BITS-8]
-    pbc->b8 = binary_arg[MAX_BITS-9]
-    pbc->b9 = binary_arg[MAX_BITS-10]
-    pbc->b10 = binary_arg[MAX_BITS-11]
-    pbc->b11 = binary_arg[MAX_BITS-12]
-    pbc->b12 = binary_arg[MAX_BITS-13]
-    pbc->b13 = binary_arg[MAX_BITS-14]
-    pbc->b14 = binary_arg[MAX_BITS-15]
+    pbc->b0 = binary_arg[MAX_BITS-1];
+    pbc->b1 = binary_arg[MAX_BITS-2];
+    pbc->b2 = binary_arg[MAX_BITS-3];
+    pbc->b3 = binary_arg[MAX_BITS-4];
+    pbc->b4 = binary_arg[MAX_BITS-5];
+    pbc->b5 = binary_arg[MAX_BITS-6];
+    pbc->b6 = binary_arg[MAX_BITS-7];
+    pbc->b7 = binary_arg[MAX_BITS-8];
+    pbc->b8 = binary_arg[MAX_BITS-9];
+    pbc->b9 = binary_arg[MAX_BITS-10];
+    pbc->b10 = binary_arg[MAX_BITS-11];
+    pbc->b11 = binary_arg[MAX_BITS-12];
+    pbc->b12 = binary_arg[MAX_BITS-13];
+    pbc->b13 = binary_arg[MAX_BITS-14];
+    pbc->b14 = binary_arg[MAX_BITS-15];
 }
 
 
