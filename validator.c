@@ -12,7 +12,7 @@ int validate_commas(char *command) {
     int trail_alpha = 0;
     int trail_space = 0;
     strcpy(backup_command, command);
-    for (p = backup_commadnd; counter < MAX_LINE && *p != '\n'; p++) {
+    for (p = backup_command; counter < MAX_LINE && *p != '\n'; p++) {
         if (trail_comma == 0 && *p == ',') {
             trail_comma = 1;
             continue;

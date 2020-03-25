@@ -22,4 +22,6 @@ typedef struct ParsedInstruction {
 
 void parse_instruction(char *command, ParsedInstruction *ppi);
 
+int starts_with_valid_instruction(const char *str);
+
 #endif /*FINAL_PROJECT_PARSED_INSTRUCTION*/

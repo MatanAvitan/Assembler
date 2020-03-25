@@ -3,7 +3,6 @@
 #include "file_handler.h"
 
 
-
 int ic = 100;
 
 void write_command_to_file(BitsCommand *pbc, char *filename) {
@@ -12,7 +11,6 @@ void write_command_to_file(BitsCommand *pbc, char *filename) {
     convert_pbc_to_pchar(pcommand, pbc);
 
     pfile = fopen(filename, "a");
-    ic++;
 
     /* fopen() return NULL if last operation was unsuccessful */
     if (pfile == NULL) {
@@ -25,10 +23,13 @@ void write_command_to_file(BitsCommand *pbc, char *filename) {
     fputs(pcommand, pfile);
     /* Close file to save file data */
     fclose(pfile);
+    ic++;
+
 }
 
 void write_entry_or_extern_to_file(ParsedInstruction *ppi, char *filename) {
     FILE *pfile = NULL;
+    char ic_as_string[IC_CHARS];
 
     pfile = fopen(filename, "a");
 
@@ -40,10 +41,14 @@ void write_entry_or_extern_to_file(ParsedInstruction *ppi, char *filename) {
     }
 
     /* Write data to file */
-//    fputs(ic, pfile);
+    int_to_string(ic, ic_as_string);
+    fputs(ic_as_string, pfile);
     fputs(ppi->list.val_for_labels, pfile);
+    fputs(NEW_LINE, pfile);
     /* Close file to save file data */
     fclose(pfile);
+
+    ic++;
 }
 
 

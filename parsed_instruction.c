@@ -1,4 +1,5 @@
 #include "parsed_instruction.h"
+#include "utils.h"
 
 int get_instruction_type(char *instruction) {
     if (strcmp(instruction, DATA) == 0)
@@ -76,5 +77,13 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
             /*todo: there is no label after entry*/
         }
     }
+}
+
+
+int starts_with_valid_instruction(const char *str) {
+    return (starts_with(DOT_DATA, str) ||
+            starts_with(DOT_STRING, str) ||
+            starts_with(DOT_ENTRY, str) ||
+            starts_with(DOT_EXTERN, str));
 }
 

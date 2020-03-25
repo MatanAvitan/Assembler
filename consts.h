@@ -3,6 +3,7 @@
 #define MAX_ARG_SIZE 5
 #define MAX_INSTRUCTION_LEN 6
 #define MAX_BITS 15
+#define IC_CHARS 6
 
 /* Assembly language */
 #define R1 "r1"
@@ -53,12 +54,16 @@
 #define DIRECT_REGISTER_ADDRESSING_NO 3
 
 /* Instructions */
+#define DOT_DATA ".data"
 #define DATA "data"
 #define DATA_NO 0
+#define DOT_STRING ".string"
 #define STRING "string"
 #define STRING_NO 1
+#define DOT_ENTRY ".entry"
 #define ENTRY "entry"
 #define ENTRY_NO 2
+#define DOT_EXTERN ".extern"
 #define EXTERN "extern"
 #define EXTERN_NO 3
 
@@ -68,6 +73,7 @@
 #define FALSE (0)
 #define MAX_NUM_OF_TRANSLATION_COMMANDS 3
 #define TERMINATE "terminate"
+#define NEW_LINE "\n"
 
 
 /* Output */

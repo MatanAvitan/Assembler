@@ -6,6 +6,7 @@
 #include "instruction_router.h"
 #include "data_structures/symbols_list.h"
 #include "data_structures/reading_two_list.h"
+#include "utils.h"
 
 extern ic;
 
@@ -15,7 +16,7 @@ int main() {
     ParsedInstruction *ppi;
     BitsCommand *pbc;
     SymbolsList *sl = {0};
-    ReadingTwoList *rtl;
+    ReadingTwoList *rtl = {0};
     int are, is_entry_or_extern = 0;
     read_command(command_input);
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
@@ -23,7 +24,7 @@ int main() {
     rtl = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
     while (strcmp(ppc->command, STOP) != 0) {
         if (strcmp(ppc->command, TERMINATE) == 0) {
-            if (strlen(ppc->prefix) != 0) {
+            if (strlen(ppc->prefix) != 0 || starts_with_valid_instruction(command_input)) {
                 /**If the command parser failed to parse the command maybe it's an instruction sentence**/
                 ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
                 /**The command parser already caught the label**/
@@ -62,6 +63,8 @@ int main() {
              *Then call to the get_are(command) and pass the output to the command_router function.**/
             are = 2;
             command_router(ppc, pbc, are);
+            read_command(command_input);
+            ppc = parse(command_input, ppc);
         }
 
     }
