@@ -1,29 +1,44 @@
 #include "reading_two_list.h"
 
-void add_second_line_reading(ReadingTwoList **ptl, ParsedCommand *ppc, BitsCommand *pbc, int row_num) 
+
+void add_second_reading_line(ReadingTwoList **rtl,char* label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num)
 {
-	ReadingTwoList *pl, *node, *runner;
-    if (!*ptl)
-    {
+	ReadingTwoList *sl, *node, *runner;
+    if (!*rtl) {
         /**First allocation**/
-        pl = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
-        pl->row_num = row_num;
-        pl->ppc = ppc;
-        pl->pbc = pbc;
-        pl->next = NULL;
-        *ptl = pl;
-    } 
-    else
+       	sl = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
+        sl->row_num = row_num;
+        sl->ppc = ppc;
+        sl->pbc = pbc;
+        sl->label_name = label_name;
+        sl->next = NULL;
+        *rtl = sl;
+    } else 
     {
-        runner = *ptl;
-        while (runner->next)runner = runner->next;
+        runner = *rtl;
+        while (runner->next)
+        	runner = runner->next;
         node = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
         node->row_num = row_num;
-        pl->ppc = ppc;
-        pl->pbc = pbc;
+        sl->ppc = ppc;
+        sl->pbc = pbc;
+        sl->label_name = label_name;
         node->next = NULL;
         runner->next = node;
-    }
+	}
 
-    printf("hey\n");
 }
+
+/*void print_second_line(ReadingTwoList **rtl)
+{
+	ReadingTwoList* head_temp;
+	head_temp = *rtl;
+	while(head_temp!=NULL)
+	{
+		printf("%s\n",head_temp->label_name);
+		printf("%d\n",head_temp->row_num);
+		printf("...\n");
+
+		head_temp=head_temp->next;
+	}
+}*/
