@@ -35,7 +35,7 @@ void instruction_router(ParsedInstruction *ppi, BitsCommand *pbc) {
             if(dec_to_binary(temp_arg, MAX_BITS, covert_binary))
             {
                 assign_arg_to_all_bits(pbc + i, covert_binary);
-                write_command_to_file(pbc + i);
+                write_command_to_file(pbc + i, BIN_FILENAME);
             }
             
             temp_head = temp_head->next;
