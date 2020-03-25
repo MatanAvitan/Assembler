@@ -1,7 +1,7 @@
 #include "indirect_register_addressing.h"
+extern ic;
 
-
-void run_indirect_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
+void run_indirect_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
     int is_src_arg = 0, i = 0;
     int num_of_command = 2; /**If there is no label the number of output command is 2**/
 
@@ -29,14 +29,23 @@ void run_indirect_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int 
         } else if (ppc->src_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO &&
                    ppc->dst_addressing_method == UNKNOWN_COMMAND_NO) {
             /**The src arg is indirect register and the dst arg is unknown**/
+
             is_src_arg = 1;
             assign_direct_and_indirect_register_number_command(ppc, pbc + 1, are, is_src_arg);
+
+            if(is_label(ppc->dst) == TRUE)
+            {
+                add_second_reading_line(rtl,ppc->dst,ppc + 2,pbc,ic+2);
+            }
 
             num_of_command += 1;
         } else if (ppc->src_addressing_method == UNKNOWN_COMMAND_NO &&
                    ppc->dst_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO) {
             /**The src arg is unknown and the dst arg is indirect register**/
-
+            if(is_label(ppc->src) == TRUE)
+            {
+                add_second_reading_line(rtl,ppc->src,ppc + 1,pbc,ic+1);
+            }
             num_of_command += 1;
 
             is_src_arg = 0;

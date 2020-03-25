@@ -6,9 +6,10 @@
 #include "addressing/direct_addressing.h"
 #include "addressing/indirect_register_addressing.h"
 #include "addressing/direct_register_addressing.h"
+#include "data_structures/reading_two_list.h"
 
 
-void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
+void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
     char *arg = (char *) malloc(sizeof(char *));
     strcpy(arg, ppc->src);
     if (ppc->args_num == 1) {
@@ -19,7 +20,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
     /**Instant Address**/
     if (ppc->src_addressing_method == INSTANT_ADDRESSING_NO || ppc->dst_addressing_method == INSTANT_ADDRESSING_NO) {
         if (command_instant_address(ppc->command) == TRUE) {
-            run_instant_addressing(ppc, pbc, are);
+            run_instant_addressing(ppc, pbc, are, rtl);
         }
         return;
     }
@@ -36,7 +37,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
                 strcpy(arg, NULL);
         }
         if (compare_register(arg) == FALSE) {
-            run_direct_addressing(ppc, pbc, are);
+            run_direct_addressing(ppc, pbc, are, rtl);
             /*TODO: we need to check if the label is already or will defined*/
             return;
         }
@@ -56,7 +57,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
         } else {
             printf("Invalid command for the following indirect registers");
         }
-        run_indirect_register_addressing(ppc, pbc, are);
+        run_indirect_register_addressing(ppc, pbc, are, rtl);
         return;
     } else if (ppc->dst_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO) {
         if (command_indirect_register_address_dst_arg_only(ppc->command) == TRUE) {
@@ -65,7 +66,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
                 if (compare_register(ppc->dst) == FALSE) {
                     printf("Invalid register name");
                 } else {
-                    run_indirect_register_addressing(ppc, pbc, are);
+                    run_indirect_register_addressing(ppc, pbc, are, rtl);
                     return;
                 }
             }
@@ -76,7 +77,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
             if (compare_register(ppc->src) == FALSE) {
                 printf("Invalid source register name");
             } else {
-                run_indirect_register_addressing(ppc, pbc, are);
+                run_indirect_register_addressing(ppc, pbc, are, rtl);
                 return;
             }
         }
@@ -98,7 +99,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
         } else {
             printf("Invalid command for the following indirect registers");
         }
-        run_direct_register_addressing(ppc, pbc, are);
+        run_direct_register_addressing(ppc, pbc, are, rtl);
         return;
     } else if (ppc->dst_addressing_method == DIRECT_REGISTER_ADDRESSING_NO) {
         if (command_direct_address_dst_arg_only(ppc->command) == TRUE) {
@@ -109,14 +110,14 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are) {
                 }
             }
         }
-        run_direct_register_addressing(ppc, pbc, are);
+        run_direct_register_addressing(ppc, pbc, are, rtl);
         return;
     } else {
         if (ppc->src_addressing_method == DIRECT_REGISTER_ADDRESSING_NO) {
             if (compare_register(ppc->src) == FALSE) {
                 printf("Invalid source register name");
             } else {
-                run_direct_register_addressing(ppc, pbc, are);
+                run_direct_register_addressing(ppc, pbc, are, rtl);
                 return;
             }
         }

@@ -1,11 +1,13 @@
 
 #include <stdio.h>
 
-#include "../consts.h"
-#include "../utils.h"
 #include "direct_addressing.h"
+extern ic;
 
-void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
+
+
+void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
+    
     /**FIRST*/
 
     int i = 0;
@@ -15,20 +17,9 @@ void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are) {
 
 
     /*SECOND*/
+    /*addres of the label - second reading*/
+    add_second_reading_line(rtl,ppc->dst,ppc,pbc,ic+1);
 
-    /*0-2 bits*/
-    are = 1;
-    assign_are_bits(pbc + 1, are);
-
-    /*address of the label - we cant know here what is the address (3-14 bits)*/
-
-    /*11-14 bits*/
-    (pbc + 1)->b11 = 0;
-    (pbc + 1)->b12 = 0;
-    (pbc + 1)->b13 = 0;
-    (pbc + 1)->b14 = 0;
-
-    /*we dont need pbc[2]*/
     for (; i < ppc->args_num + 1; i++) {
         /**Write the command to the bin file**/
         write_command_to_file(pbc + i, BIN_FILENAME);

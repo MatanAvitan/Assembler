@@ -5,9 +5,14 @@
 #include "../bits_command.h"
 
 typedef struct ReadingTwoList {
+    char* label_name;
     ParsedCommand *ppc;
     BitsCommand *pbc;
     int row_num;
-    struct symbols_list *next;
+    struct ReadingTwoList *next;
 } ReadingTwoList;
-#endif //FINAL_PROJECT_READING_TWO_LIST_H
+
+void add_second_reading_line(ReadingTwoList **rtl,char*, ParsedCommand *ppc, BitsCommand *pbc, int row_num);
+void print_second_line(ReadingTwoList **);
+
+#endif /*FINAL_PROJECT_READING_TWO_LIST_H*/
