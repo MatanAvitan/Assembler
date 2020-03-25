@@ -61,7 +61,7 @@ int main() {
             /**Run first time and assign all the declaration variables to three lists A, R, E.
              *Then call to the get_are(command) and pass the output to the command_router function.**/
             are = 2;
-            command_router(ppc, pbc, are);
+            command_router(ppc, pbc, are, &rtl);
         }
 
     }
