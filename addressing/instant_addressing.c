@@ -35,7 +35,6 @@ void run_instant_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, Readi
         is_src_arg = 0;
         assign_instant_command(ppc, pbc + 2, are, is_src_arg);
 
-        printf("in src\n");
         if(is_label(ppc->src) == TRUE)
         {
             
