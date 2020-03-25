@@ -274,3 +274,11 @@ void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, Bits
     assign_are_bits(pbc, are);
 }
 
+
+int is_label(char* arg)
+{
+    if(compare_register(arg) == TRUE)
+        return FALSE;
+    return TRUE;
+}
+
