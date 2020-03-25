@@ -28,18 +28,12 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoLis
     /**direct address**/
     /*TODO: we need to check if the label is already or will defined*/
     /*right command for direct address*/
-    if (command_direct_and_indirect_register_address(ppc->command) == TRUE) {
-        strcpy(arg, ppc->src);
+    if (command_direct_address_dst_arg_only(ppc->command) == TRUE) {
         if (ppc->args_num == 1) {
-            if (command_direct_address_dst_arg_only(ppc->command) == TRUE)
-                strcpy(arg, ppc->dst);
-            else
-                strcpy(arg, NULL);
-        }
-        if (compare_register(arg) == FALSE) {
-            run_direct_addressing(ppc, pbc, are, rtl);
-            /*TODO: we need to check if the label is already or will defined*/
-            return;
+            if (compare_register(ppc->dst) == FALSE) {
+                run_direct_addressing(ppc, pbc, are, rtl);
+                return;
+            }
         }
     }
 

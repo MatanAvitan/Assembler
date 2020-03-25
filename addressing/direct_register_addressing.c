@@ -28,7 +28,7 @@ void run_direct_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int ar
             is_src_arg = 0;
             assign_direct_and_indirect_register_number_command(ppc, pbc + 1, are, is_src_arg);
         } else if (ppc->src_addressing_method == DIRECT_REGISTER_ADDRESSING_NO &&
-                   ppc->dst_addressing_method == UNKNOWN_COMMAND_NO) {
+                   ppc->dst_addressing_method == DIRECT_ADDRESSING_NO) {
             /**The src arg is direct register and the dst arg is unknown**/
             
             is_src_arg = 1;
@@ -40,7 +40,7 @@ void run_direct_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int ar
             }
 
             num_of_command+=1;
-        } else if (ppc->src_addressing_method == UNKNOWN_COMMAND_NO &&
+        } else if (ppc->src_addressing_method == DIRECT_ADDRESSING_NO &&
                    ppc->dst_addressing_method == DIRECT_REGISTER_ADDRESSING_NO) {
             /**The src arg is unknown and the dst arg is direct register**/
             if(is_label(ppc->src) == TRUE)

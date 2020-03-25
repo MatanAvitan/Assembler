@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <zconf.h>
 #include "file_handler.h"
 
 
@@ -51,5 +52,17 @@ void write_entry_or_extern_to_file(ParsedInstruction *ppi, char *filename) {
     ic++;
 }
 
+void edit_existing_row_are(int row, int are) {
+    FILE *pfile;
+    char buffer[MAX_LINE];
+
+    pfile = fopen(BIN_FILENAME, "r+");
+
+    while (row) {
+        fgets(buffer, MAX_LINE, pfile);
+        row--;
+    }
+    lseek(pfile, 12 + (3 - are), 1);
+}
 
 

@@ -60,6 +60,9 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
             }
         } else if (strstr(src_token, "r")) {
             ppc->src_addressing_method = DIRECT_REGISTER_ADDRESSING_NO;
+        } else {
+            /**It's none of the mentioned methods above, so if it's a valid command it has to be Direct addressing**/
+            ppc->src_addressing_method = DIRECT_ADDRESSING_NO;
         }
     }
     dst_token = strtok(NULL, coma_and_space_seps);
@@ -78,12 +81,11 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
             }
         } else if (strstr(dst_token, "r")) {
             ppc->dst_addressing_method = DIRECT_REGISTER_ADDRESSING_NO;
+        } else {
+            /**It's none of the mentioned methods above, so if it's a valid command it has to be Direct addressing**/
+            ppc->dst_addressing_method = DIRECT_ADDRESSING_NO;
         }
 
-    }
-    if (ppc->src_addressing_method == -1) {
-        /**It's none of the mentioned methods above, so if it's a valid command it has to be Direct addressing**/
-        ppc->dst_addressing_method = DIRECT_ADDRESSING_NO;
     }
 
 

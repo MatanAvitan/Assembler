@@ -17,7 +17,7 @@ void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, Readin
 
 
     /*SECOND*/
-    /*addres of the label - second reading*/
+    /*address of the label - second reading*/
     add_second_reading_line(rtl,ppc->dst,ppc,pbc,ic+1);
 
     for (; i < ppc->args_num + 1; i++) {

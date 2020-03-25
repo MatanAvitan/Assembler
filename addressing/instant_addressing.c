@@ -38,7 +38,7 @@ void run_instant_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, Readi
         if(is_label(ppc->src) == TRUE)
         {
             
-            /*addres of the label - second reading*/
+            /*address of the label - second reading*/
             add_second_reading_line(rtl,ppc->src,ppc + 1,pbc,ic+1);
         }
 

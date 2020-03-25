@@ -68,4 +68,5 @@ int main() {
         }
 
     }
+    validate_labels_at_second_running(&sl, &rtl);
 }
