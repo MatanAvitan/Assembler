@@ -20,6 +20,24 @@
 #define SET_MEMBERS_TERMINATIONS_ERROR "List of set members is not terminated correctly\n"
 #define OUT_OF_RANGE_MSG "Invalid set member – value out of range\n"
 #define EMPTY_SET "‫‪The‬‬ ‫‪set‬‬ ‫‪is‬‬ ‫‪empty\n‬‬"
-#define STOP_INPUT "Hope you had a good time in my calculator :)\n‬‬"
+
+/*error messange - label*/
+#define ERROR_LABEL_FIRST_CHAR "ERROR! the label doesn't start with a letter\n"
+#define ERROR_LABEL_LENGTH "ERROR! the label maximum length is 31, the label is too longer\n"
+#define ERROR_LABEL_LAST_CHAR "ERROR! the label should end with ':'\n"
+#define ERROR_LABEL_ILLEGAL_CHAR "ERROR! the label should include only letters and digits\n"
+
+#define CAPITAL_LETTER_START 65
+#define CAPITAL_LETTER_END 90
+#define LOWER_CASE_LETTER_START 97
+#define LOWER_CASE_LETTER_END 122
+#define DIGITS_START 48
+#define DIGITS_END 57
+
 
 int validate_commas(char *command);
+int right_count_operands(char* command, int args_num);
+int valid_command_name(char* command);
+int right_instruction_count_operand(int instruction_type, int members_num);
+int valid_label(char label[]);
+int count_length (char array[]);
