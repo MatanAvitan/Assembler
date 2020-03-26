@@ -105,8 +105,10 @@ void change_bits_second_reading(int row, char binary_label_address[])
     int i = 0;
     char buffer[MAX_LINE];
     char zero_bit[1] = {0}, one_bit[1] = {0};
-    strcpy(zero_bit, "0");
-    strcpy(one_bit, "1");
+    zero_bit[0] = '0';
+    one_bit[0] = '1';
+    /*strcpy(zero_bit, "0");
+    strcpy(one_bit, "1");*/
     row = row - START_ROW_NUM;
     pfile = fopen(BIN_FILENAME, "r+");
 
@@ -124,3 +126,43 @@ void change_bits_second_reading(int row, char binary_label_address[])
     }
     fclose(pfile);
 }
+
+/*The function creates a new file - hex file. copys from binary file and changes the adress to hex*/
+void create_hex_file(int row, char *filename)
+{
+    FILE *pfile = NULL;
+    FILE *pbinary = NULL;
+    
+    pfile = fopen(filename, "a");
+    pbinary = fopen(BIN_FILENAME, "r");
+
+    row = row - START_ROW_NUM; 
+
+    if (pfile == NULL) {
+        /* File not created hence exit */
+        printf("Unable to create file.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    /* copy the data and changes to hex*/
+    while(row)
+    {
+
+        row--;
+    }
+    fputs(BIN_FILENAME, pfile);
+
+
+    /* Close file to save file data */
+    fclose(pfile);
+}
+
+
+/*The function gets a number of row and name of file*/
+/*The function reads the binary number and converts it to int hex number*/
+/*int reading_binary_line_from_file(int row, char* filename)
+{
+
+}*/
+
+
