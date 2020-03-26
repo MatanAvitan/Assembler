@@ -1,8 +1,7 @@
 #include "../file_handler.h"
 
 
-void
-add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num) {
+void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num) {
     ReadingTwoList *sl, *node, *runner;
     if (!*rtl) {
         /**First allocation**/
