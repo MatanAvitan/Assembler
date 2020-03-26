@@ -85,30 +85,23 @@ void edit_existing_row_are(int row, int are) {
     fclose(pfile);
 }
 
-void edit_existing_row_label_adress(int row_num, int adress_of_label)
-{
+void edit_existing_row_label_adress(int row_num, int adress_of_label) {
     char binary_label_address[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    if (dec_to_binary(adress_of_label, MAX_BITS, binary_label_address))
-    {
-        change_bits_second_reading(row_num,binary_label_address);
-    }
-    else
-    {
+    if (dec_to_binary(adress_of_label, MAX_BITS, binary_label_address)) {
+        change_bits_second_reading(row_num, binary_label_address);
+    } else {
         printf("ERROR!\n");
     }
 }
 
-void change_bits_second_reading(int row, char binary_label_address[])
-{
+void change_bits_second_reading(int row, char *binary_label_address) {
     FILE *pfile;
     int i = 0;
     char buffer[MAX_LINE];
     char zero_bit[1] = {0}, one_bit[1] = {0};
     zero_bit[0] = '0';
     one_bit[0] = '1';
-    /*strcpy(zero_bit, "0");
-    strcpy(one_bit, "1");*/
     row = row - START_ROW_NUM;
     pfile = fopen(BIN_FILENAME, "r+");
 
@@ -117,9 +110,8 @@ void change_bits_second_reading(int row, char binary_label_address[])
         row--;
     }
     fseek(pfile, START_POS_AT_ROW, SEEK_CUR);
-    for (i = 0; i < MAX_BITS-3; ++i)
-    {
-        if(binary_label_address[i+3] == 1)
+    for (i = 0; i < MAX_BITS - 3; ++i) {
+        if (binary_label_address[i + 3] == 1)
             fwrite(one_bit, 1, sizeof(one_bit), pfile);
         else
             fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
@@ -128,15 +120,14 @@ void change_bits_second_reading(int row, char binary_label_address[])
 }
 
 /*The function creates a new file - hex file. copys from binary file and changes the adress to hex*/
-void create_hex_file(int row, char *filename)
-{
+void create_hex_file(int row, char *filename) {
     FILE *pfile = NULL;
     FILE *pbinary = NULL;
-    
+
     pfile = fopen(filename, "a");
     pbinary = fopen(BIN_FILENAME, "r");
 
-    row = row - START_ROW_NUM; 
+    row = row - START_ROW_NUM;
 
     if (pfile == NULL) {
         /* File not created hence exit */
@@ -145,8 +136,7 @@ void create_hex_file(int row, char *filename)
     }
 
     /* copy the data and changes to hex*/
-    while(row)
-    {
+    while (row) {
 
         row--;
     }

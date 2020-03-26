@@ -67,14 +67,12 @@ int main() {
             read_command(command_input);
             ppc = parse(command_input, ppc);
         }
-        free(ppc);
-        ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
+
     }
     if (ppc) {
         free(ppc);
     }
     validate_labels_at_second_running(&sl, &rtl);
-
     /*TODO: add an conditional if there are error until here - and just than make_hex_file*/
-    create_hex_file(ic, HEX_FILENAME);
+//    create_hex_file(ic, HEX_FILENAME);
 }

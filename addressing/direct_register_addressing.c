@@ -36,7 +36,7 @@ void run_direct_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int ar
 
             if(is_label(ppc->dst) == TRUE)
             {
-                add_second_reading_line(rtl,ppc->src,ppc + 2,pbc,ic+2);
+                add_second_reading_line(rtl,ppc->dst,ppc + 2,pbc,ic+2);
             }
 
             num_of_command+=1;
@@ -51,7 +51,7 @@ void run_direct_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int ar
 
             is_src_arg = 0;
 
-            assign_direct_and_indirect_register_number_command(ppc, pbc + 1, are, is_src_arg);
+            assign_direct_and_indirect_register_number_command(ppc, pbc + 2, are, is_src_arg);
         }
     }
     for (; i < num_of_command; i++) {

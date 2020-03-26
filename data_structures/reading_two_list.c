@@ -1,7 +1,8 @@
 #include "../file_handler.h"
 
 
-void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num) {
+void
+add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num) {
     ReadingTwoList *sl, *node, *runner;
     if (!*rtl) {
         /**First allocation**/
@@ -18,9 +19,9 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
             runner = runner->next;
         node = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
         node->row_num = row_num;
-        sl->ppc = ppc;
-        sl->pbc = pbc;
-        strcpy(sl->label_name, label_name);
+        node->ppc = ppc;
+        node->pbc = pbc;
+        strcpy(node->label_name, label_name);
         node->next = NULL;
         runner->next = node;
     }
@@ -51,6 +52,7 @@ int validate_labels_at_second_running(SymbolsList **psl, ReadingTwoList **rtl) {
                 edit_existing_row_label_adress(rtl_runner->row_num, psl_runner->row_num);
             }
             if (psl_runner->next == NULL)break;
+            psl_runner = psl_runner->next;
         }
         if (is_there_match == 0) {
             /**This label was never defined in the source code**/
@@ -60,10 +62,10 @@ int validate_labels_at_second_running(SymbolsList **psl, ReadingTwoList **rtl) {
         is_there_match = 0;
         psl_runner = *psl;
         if (rtl_runner->next == NULL)break;
+        rtl_runner = rtl_runner->next;
     }
     no_errors = 1;
-    if(no_errors == 0)
-    {
+    if (no_errors == 0) {
         return FALSE;
     }
     return TRUE;

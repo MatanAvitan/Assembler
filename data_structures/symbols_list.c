@@ -9,11 +9,9 @@ void add_symbol(SymbolsList **psl, char *symbol, int row_num, int instruction_ty
         strcpy(sl->symbol, symbol);
         sl->row_num = row_num;
         sl->instruction_type = instruction_type;
-        if (is_entry_or_extern)
-        {
+        if (is_entry_or_extern) {
             strcpy(sl->first_value_for_entry_or_extern, first_value_for_entry_or_extern);
-        }
-        else
+        } else
             sl->first_value = first_value;
         sl->next = NULL;
         *psl = sl;
@@ -24,34 +22,28 @@ void add_symbol(SymbolsList **psl, char *symbol, int row_num, int instruction_ty
         strcpy(node->symbol, symbol);
         node->row_num = row_num;
         node->instruction_type = instruction_type;
-        if (is_entry_or_extern)
-        {
+        if (is_entry_or_extern) {
             strcpy(sl->first_value_for_entry_or_extern, first_value_for_entry_or_extern);
-        }
-        else
-            sl->first_value = first_value;
+        } else
+            node->first_value = first_value;
         node->next = NULL;
         runner->next = node;
     }
 }
 
 
-/*TODO: add this function to the second reading function to check all the symobol before checking the labels that mentioned in the file*/
+/*TODO: add this function to the second reading function to check all the symbol before checking the labels that mentioned in the file*/
 /*just for entry or extern*/
 /*The function gets a symbols_list head, the name of the symbol and instruction_type*/
-int is_alreday_defined(SymbolsList **psl, char* symbol, int instruction_type)
-{
+int is_alreday_defined(SymbolsList **psl, char *symbol, int instruction_type) {
     SymbolsList *runner;
-    if(!*psl) return TRUE;
-    else
-    {
+    if (!*psl) return TRUE;
+    else {
         runner = *psl;
-        while(runner->next)
-        {
+        while (runner->next) {
             /*if the label is alreday defined*/
-            if(strcmp(symbol, runner->symbol) == 0)
-                if(instruction_type != runner->instruction_type)
-                {
+            if (strcmp(symbol, runner->symbol) == 0)
+                if (instruction_type != runner->instruction_type) {
                     printf("ERROR! label alreday defined\n");
                     return FALSE;
                 }

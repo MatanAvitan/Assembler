@@ -2,12 +2,12 @@
 #include <stdio.h>
 
 #include "direct_addressing.h"
+
 extern ic;
 
 
-
 void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
-    
+
     /**FIRST*/
 
     int i = 0;
@@ -16,9 +16,14 @@ void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, Readin
     assign_first_command(ppc, pbc, are);
 
 
-    /*SECOND*/
-    /*address of the label - second reading*/
-    add_second_reading_line(rtl,ppc->dst,ppc,pbc,ic+1);
+    /**SECOND**/
+    /**address of the label - second reading**/
+    if (ppc->args_num == 1) {
+        add_second_reading_line(rtl, ppc->dst, ppc, pbc + 1, ic + 1);
+    } else if (ppc->args_num == 2) {
+        add_second_reading_line(rtl, ppc->src, ppc, pbc + 1, ic + 1);
+        add_second_reading_line(rtl, ppc->dst, ppc, pbc + 2, ic + 2);
+    }
 
     for (; i < ppc->args_num + 1; i++) {
         /**Write the command to the bin file**/
