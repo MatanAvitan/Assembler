@@ -1,9 +1,16 @@
 #include "parsed_command.h"
 #include "bits_command.h"
+#include "validator.h"
 #include "data_structures/reading_two_list.h"
+#include "data_structures/symbols_list.h"
+
+#define THE_REGISTER "ERROR! The register "
+#define THE_COMMMAND "ERROR! The command "
+#define INVALID_REGISTER_NAME " is invalid register name"
+#define INVALID_COMMAND_INDIRECT " is invalid command for the following indirect registers"
 
 
-void command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl);
+int command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl, SymbolsList **psl, int no_errors);
 
 int to_decimal(char *number);
 

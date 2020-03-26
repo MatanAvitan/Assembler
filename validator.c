@@ -134,7 +134,10 @@ int right_count_operands(char* command, int args_num)
     {
         /*command need 2 operand*/
         if(args_num != 2)
+        {
+            printf(INCORRENT_COUNT_OPERANDS);
             return FALSE;
+        }
     }
     else if(strcmp(command, CLR) == 0 || strcmp(command, NOT) == 0 ||
             strcmp(command, INC) == 0 || strcmp(command, DEC) == 0 ||
@@ -145,6 +148,7 @@ int right_count_operands(char* command, int args_num)
         /*command need 1 operand*/
         if(args_num != 1)
         {
+            printf(INCORRENT_COUNT_OPERANDS);
             return FALSE;
         }
     }
@@ -153,6 +157,7 @@ int right_count_operands(char* command, int args_num)
         /*command need 1 operand*/
         if(args_num != 0)
         {
+            printf(INCORRENT_COUNT_OPERANDS);
             return FALSE;
         }
     }
@@ -171,6 +176,7 @@ int valid_command_name(char* command)
         || strcmp(command, PRN) == 0 || strcmp(command, JSR) == 0 || strcmp(command, RTS) == 0 
         || strcmp(command, STOP) == 0)
         return TRUE;
+    printf("%s %s %s\n", THE_COMMAND, command, INVALID_COMMAND);
     return FALSE;
 }
 
@@ -205,7 +211,7 @@ int valid_label(char label[])
         /*65 to 72 ot 97 to 122*/
         if((label[0] >= CAPITAL_LETTER_START && label[0] <= CAPITAL_LETTER_END) || (label[0] >= LOWER_CASE_LETTER_START || label[0] <= LOWER_CASE_LETTER_END))
         {
-            length = count_length(label);
+            length = length_label(label);
            
             /*if the label is too long*/
             if(length > 31)
@@ -253,7 +259,7 @@ int valid_label(char label[])
 
 
 /*The function gets a char array and count the length*/
-int count_length (char array[])
+int length_label (char array[])
 {
     int count = 0, i = 0;
     int size = 0;

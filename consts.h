@@ -67,6 +67,7 @@
 #define DOT_EXTERN ".extern"
 #define EXTERN "extern"
 #define EXTERN_NO 3
+#define COMMAND_NO 4
 
 
 /*General*/
@@ -78,10 +79,17 @@
 
 
 /* Output */
-#define BIN_FILENAME "../binary_output.txt"
-#define ENTRY_FILENAME "../ps.ent"
-#define EXTERN_FILENAME "../ps.ext"
-#define HEX_FILENAME "../ps.ob"
+#define BIN_FILENAME "binary_output.txt"
+#define ENTRY_FILENAME "ps.ent"
+#define EXTERN_FILENAME "ps.ext"
+#define HEX_FILENAME "ps.ob"
 #define START_ROW_NUM 100
 #define FIRST_ROUND_FAILD "The program failed on the first round, please try again\n"
 #define SECOND_ROUND_FAILD "The program failed on the second round, please try again\n"
+
+/*Errors*/
+#define THE_NUMBER "ERROR! The number "
+#define TOO_BIG_NUMBER " is too big"
+#define THE_ADDRESS "ERROR! The address "
+#define ADRESS_TO_BIG_NUMBER " is not correct binary number"
+#define UNABLE_CREATE_FILE "Unable to create file\n"

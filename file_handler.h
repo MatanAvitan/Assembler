@@ -7,19 +7,18 @@
 #include "bits_command.h"
 #include "addressing/addressing_utils.h"
 #include "parsed_instruction.h"
-#include "data_structures/instruction_counter.h"
 
 
-void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filename);
+void write_command_to_file(BitsCommand *pbc, char *filename);
 
-void write_entry_or_extern_to_file(InstructionCount *ic, ParsedInstruction *ppi, char *filename) ;
+void write_entry_or_extern_to_file(ParsedInstruction *ppi, char *filename);
 
 void edit_existing_row_are(int row, int are);
 
-void edit_existing_row_label_address(int row_num, int adress_of_label);
+void edit_existing_row_label_adress(int row_num, int adress_of_label);
 
 void change_bits_second_reading(int row_num, char *binary_label_address);
 
-void convert_bin_file_to_oct_file(InstructionCount *ic);
+void create_oct_file(int row, char *filename);
 
 #endif /*FINAL_PROJECT_FILE_HANDLER_H*/
