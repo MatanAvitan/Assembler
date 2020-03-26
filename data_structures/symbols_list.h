@@ -18,4 +18,6 @@ typedef struct SymbolsList {
 void add_symbol(SymbolsList **psl, char *symbol, int row_num, int instruction_type, int first_value,
                 char *first_value_for_entry_or_extern, int is_entry_or_extern);
 
+int is_alreday_defined(SymbolsList **pls, char* symbol, int instruction_type);
+
 #endif //FINAL_PROJECT_SYMBOLS_LIST_H

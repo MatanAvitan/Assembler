@@ -74,4 +74,7 @@ int main() {
         free(ppc);
     }
     validate_labels_at_second_running(&sl, &rtl);
+
+    /*TODO: add an conditional if there are error until here - and just than make_hex_file*/
+    create_hex_file(ic, HEX_FILENAME);
 }

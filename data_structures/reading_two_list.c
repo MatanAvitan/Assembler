@@ -1,8 +1,7 @@
 #include "../file_handler.h"
 
 
-void
-add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num) {
+void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num) {
     ReadingTwoList *sl, *node, *runner;
     if (!*rtl) {
         /**First allocation**/
@@ -35,6 +34,7 @@ int validate_labels_at_second_running(SymbolsList **psl, ReadingTwoList **rtl) {
     rtl_runner = *rtl;
     int is_there_match = 0;
     int are;
+    int no_errors = TRUE;
 
     while (rtl_runner) {
         while (psl_runner) {
@@ -48,16 +48,23 @@ int validate_labels_at_second_running(SymbolsList **psl, ReadingTwoList **rtl) {
                     are = 1; /**Relative**/
                 }
                 edit_existing_row_are(rtl_runner->row_num, are);
+                edit_existing_row_label_adress(rtl_runner->row_num, psl_runner->row_num);
             }
             if (psl_runner->next == NULL)break;
         }
         if (is_there_match == 0) {
             /**This label was never defined in the source code**/
-            return 0;
+            no_errors = 0;
+            printf("%s %s %s\n", THE_LABEL, rtl_runner->label_name, NOT_DEFINED_LABEL);
         }
         is_there_match = 0;
         psl_runner = *psl;
         if (rtl_runner->next == NULL)break;
     }
-    return 1;
+    no_errors = 1;
+    if(no_errors == 0)
+    {
+        return FALSE;
+    }
+    return TRUE;
 }
