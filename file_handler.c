@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/types.h>
 #include <fcntl.h>
 #include "file_handler.h"
 
+#define LSEEK_START_POS_AT_ROW 12+4+1 /**bits without are + IC size + \t**/
 
 int ic = START_ROW_NUM;
 
 void write_command_to_file(BitsCommand *pbc, char *filename) {
     char pcommand[17];
+    char ic_as_string[IC_CHARS];
     FILE *pfile = NULL;
     convert_pbc_to_pchar(pcommand, pbc);
 
@@ -23,6 +24,8 @@ void write_command_to_file(BitsCommand *pbc, char *filename) {
     }
 
     /* Write data to file */
+    int_to_string(ic, ic_as_string);
+    fputs(ic_as_string, pfile);
     fputs(pcommand, pfile);
     /* Close file to save file data */
     fclose(pfile);
@@ -56,7 +59,6 @@ void write_entry_or_extern_to_file(ParsedInstruction *ppi, char *filename) {
 
 void edit_existing_row_are(int row, int are) {
     FILE *pfile;
-    int cursor;
     char buffer[MAX_LINE];
     char zero_bit[1], one_bit[1];
     zero_bit[0] = '0';
@@ -69,12 +71,12 @@ void edit_existing_row_are(int row, int are) {
         row--;
     }
     if (are == 1) {
-        fseek(pfile, 12, SEEK_CUR);
+        fseek(pfile, LSEEK_START_POS_AT_ROW, SEEK_CUR);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
         fwrite(one_bit, 1, sizeof(one_bit), pfile);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
     } else if (are == 2) {
-        fseek(pfile, 12, SEEK_CUR);
+        fseek(pfile, LSEEK_START_POS_AT_ROW, SEEK_CUR);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
         fwrite(one_bit, 1, sizeof(one_bit), pfile);
