@@ -7,6 +7,9 @@
 #include "reading_two_list.h"
 #include "symbols_list.h"
 
+#define THE_LABEL "ERROR! The label "
+#define NOT_DEFINED_LABEL " was never defined in the source code\n"
+
 typedef struct ReadingTwoList {
     char label_name[MAX_INSTRUCTION_LEN];
     ParsedCommand *ppc;
