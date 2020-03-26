@@ -56,9 +56,7 @@ int validate_labels_at_second_running(SymbolsList **psl, ReadingTwoList **rtl) {
         if (is_there_match == 0) {
             /**This label was never defined in the source code**/
             no_errors = 0;
-            printf(THE_LABEL);
-            printf("%s", rtl_runner->label_name );
-            printf(NOT_DEFINED_LABEL);
+            printf("%s %s %s\n", THE_LABEL, rtl_runner->label_name, NOT_DEFINED_LABEL);
         }
         is_there_match = 0;
         psl_runner = *psl;
