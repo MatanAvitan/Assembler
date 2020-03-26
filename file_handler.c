@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <zconf.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <fcntl.h>
 #include "file_handler.h"
 
 
-int ic = 100;
+int ic = START_ROW_NUM;
 
 void write_command_to_file(BitsCommand *pbc, char *filename) {
     char pcommand[17];
@@ -54,15 +56,30 @@ void write_entry_or_extern_to_file(ParsedInstruction *ppi, char *filename) {
 
 void edit_existing_row_are(int row, int are) {
     FILE *pfile;
+    int cursor;
     char buffer[MAX_LINE];
-
+    char zero_bit[1], one_bit[1];
+    zero_bit[0] = '0';
+    one_bit[0] = '1';
+    row = row - START_ROW_NUM;
     pfile = fopen(BIN_FILENAME, "r+");
 
     while (row) {
         fgets(buffer, MAX_LINE, pfile);
         row--;
     }
-    lseek(pfile, 12 + (3 - are), 1);
+    if (are == 1) {
+        fseek(pfile, 12, SEEK_CUR);
+        fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
+        fwrite(one_bit, 1, sizeof(one_bit), pfile);
+        fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
+    } else if (are == 2) {
+        fseek(pfile, 12, SEEK_CUR);
+        fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
+        fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
+        fwrite(one_bit, 1, sizeof(one_bit), pfile);
+    }
+    fclose(pfile);
 }
 
 

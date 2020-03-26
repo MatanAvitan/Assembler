@@ -1,7 +1,8 @@
 #include "../file_handler.h"
 
 
-void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num) {
+void
+add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, BitsCommand *pbc, int row_num) {
     ReadingTwoList *sl, *node, *runner;
     if (!*rtl) {
         /**First allocation**/
@@ -9,7 +10,7 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
         sl->row_num = row_num;
         sl->ppc = ppc;
         sl->pbc = pbc;
-        sl->label_name = label_name;
+        strcpy(sl->label_name, label_name);
         sl->next = NULL;
         *rtl = sl;
     } else {
@@ -20,7 +21,7 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
         node->row_num = row_num;
         sl->ppc = ppc;
         sl->pbc = pbc;
-        sl->label_name = label_name;
+        strcpy(sl->label_name, label_name);
         node->next = NULL;
         runner->next = node;
     }
@@ -41,14 +42,10 @@ int validate_labels_at_second_running(SymbolsList **psl, ReadingTwoList **rtl) {
                 /**The label was used and actually defined**/
                 is_there_match = 1;
 
-                if (rtl_runner->ppc->dst_addressing_method == DIRECT_ADDRESSING_NO) {
-                    if (psl_runner->instruction_type == EXTERN_NO) {
-                        are = 0; /**Extern**/
-                    } else {
-                        are = 1; /**Relative**/
-                    }
+                if (psl_runner->instruction_type == EXTERN_NO) {
+                    are = 0; /**Extern**/
                 } else {
-                    are = 2;
+                    are = 1; /**Relative**/
                 }
                 edit_existing_row_are(rtl_runner->row_num, are);
             }

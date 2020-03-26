@@ -8,7 +8,7 @@
 #include "symbols_list.h"
 
 typedef struct ReadingTwoList {
-    char *label_name;
+    char label_name[MAX_INSTRUCTION_LEN];
     ParsedCommand *ppc;
     BitsCommand *pbc;
     int row_num;

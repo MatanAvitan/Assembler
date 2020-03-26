@@ -21,7 +21,6 @@ int main() {
     read_command(command_input);
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
     ppc = parse(command_input, ppc);
-    rtl = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
     while (strcmp(ppc->command, STOP) != 0) {
         if (strcmp(ppc->command, TERMINATE) == 0) {
             if (strlen(ppc->prefix) != 0 || starts_with_valid_instruction(command_input)) {
