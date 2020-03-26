@@ -1,7 +1,6 @@
 #include "indirect_register_addressing.h"
-extern ic;
 
-void run_indirect_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
+void run_indirect_register_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
     int is_src_arg = 0, i = 0;
     int num_of_command = 2; /**If there is no label the number of output command is 2**/
 
@@ -35,7 +34,7 @@ void run_indirect_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int 
 
             if(is_label(ppc->dst) == TRUE)
             {
-                add_second_reading_line(rtl,ppc->dst,ppc + 2,pbc,ic+2);
+                add_second_reading_line(rtl,ppc->dst,ppc + 2,pbc,ic->row+2);
             }
 
             num_of_command += 1;
@@ -44,7 +43,7 @@ void run_indirect_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int 
             /**The src arg is unknown and the dst arg is indirect register**/
             if(is_label(ppc->src) == TRUE)
             {
-                add_second_reading_line(rtl,ppc->src,ppc + 1,pbc,ic+1);
+                add_second_reading_line(rtl,ppc->src,ppc + 1,pbc,ic->row+1);
             }
             num_of_command += 1;
 
@@ -54,6 +53,8 @@ void run_indirect_register_addressing(ParsedCommand *ppc, BitsCommand *pbc, int 
     }
     for (; i < num_of_command; i++) {
         /**Write the command to the bin file**/
-        write_command_to_file(pbc + i, BIN_FILENAME);
+        write_command_to_file(ic, pbc + i, BIN_FILENAME);
+        ic->ic++;
+        ic->row = START_ROW_NUM + ic->dc + ic->ic;
     }
 }

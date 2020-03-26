@@ -1,3 +1,4 @@
+#include <math.h>
 #include "utils.h"
 
 
@@ -83,5 +84,36 @@ char *int_to_string(int num, char *num_as_string) {
     return num_as_string;
 }
 
+int power(int x, unsigned int y) {
+    if (y == 0)
+        return 1;
+    else if (y % 2 == 0)
+        return power(x, y / 2) * power(x, y / 2);
+    else
+        return x * power(x, y / 2) * power(x, y / 2);
+}
+
+char *convert_bin_to_oct(char *bin_command, char *oct_command) {
+    int i = 4, j = 0, oct = 0;
+
+    int num = 0;
+    for (; j < MAX_BITS; j++) {
+        num += (int) ((bin_command[14 - j] - '0') * (power(10, (j % 3))));
+
+        if (j % 3 == 2) {/**We passed three chars**/
+            oct += (num % 10) * 1;
+            num /= 10;
+            oct += (num % 10) * 2;
+            num /= 10;
+            oct += (num % 10) * 4;
+            oct_command[i] = (char) (oct + '0');
+            i--;
+            num = 0;
+            oct = 0;
+        }
+    }
+    oct_command[5] = NULL;
+    return oct_command;
+}
 
 

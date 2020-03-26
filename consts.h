@@ -74,11 +74,15 @@
 #define MAX_NUM_OF_TRANSLATION_COMMANDS 3
 #define TERMINATE "terminate"
 #define NEW_LINE "\n"
+#define NEW_LINE_AS_CHAR '\n'
 
 
 /* Output */
 #define BIN_FILENAME "../binary_output.txt"
 #define ENTRY_FILENAME "../ps.ent"
 #define EXTERN_FILENAME "../ps.ext"
-#define HEX_FILENAME "../ps.ob"
+#define OCT_FILENAME "../ps.ob"
 #define START_ROW_NUM 100
+#define PBC_COMMAND_LEN 17
+#define OCT_COMMAND_LEN 6
+#define OCT_OUTPUT_LINE_SIZE 12

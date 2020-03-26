@@ -6,7 +6,7 @@
 extern ic;
 
 
-void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
+void run_direct_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
 
     /**FIRST*/
 
@@ -19,14 +19,17 @@ void run_direct_addressing(ParsedCommand *ppc, BitsCommand *pbc, int are, Readin
     /**SECOND**/
     /**address of the label - second reading**/
     if (ppc->args_num == 1) {
-        add_second_reading_line(rtl, ppc->dst, ppc, pbc + 1, ic + 1);
+        add_second_reading_line(rtl, ppc->dst, ppc, pbc + 1, ic->row + 1);
+
     } else if (ppc->args_num == 2) {
-        add_second_reading_line(rtl, ppc->src, ppc, pbc + 1, ic + 1);
-        add_second_reading_line(rtl, ppc->dst, ppc, pbc + 2, ic + 2);
+        add_second_reading_line(rtl, ppc->src, ppc, pbc + 1, ic->row + 1);
+        add_second_reading_line(rtl, ppc->dst, ppc, pbc + 2, ic->row + 2);
     }
 
     for (; i < ppc->args_num + 1; i++) {
         /**Write the command to the bin file**/
-        write_command_to_file(pbc + i, BIN_FILENAME);
+        write_command_to_file(ic, pbc + i, BIN_FILENAME);
+        ic->dc++;
+        ic->row = START_ROW_NUM + ic->dc + ic->ic;
     }
 }

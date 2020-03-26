@@ -13,7 +13,6 @@
 #include <stdlib.h>
 
 
-
 int to_opcode(char *command);
 
 void binary_to_bits(BitsCommand *pbc, char opcode_binary[]);
@@ -36,12 +35,10 @@ void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, 
                                           int is_src_arg_direct_register_addr);
 
 
-void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, BitsCommand *pbc, int are,
-                                           int is_src_arg_direct_register_addr);
+void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, BitsCommand *pbc,
+                                                        int are, int is_src_arg_direct_register_addr);
 
-int is_label(char*);
-
-
+int is_label(char *);
 
 
 #endif /*FINAL_PROJECT_ADDRESSING_UTILS_H*/

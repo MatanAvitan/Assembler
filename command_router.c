@@ -9,7 +9,7 @@
 #include "data_structures/reading_two_list.h"
 
 
-void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
+void command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
     char *arg = (char *) malloc(sizeof(char *));
     strcpy(arg, ppc->src);
     if (ppc->args_num == 1) {
@@ -20,7 +20,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoLis
     /**Instant Address**/
     if (ppc->src_addressing_method == INSTANT_ADDRESSING_NO || ppc->dst_addressing_method == INSTANT_ADDRESSING_NO) {
         if (command_instant_address(ppc->command) == TRUE) {
-            run_instant_addressing(ppc, pbc, are, rtl);
+            run_instant_addressing(ic, ppc, pbc, are, rtl);
         }
         return;
     }
@@ -31,13 +31,13 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoLis
     if (command_direct_and_indirect_register_address(ppc->command) == TRUE) {
         if (ppc->args_num == 1) {
             if (compare_register(ppc->dst) == FALSE) {
-                run_direct_addressing(ppc, pbc, are, rtl);
+                run_direct_addressing(ic, ppc, pbc, are, rtl);
                 return;
             }
         } else if (ppc->args_num == 2) {
             if (compare_register(ppc->src) == FALSE &&
                 compare_register(ppc->dst) == FALSE) {
-                run_direct_addressing(ppc, pbc, are, rtl);
+                run_direct_addressing(ic, ppc, pbc, are, rtl);
                 return;
             }
         }
@@ -57,7 +57,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoLis
         } else {
             printf("Invalid command for the following indirect registers");
         }
-        run_indirect_register_addressing(ppc, pbc, are, rtl);
+        run_indirect_register_addressing(ic, ppc, pbc, are, rtl);
         return;
     } else if (ppc->dst_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO) {
         if (command_indirect_register_address_dst_arg_only(ppc->command) == TRUE) {
@@ -66,7 +66,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoLis
                 if (compare_register(ppc->dst) == FALSE) {
                     printf("Invalid register name");
                 } else {
-                    run_indirect_register_addressing(ppc, pbc, are, rtl);
+                    run_indirect_register_addressing(ic, ppc, pbc, are, rtl);
                     return;
                 }
             }
@@ -77,7 +77,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoLis
             if (compare_register(ppc->src) == FALSE) {
                 printf("Invalid source register name");
             } else {
-                run_indirect_register_addressing(ppc, pbc, are, rtl);
+                run_indirect_register_addressing(ic, ppc, pbc, are, rtl);
                 return;
             }
         }
@@ -99,7 +99,7 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoLis
         } else {
             printf("Invalid command for the following indirect registers");
         }
-        run_direct_register_addressing(ppc, pbc, are, rtl);
+        run_direct_register_addressing(ic, ppc, pbc, are, rtl);
         return;
     } else if (ppc->dst_addressing_method == DIRECT_REGISTER_ADDRESSING_NO) {
         if (command_direct_address_dst_arg_only(ppc->command) == TRUE) {
@@ -110,14 +110,14 @@ void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoLis
                 }
             }
         }
-        run_direct_register_addressing(ppc, pbc, are, rtl);
+        run_direct_register_addressing(ic, ppc, pbc, are, rtl);
         return;
     } else {
         if (ppc->src_addressing_method == DIRECT_REGISTER_ADDRESSING_NO) {
             if (compare_register(ppc->src) == FALSE) {
                 printf("Invalid source register name");
             } else {
-                run_direct_register_addressing(ppc, pbc, are, rtl);
+                run_direct_register_addressing(ic, ppc, pbc, are, rtl);
                 return;
             }
         }

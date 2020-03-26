@@ -3,7 +3,7 @@
 /*The function gets a command and returns the right opcode*/
 int to_opcode(char *command) {
 
-    /*defult valute*/
+    /*default valute*/
     int opcode = UNKNOWN_COMMAND_NO;
     if (strcmp(command, MOV) == 0) {
         opcode = MOV_NO;

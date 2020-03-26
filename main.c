@@ -7,11 +7,13 @@
 #include "data_structures/symbols_list.h"
 #include "data_structures/reading_two_list.h"
 #include "utils.h"
+#include "file_handler.h"
+#include "data_structures/instruction_counter.h"
 
-extern ic;
 
 int main() {
     char command_input[MAX_LINE] = {0};
+    InstructionCount *ic;
     ParsedCommand *ppc;
     ParsedInstruction *ppi;
     BitsCommand *pbc;
@@ -21,6 +23,8 @@ int main() {
     read_command(command_input);
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
     ppc = parse(command_input, ppc);
+    ic = (InstructionCount *)malloc(sizeof(InstructionCount));
+    ic->row = START_ROW_NUM;
     while (strcmp(ppc->command, STOP) != 0) {
         if (strcmp(ppc->command, TERMINATE) == 0) {
             if (strlen(ppc->prefix) != 0 || starts_with_valid_instruction(command_input)) {
@@ -44,7 +48,7 @@ int main() {
                                    is_entry_or_extern);
                     }
                     pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
-                    instruction_router(ppi, pbc);
+                    instruction_router(ic, ppi, pbc);
                     /**todo: free() dont forget to free all**/
                     /**Fetch command**/
                     read_command(command_input);
@@ -63,7 +67,7 @@ int main() {
             /**Run first time and assign all the declaration variables to three lists A, R, E.
              *Then call to the get_are(command) and pass the output to the command_router function.**/
             are = 2;
-            command_router(ppc, pbc, are, &rtl);
+            command_router(ic, ppc, pbc, are, &rtl);
             read_command(command_input);
             ppc = parse(command_input, ppc);
         }
@@ -74,5 +78,5 @@ int main() {
     }
     validate_labels_at_second_running(&sl, &rtl);
     /*TODO: add an conditional if there are error until here - and just than make_hex_file*/
-//    create_hex_file(ic, HEX_FILENAME);
+    convert_bin_file_to_oct_file(ic);
 }

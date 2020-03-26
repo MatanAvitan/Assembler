@@ -3,7 +3,7 @@
 #include "data_structures/reading_two_list.h"
 
 
-void command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl);
+void command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl);
 
 int to_decimal(char *number);
 

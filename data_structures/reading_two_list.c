@@ -49,7 +49,7 @@ int validate_labels_at_second_running(SymbolsList **psl, ReadingTwoList **rtl) {
                     are = 1; /**Relative**/
                 }
                 edit_existing_row_are(rtl_runner->row_num, are);
-                edit_existing_row_label_adress(rtl_runner->row_num, psl_runner->row_num);
+                edit_existing_row_label_address(rtl_runner->row_num, psl_runner->row_num);
             }
             if (psl_runner->next == NULL)break;
             psl_runner = psl_runner->next;
