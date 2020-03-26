@@ -49,6 +49,8 @@ int main() {
                     /**Fetch command**/
                     read_command(command_input);
                     ppc = parse(command_input, ppc);
+                    free(ppi);
+                    free(pbc);
                     continue;
                 }
             } else {
@@ -65,7 +67,11 @@ int main() {
             read_command(command_input);
             ppc = parse(command_input, ppc);
         }
-
+        free(ppc);
+        ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
+    }
+    if (ppc) {
+        free(ppc);
     }
     validate_labels_at_second_running(&sl, &rtl);
 }
