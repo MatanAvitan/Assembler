@@ -6,6 +6,7 @@
 #define IC_CHARS 6
 
 /* Assembly language */
+#define R0 "r0"
 #define R1 "r1"
 #define R2 "r2"
 #define R3 "r3"
