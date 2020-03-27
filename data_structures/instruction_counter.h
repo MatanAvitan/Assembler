@@ -5,4 +5,4 @@ typedef struct InstructionCount {
     int ic;
     int dc;
 } InstructionCount;
-#endif //FINAL_PROJECT_INSTRUCTION_COUNTER_H
+#endif /*FINAL_PROJECT_INSTRUCTION_COUNTER_H*/
