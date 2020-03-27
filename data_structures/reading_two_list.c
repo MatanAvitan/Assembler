@@ -8,10 +8,13 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
         /**First allocation**/
         sl = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
         sl->row_num = row_num;
-        sl->ppc = ppc;
-        sl->pbc = pbc;
-        if(ppi != NULL)
-        {
+        if (ppc != NULL) {
+            sl->ppc = ppc;
+        }
+        if (pbc != NULL) {
+            sl->pbc = pbc;
+        }
+        if (ppi != NULL) {
             sl->ppi_instruction_type = ppi->instruction_type;
         }
         strcpy(sl->label_name, label_name);
@@ -24,9 +27,15 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
             runner = runner->next;
         node = (ReadingTwoList *) malloc(sizeof(ReadingTwoList));
         node->row_num = row_num;
-        node->ppc = ppc;
-        node->pbc = pbc;
-        node->ppi_instruction_type = ppi->instruction_type;
+        if (ppc != NULL) {
+            node->ppc = ppc;
+        }
+        if (pbc != NULL) {
+            node->pbc = pbc;
+        }
+        if (ppi != NULL) {
+            node->ppi_instruction_type = ppi->instruction_type;
+        }
         strcpy(node->label_name, label_name);
         node->next = NULL;
         runner->next = node;
@@ -80,8 +89,7 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
         rtl_runner = rtl_runner->next;
     }
 
-    if(no_errors == TRUE && no_errors_function == TRUE)
-    {
+    if (no_errors == TRUE && no_errors_function == TRUE) {
         return TRUE;
     }
     return FALSE;
