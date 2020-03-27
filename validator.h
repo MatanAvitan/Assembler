@@ -27,6 +27,10 @@
 #define ERROR_LABEL_LAST_CHAR "ERROR! the label should end with ':'\n"
 #define ERROR_LABEL_ILLEGAL_CHAR "ERROR! the label should include only letters and digits\n"
 
+#define THE_COMMAND "ERROR! The command "
+#define INVALID_COMMAND " is invalid"
+#define INCORRENT_COUNT_OPERANDS "ERROR! num of operands is incorrect\n"
+
 #define CAPITAL_LETTER_START 65
 #define CAPITAL_LETTER_END 90
 #define LOWER_CASE_LETTER_START 97
@@ -40,4 +44,4 @@ int right_count_operands(char* command, int args_num);
 int valid_command_name(char* command);
 int right_instruction_count_operand(int instruction_type, int members_num);
 int valid_label(char label[]);
-int count_length (char array[]);
+int length_label (char array[]);

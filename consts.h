@@ -87,3 +87,10 @@
 #define PBC_COMMAND_LEN 17
 #define OCT_COMMAND_LEN 6
 #define OCT_OUTPUT_LINE_SIZE 12
+
+/*Errors*/
+#define THE_NUMBER "ERROR! The number "
+#define TOO_BIG_NUMBER " is too big"
+#define THE_ADDRESS "ERROR! The address "
+#define ADRESS_TO_BIG_NUMBER " is not correct binary number"
+#define UNABLE_CREATE_FILE "Unable to create file\n"
