@@ -57,7 +57,7 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
                 src_token++;
             }
         }
-        if (strstr(src_token, "*r")) {
+        else if (strstr(src_token, "*r")) {
             ppc->src_addressing_method = INDIRECT_REGISTER_ADDRESSING_NO;
             if (*src_token == '*') {
                 src_token++;
@@ -78,7 +78,7 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
                 dst_token++;
             }
         }
-        if (strstr(dst_token, "*r")) {
+        else if (strstr(dst_token, "*r")) {
             ppc->dst_addressing_method = INDIRECT_REGISTER_ADDRESSING_NO;
             if (*dst_token == '*') {
                 dst_token++;
@@ -104,6 +104,8 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
     /*If there is only one args than we assigned the dst to the src so we need to swap between them*/
     if (ppc->args_num == 1) {
         strcpy(ppc->dst, ppc->src);
+        ppc->dst_addressing_method = ppc->src_addressing_method;
+        ppc->src_addressing_method = -1;
         for (n = 0; n < MAX_ARG_SIZE; n++) {
             ppc->src[n] = 0;
         }

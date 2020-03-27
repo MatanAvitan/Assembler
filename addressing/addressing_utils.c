@@ -258,7 +258,8 @@ void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, Bits
 
 
 int is_label(char *arg) {
-    if (compare_register(arg) == TRUE) {
+    if (strlen(arg) == 0) return FALSE;
+    else if (compare_register(arg) == TRUE) {
         return FALSE;
     } else if (atoi(arg) == 1) {
         return FALSE;        /**In case it's a number**/
