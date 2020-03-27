@@ -22,4 +22,4 @@ ParsedCommand *parse(char *, ParsedCommand *);
 
 
 
-#endif //FINAL_PROJECT_PARSED_COMMAND_H
+#endif /*FINAL_PROJECT_PARSED_COMMAND_H*/
