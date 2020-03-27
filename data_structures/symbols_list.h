@@ -23,4 +23,4 @@ void add_symbol(SymbolsList **psl, char *symbol, InstructionCount *ic, int instr
 
 int is_already_defined(SymbolsList **pls, char* symbol, int instruction_type);
 
-#endif //FINAL_PROJECT_SYMBOLS_LIST_H
+#endif /*FINAL_PROJECT_SYMBOLS_LIST_H*/
