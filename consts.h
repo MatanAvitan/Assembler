@@ -79,10 +79,10 @@
 
 
 /* Output */
-#define BIN_FILENAME "../binary_output.txt"
-#define ENTRY_FILENAME "../ps.ent"
-#define EXTERN_FILENAME "../ps.ext"
-#define OCT_FILENAME "../ps.ob"
+#define BIN_FILENAME "binary_output.txt"
+#define ENTRY_FILENAME "ps.ent"
+#define EXTERN_FILENAME "ps.ext"
+#define OCT_FILENAME "ps.ob"
 #define START_ROW_NUM 100
 #define PBC_COMMAND_LEN 17
 #define OCT_COMMAND_LEN 6
@@ -94,3 +94,5 @@
 #define THE_ADDRESS "ERROR! The address "
 #define ADRESS_TO_BIG_NUMBER " is not correct binary number"
 #define UNABLE_CREATE_FILE "Unable to create file\n"
+#define FIRST_ROUND_FAILD "The program faild on the first round, please try agin\n"
+#define SECOND_ROUND_FAILD "The program faild on the second round, please try agin\n"

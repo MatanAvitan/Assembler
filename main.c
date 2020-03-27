@@ -11,6 +11,7 @@
 #include "data_structures/instruction_counter.h"
 
 
+
 int main() {
     char command_input[MAX_LINE] = {0};
     InstructionCount *ic;
@@ -19,6 +20,7 @@ int main() {
     BitsCommand *pbc;
     SymbolsList *sl = {0};
     ReadingTwoList *rtl = {0};
+    int first_round = TRUE, second_round = TRUE;
     int are, is_entry_or_extern = 0, is_labeled_command = 0, backup_row;
     read_command(command_input);
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
@@ -59,7 +61,7 @@ int main() {
                         }
                     }
                     pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
-                    instruction_router(ic, ppi, pbc);
+                    first_round = instruction_router(ic, ppi, pbc, first_round);
                     /**Fetch command**/
                     read_command(command_input);
                     ppc = parse(command_input, ppc);
@@ -78,7 +80,7 @@ int main() {
              *Then call to the get_are(command) and pass the output to the command_router function.**/
             backup_row = ic->row;
             are = 2;
-            command_router(ic, ppc, pbc, are, &rtl);
+            first_round = command_router(ic, ppc, pbc, are, &rtl, &sl, first_round);
             if (strlen(ppc->prefix)) {
                 is_entry_or_extern = 0;
                 is_labeled_command = 1;
@@ -94,8 +96,27 @@ int main() {
     if (ppc) {
         free(ppc);
     }
-    validate_labels_at_second_running(ic, &sl, &rtl);
-    /*TODO: add an conditional if there are error until here - and just than make_hex_file*/
-    convert_bin_file_to_oct_file(ic);
+    
     free(ic);
+
+    /*if there are error in the first round - the program* will not continue*/
+    if(first_round == TRUE)
+    {
+        second_round = validate_labels_at_second_running(ic, &sl, &rtl, second_round);
+        if(first_round == TRUE && second_round == TRUE)
+        {
+            convert_bin_file_to_oct_file(ic);
+        }
+        else
+        {
+            printf(SECOND_ROUND_FAILD);
+        }
+    }
+    else
+    {
+        printf(FIRST_ROUND_FAILD);
+    }
+    /*if there are errors - the program will not continue*/
+
 }
+

@@ -10,7 +10,7 @@
 #define INVALID_COMMAND_INDIRECT " is invalid command for the following indirect registers"
 
 
-int command_router(ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl, SymbolsList **psl, int no_errors);
+int command_router(InstructionCount *ic,ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl, SymbolsList **psl, int no_errors);
 
 int to_decimal(char *number);
 

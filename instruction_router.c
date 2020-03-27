@@ -22,8 +22,9 @@ void assign_arg_to_all_bits(BitsCommand *pbc, char *binary_arg) {
 }
 
 
-void instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsCommand *pbc) {
+int instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsCommand *pbc, int no_errors) {
     int i = 0;
+    int no_error_function = TRUE;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     int temp_arg;
     LinkedList *temp_head;
@@ -37,10 +38,18 @@ void instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsComman
                 ic->dc++;
                 ic->row = START_ROW_NUM + ic->ic + ic->dc;
             }
+            else
+            {
+                no_error_function = FALSE;
+                printf("%s %s %s\n", THE_NUMBER, temp_arg, TOO_BIG_NUMBER);
+            }
             temp_head = temp_head->next;
             i++;
         }
 
     }
+    if(no_errors == TRUE && no_error_function == TRUE)
+        return TRUE;
+    return FALSE;
     /**Else we got an entry or extern which will be handled by the second reading**/
 }
