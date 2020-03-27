@@ -53,6 +53,7 @@ int main() {
                             add_second_reading_line(&rtl, ppi->label, ppc, ppi, pbc, ic->row);
                         }
                         if (ppi->instruction_type != ENTRY_NO && ppi->instruction_type != EXTERN_NO) {
+                            ic->row = START_ROW_NUM + ic->ic + ic->dc;
                             add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val,
                                        ppi->list.val_for_labels,
                                        is_entry_or_extern, is_labeled_command);
