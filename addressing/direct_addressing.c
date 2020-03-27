@@ -19,11 +19,11 @@ void run_direct_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsCommand
     /**SECOND**/
     /**address of the label - second reading**/
     if (ppc->args_num == 1) {
-        add_second_reading_line(rtl, ppc->dst, ppc, pbc + 1, ic->row + 1);
+        add_second_reading_line(rtl, ppc->dst, ppc,NULL, pbc + 1, ic->row + 1);
 
     } else if (ppc->args_num == 2) {
-        add_second_reading_line(rtl, ppc->src, ppc, pbc + 1, ic->row + 1);
-        add_second_reading_line(rtl, ppc->dst, ppc, pbc + 2, ic->row + 2);
+        add_second_reading_line(rtl, ppc->src, ppc, NULL,pbc + 1, ic->row + 1);
+        add_second_reading_line(rtl, ppc->dst, ppc, NULL,pbc + 2, ic->row + 2);
     }
 
     for (; i < ppc->args_num + 1; i++) {

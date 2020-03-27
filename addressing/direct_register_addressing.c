@@ -34,7 +34,7 @@ void run_direct_register_addressing(InstructionCount *ic, ParsedCommand *ppc, Bi
             assign_direct_and_indirect_register_number_command(ppc, pbc + 1, are, is_src_arg);
 
             if (is_label(ppc->dst) == TRUE) {
-                add_second_reading_line(rtl, ppc->dst, ppc + 2, pbc, ic->row + 2);
+                add_second_reading_line(rtl, ppc->dst, ppc + 2, NULL, pbc, ic->row + 2);
             }
 
             num_of_command += 1;
@@ -42,7 +42,7 @@ void run_direct_register_addressing(InstructionCount *ic, ParsedCommand *ppc, Bi
                    ppc->dst_addressing_method == DIRECT_REGISTER_ADDRESSING_NO) {
             /**The src arg is unknown and the dst arg is direct register**/
             if (is_label(ppc->src) == TRUE) {
-                add_second_reading_line(rtl, ppc->src, ppc + 1, pbc, ic->row + 1);
+                add_second_reading_line(rtl, ppc->src, ppc + 1, NULL, pbc, ic->row + 1);
             }
             num_of_command += 1;
 

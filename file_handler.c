@@ -32,7 +32,7 @@ void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filenam
 
 }
 
-void write_entry_or_extern_to_file(InstructionCount *ic, ParsedInstruction *ppi, char *filename) {
+void write_entry_or_extern_to_file(InstructionCount *ic, char *symbol, char *filename) {
     FILE *pfile = NULL;
     char ic_as_string[IC_CHARS];
 
@@ -48,7 +48,7 @@ void write_entry_or_extern_to_file(InstructionCount *ic, ParsedInstruction *ppi,
     /* Write data to file */
     int_to_string(ic->row, ic_as_string);
     fputs(ic_as_string, pfile);
-    fputs(ppi->list.val_for_labels, pfile);
+    fputs(symbol, pfile);
     fputs(NEW_LINE, pfile);
     /* Close file to save file data */
     fclose(pfile);
@@ -128,7 +128,6 @@ void convert_bin_file_to_oct_file(InstructionCount *ic) {
     char binary_to_convert[PBC_COMMAND_LEN];
     char *token;
     char sep;
-    int n;
     sep = '\t';
 
     pbfile = fopen(BIN_FILENAME, "r");

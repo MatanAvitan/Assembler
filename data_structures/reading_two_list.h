@@ -4,6 +4,7 @@
 #include "../parsed_command.h"
 #include "../bits_command.h"
 #include "../consts.h"
+#include "../parsed_instruction.h"
 #include "reading_two_list.h"
 #include "symbols_list.h"
 
@@ -14,12 +15,15 @@ typedef struct ReadingTwoList {
     char label_name[MAX_INSTRUCTION_LEN];
     ParsedCommand *ppc;
     BitsCommand *pbc;
+    int ppi_instruction_type;
     int row_num;
     struct ReadingTwoList *next;
 } ReadingTwoList;
 
-void add_second_reading_line(ReadingTwoList **rtl, char *, ParsedCommand *ppc, BitsCommand *pbc, int row_num);
+void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, ParsedInstruction *ppi,
+                             BitsCommand *pbc,
+                             int row_num);
 
-int validate_labels_at_second_running(SymbolsList **psl, ReadingTwoList **rtl);
+int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, ReadingTwoList **rtl);
 
 #endif /*FINAL_PROJECT_READING_TWO_LIST_H*/

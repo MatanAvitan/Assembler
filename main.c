@@ -19,11 +19,11 @@ int main() {
     BitsCommand *pbc;
     SymbolsList *sl = {0};
     ReadingTwoList *rtl = {0};
-    int are, is_entry_or_extern = 0;
+    int are, is_entry_or_extern = 0, is_labeled_command = 0, backup_row;
     read_command(command_input);
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
     ppc = parse(command_input, ppc);
-    ic = (InstructionCount *)malloc(sizeof(InstructionCount));
+    ic = (InstructionCount *) malloc(sizeof(InstructionCount));
     ic->row = START_ROW_NUM;
     while (strcmp(ppc->command, STOP) != 0) {
         if (strcmp(ppc->command, TERMINATE) == 0) {
@@ -44,12 +44,22 @@ int main() {
                         if (strlen(ppi->list.val_for_labels) != 0) {
                             is_entry_or_extern = 1;
                         }
-                        add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val, ppi->list.val_for_labels,
-                                   is_entry_or_extern);
+                        is_labeled_command = 0;
+                        if (strlen(ppi->label) &&
+                            (ppi->instruction_type == ENTRY_NO || ppi->instruction_type == EXTERN_NO)) {
+                            /**If it's an entry or extern label than just override the given label by the first given value**/
+                            strcpy(ppi->label, ppi->list.val_for_labels);
+                            add_second_reading_line(&rtl, ppi->label, ppc, ppi, pbc, ic->row);
+                        }
+                        if (ppi->instruction_type != ENTRY_NO && ppi->instruction_type != EXTERN_NO) {
+                            add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val,
+                                       ppi->list.val_for_labels,
+                                       is_entry_or_extern, is_labeled_command);
+
+                        }
                     }
                     pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
                     instruction_router(ic, ppi, pbc);
-                    /**todo: free() dont forget to free all**/
                     /**Fetch command**/
                     read_command(command_input);
                     ppc = parse(command_input, ppc);
@@ -66,8 +76,16 @@ int main() {
             pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * MAX_NUM_OF_TRANSLATION_COMMANDS);
             /**Run first time and assign all the declaration variables to three lists A, R, E.
              *Then call to the get_are(command) and pass the output to the command_router function.**/
+            backup_row = ic->row;
             are = 2;
             command_router(ic, ppc, pbc, are, &rtl);
+            if (strlen(ppc->prefix)) {
+                is_entry_or_extern = 0;
+                is_labeled_command = 1;
+                ic->row = backup_row;
+                add_symbol(&sl, ppc->prefix, ic, NULL, NULL, NULL,
+                           is_entry_or_extern, is_labeled_command);
+            }
             read_command(command_input);
             ppc = parse(command_input, ppc);
         }
@@ -76,7 +94,8 @@ int main() {
     if (ppc) {
         free(ppc);
     }
-    validate_labels_at_second_running(&sl, &rtl);
+    validate_labels_at_second_running(ic, &sl, &rtl);
     /*TODO: add an conditional if there are error until here - and just than make_hex_file*/
     convert_bin_file_to_oct_file(ic);
+    free(ic);
 }

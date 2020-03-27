@@ -1,4 +1,5 @@
 #include "parsed_command.h"
+#include "parsed_instruction.h"
 
 
 #define FAILED_TO_FETCH_COMMAND "Failed to fetch a command\n"
@@ -13,6 +14,7 @@ ParsedCommand *get_error_parser(ParsedCommand *ppc) {
 ParsedCommand *parse(char *command, ParsedCommand *ppc) {
     char seps[] = ":";
     char coma_and_space_seps[] = ", ";
+    char space_sep = ' ';
     char *token, prefix[MAX_LINE], command_without_prefix[MAX_LINE];
     char *src_token, *dst_token;
     int n;
@@ -34,7 +36,9 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
         /*Remove unneeded spaces */
         strcpy(command, command_without_prefix);
         /**This is an instruction sentence because there is a label**/
-        return get_error_parser(ppc);
+        token = strtok(command_without_prefix, &space_sep);
+        if (starts_with_valid_instruction(token))
+            return get_error_parser(ppc);
     }
 
     if (sscanf(command, " %[a-zA-Z] %n", ppc->command, &n) != 1) {

@@ -140,7 +140,7 @@ int to_decimal(char *number) {
 }
 
 int compare_register(char *cmp) {
-    if (((strcmp(cmp, R1)) == 0) || ((strcmp(cmp, R2)) == 0) || ((strcmp(cmp, R3)) == 0) ||
+    if (((strcmp(cmp, R0)) == 0) || ((strcmp(cmp, R1)) == 0) || ((strcmp(cmp, R2)) == 0) || ((strcmp(cmp, R3)) == 0) ||
         ((strcmp(cmp, R4)) == 0) || ((strcmp(cmp, R5)) == 0) || ((strcmp(cmp, R6)) == 0) ||
         ((strcmp(cmp, R7)) == 0))
         return TRUE;

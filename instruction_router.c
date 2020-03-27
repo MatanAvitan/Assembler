@@ -34,7 +34,7 @@ void instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsComman
             if (dec_to_binary(temp_arg, MAX_BITS, covert_binary)) {
                 assign_arg_to_all_bits(pbc + i, covert_binary);
                 write_command_to_file(ic, pbc + i, BIN_FILENAME);
-                ic->dc ++;
+                ic->dc++;
                 ic->row = START_ROW_NUM + ic->ic + ic->dc;
             }
             temp_head = temp_head->next;
@@ -42,13 +42,5 @@ void instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsComman
         }
 
     }
-    if (ppi->instruction_type == ENTRY_NO) {
-        write_entry_or_extern_to_file(ic, ppi, ENTRY_FILENAME);
-        ic->ic++;
-        ic->row = START_ROW_NUM + ic->ic + ic->dc;
-    } else if (ppi->instruction_type == EXTERN_NO) {
-        write_entry_or_extern_to_file(ic, ppi, EXTERN_FILENAME);
-        ic->ic++;
-        ic->row = START_ROW_NUM + ic->ic + ic->dc;
-    }
+    /**Else we got an entry or extern which will be handled by the second reading**/
 }

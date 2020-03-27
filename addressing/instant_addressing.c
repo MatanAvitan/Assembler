@@ -21,7 +21,7 @@ void run_instant_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsComman
 
         if (is_label(ppc->dst) == TRUE) {
             /*address of the label - second reading*/
-            add_second_reading_line(rtl, ppc->dst, ppc + 2, pbc, ic->row + 2);
+            add_second_reading_line(rtl, ppc->dst, ppc + 2,NULL, pbc, ic->row + 2);
         }
 
     } else {
@@ -37,7 +37,7 @@ void run_instant_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsComman
         if (is_label(ppc->src) == TRUE) {
 
             /*address of the label - second reading*/
-            add_second_reading_line(rtl, ppc->src, ppc + 1, pbc, ic->row + 1);
+            add_second_reading_line(rtl, ppc->src, ppc + 1,NULL, pbc, ic->row + 1);
         }
 
     }
