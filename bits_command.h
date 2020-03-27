@@ -19,4 +19,4 @@ typedef struct BitsCommand {
     unsigned int b14:1;
 } BitsCommand;
 
-#endif //FINAL_PROJECT_BITS_COMMAND_H
+#endif /*FINAL_PROJECT_BITS_COMMAND_H*/
