@@ -2,8 +2,7 @@
 
 
 void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, ParsedInstruction *ppi,
-                             BitsCommand *pbc,
-                             int row_num) {
+                             BitsCommand *pbc, int row_num) {
     ReadingTwoList *sl, *node, *runner;
     if (!*rtl) {
         /**First allocation**/
@@ -11,10 +10,14 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
         sl->row_num = row_num;
         sl->ppc = ppc;
         sl->pbc = pbc;
-        sl->ppi_instruction_type = ppi->instruction_type;
+        if(ppi != NULL)
+        {
+            sl->ppi_instruction_type = ppi->instruction_type;
+        }
         strcpy(sl->label_name, label_name);
         sl->next = NULL;
         *rtl = sl;
+
     } else {
         runner = *rtl;
         while (runner->next)
@@ -31,14 +34,14 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
 
 }
 
-int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, ReadingTwoList **rtl) {
+int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, ReadingTwoList **rtl, int no_errors) {
     SymbolsList *psl_runner;
     ReadingTwoList *rtl_runner;
     psl_runner = *psl;
     rtl_runner = *rtl;
     int is_there_match = 0;
     int are;
-    int no_errors = TRUE;
+    int no_errors_function = TRUE;
 
     while (rtl_runner) {
         while (psl_runner) {
@@ -68,7 +71,7 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
         }
         if (is_there_match == 0) {
             /**This label was never defined in the source code**/
-            no_errors = 0;
+            no_errors_function = FALSE;
             printf("%s %s %s\n", THE_LABEL, rtl_runner->label_name, NOT_DEFINED_LABEL);
         }
         is_there_match = 0;
@@ -77,5 +80,9 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
         rtl_runner = rtl_runner->next;
     }
 
-    return TRUE;
+    if(no_errors == TRUE && no_errors_function == TRUE)
+    {
+        return TRUE;
+    }
+    return FALSE;
 }
