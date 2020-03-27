@@ -1,3 +1,6 @@
+#ifndef FINAL_PROJECT_COMMAND_ROUTER_H
+#define FINAL_PROJECT_COMMAND_ROUTER_H
+
 #include "parsed_command.h"
 #include "bits_command.h"
 #include "validator.h"
@@ -27,3 +30,5 @@ int command_direct_register_address(char* command);
 int command_direct_address_dst_arg_only(char* command);
 
 int compare_register(char *cmp);
+
+#endif /*FINAL_PROJECT_COMMAND_ROUTER_H*/
