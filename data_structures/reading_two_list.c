@@ -63,14 +63,17 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
                 } else {
                     are = 1; /**Relative**/
                 }
-                edit_existing_row_are(rtl_runner->row_num, are);
-                edit_existing_row_label_address(rtl_runner->row_num, psl_runner->row_num);
+                if (rtl_runner->ppi_instruction_type != ENTRY_NO && rtl_runner->ppi_instruction_type != EXTERN_NO) {
+                    /**You shouldn't edit entry or extern command in the second running**/
+                    edit_existing_row_are(rtl_runner->row_num, are);
+                    edit_existing_row_label_address(rtl_runner->row_num, psl_runner->row_num);
+                }
                 if (rtl_runner->ppi_instruction_type == ENTRY_NO) {
-                    write_entry_or_extern_to_file(ic, rtl_runner->label_name, ENTRY_FILENAME);
+                    write_entry_or_extern_to_file(psl_runner->row_num, rtl_runner->label_name, ENTRY_FILENAME);
                     ic->ic++;
                     ic->row = START_ROW_NUM + ic->ic + ic->dc;
                 } else if (rtl_runner->ppi_instruction_type == EXTERN_NO) {
-                    write_entry_or_extern_to_file(ic, rtl_runner->label_name, EXTERN_FILENAME);
+                    write_entry_or_extern_to_file(psl_runner->row_num, rtl_runner->label_name, EXTERN_FILENAME);
                     ic->ic++;
                     ic->row = START_ROW_NUM + ic->ic + ic->dc;
                 }

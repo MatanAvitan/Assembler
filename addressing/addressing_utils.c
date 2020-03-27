@@ -3,7 +3,7 @@
 /*The function gets a command and returns the right opcode*/
 int to_opcode(char *command) {
 
-    /*default valute*/
+    /**Default value**/
     int opcode = UNKNOWN_COMMAND_NO;
     if (strcmp(command, MOV) == 0) {
         opcode = MOV_NO;
@@ -183,7 +183,7 @@ void assign_register_number_to_bit(BitsCommand *pbc, char binary_arg[], int is_s
 
 
 void assign_instant_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
-    int bin_representation_of_arg, arg_as_dec;
+    int arg_as_dec;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     char instant_arg[5];
 
@@ -206,7 +206,7 @@ void assign_instant_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int i
 }
 
 void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
-    int bin_representation_of_arg, arg_as_dec;
+    int arg_as_dec;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     char direct_register_arg[5];
 

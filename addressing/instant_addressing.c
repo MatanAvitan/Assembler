@@ -49,6 +49,7 @@ void run_instant_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsComman
     }
     for (; i < ppc->args_num + 1; i++) {
         /**Write the command to the bin file**/
+        ic->row = START_ROW_NUM + ic->ic + ic->dc;
         write_command_to_file(ic, pbc + i, BIN_FILENAME);
         ic->ic++;
         ic->row = START_ROW_NUM + ic->dc + ic->ic;

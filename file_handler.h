@@ -12,7 +12,7 @@
 
 void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filename);
 
-void write_entry_or_extern_to_file(InstructionCount *ic, char *symbol, char *filename) ;
+void write_entry_or_extern_to_file(int row_num, char *symbol, char *filename) ;
 
 void edit_existing_row_are(int row, int are);
 

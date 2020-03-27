@@ -11,7 +11,6 @@
 #include "data_structures/instruction_counter.h"
 
 
-
 int main() {
     char command_input[MAX_LINE] = {0};
     InstructionCount *ic;
@@ -93,30 +92,25 @@ int main() {
         }
 
     }
-    if (ppc) {
-        free(ppc);
-    }
-    
-    free(ic);
+
 
     /*if there are error in the first round - the program* will not continue*/
-    if(first_round == TRUE)
-    {
+    if (first_round == TRUE) {
         second_round = validate_labels_at_second_running(ic, &sl, &rtl, second_round);
-        if(first_round == TRUE && second_round == TRUE)
-        {
+        if (first_round == TRUE && second_round == TRUE) {
             convert_bin_file_to_oct_file(ic);
-        }
-        else
-        {
+        } else {
             printf(SECOND_ROUND_FAILD);
         }
-    }
-    else
-    {
+    } else {
         printf(FIRST_ROUND_FAILD);
     }
     /*if there are errors - the program will not continue*/
-
+    if (ppc) {
+        free(ppc);
+    }
+    if (ic) {
+        free(ic);
+    }
 }
 

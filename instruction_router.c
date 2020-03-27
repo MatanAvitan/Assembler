@@ -34,6 +34,7 @@ int instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsCommand
             temp_arg = temp_head->val;
             if (dec_to_binary(temp_arg, MAX_BITS, covert_binary)) {
                 assign_arg_to_all_bits(pbc + i, covert_binary);
+                ic->row = START_ROW_NUM + ic->ic + ic->dc;
                 write_command_to_file(ic, pbc + i, BIN_FILENAME);
                 ic->dc++;
                 ic->row = START_ROW_NUM + ic->ic + ic->dc;

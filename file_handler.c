@@ -32,7 +32,7 @@ void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filenam
 
 }
 
-void write_entry_or_extern_to_file(InstructionCount *ic, char *symbol, char *filename) {
+void write_entry_or_extern_to_file(int row_num, char *symbol, char *filename) {
     FILE *pfile = NULL;
     char ic_as_string[IC_CHARS];
 
@@ -46,7 +46,7 @@ void write_entry_or_extern_to_file(InstructionCount *ic, char *symbol, char *fil
     }
 
     /* Write data to file */
-    int_to_string(ic->row, ic_as_string);
+    int_to_string(row_num, ic_as_string);
     fputs(ic_as_string, pfile);
     fputs(symbol, pfile);
     fputs(NEW_LINE, pfile);
@@ -152,6 +152,7 @@ void convert_bin_file_to_oct_file(InstructionCount *ic) {
     while (!feof(pbfile)) {
         fgets(buffer, MAX_LINE, pbfile);
         token = strtok(buffer, &sep);
+        if (token == NULL) break;/**We achieved non parseable string**/
         strcpy(oct_output, token);
         oct_output[4] = sep;
         token = strtok(NULL, &sep);
