@@ -1,3 +1,6 @@
+#ifndef FINAL_PROJECT_VALIDATOR_H
+#define FINAL_PROJECT_VALIDATOR_H
+
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -45,3 +48,5 @@ int valid_command_name(char* command);
 int right_instruction_count_operand(int instruction_type, int members_num);
 int valid_label(char label[]);
 int length_label (char array[]);
+
+#endif /*FINAL_PROJECT_VALIDATOR_H*/
