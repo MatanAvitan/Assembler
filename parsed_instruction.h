@@ -20,7 +20,7 @@ typedef struct ParsedInstruction {
 } ParsedInstruction;
 
 
-void parse_instruction(char *command, ParsedInstruction *ppi);
+int parse_instruction(char *command, ParsedInstruction *ppi);
 
 int starts_with_valid_instruction(char *str);
 

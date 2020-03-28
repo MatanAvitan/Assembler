@@ -13,26 +13,21 @@ int get_instruction_type(char *instruction) {
 
 }
 
-void parse_instruction(char *command, ParsedInstruction *ppi) {
-    char seps[] = " ,\t\n", quata_sep = '"';
+int parse_instruction(char *command, ParsedInstruction *ppi) {
+    char seps[] = " ,\t\n", quota_sep = '"';
     char label[MAX_INSTRUCTION_LEN];
     char *token;
     char instruction[MAX_INSTRUCTION_LEN];
     LinkedList *node, *runner;
     ppi->members_num = 0;
     token = strtok(command, seps);
-    int quata_started = 0;
+    int quota_started = 0;
     if (token[0] == '.') {
         strcpy(instruction, token + 1);
         ppi->instruction_type = get_instruction_type(instruction);
     }
     token = strtok(NULL, seps);
-    if (token[0] == quata_sep) {
-        token++; /**Come over the quata**/
-        quata_started = 1;
-    } else {
-        printf("There is no starting quata");
-    }
+
 
     if (strcmp(instruction, DATA) == 0) {
         if (token) {
@@ -54,6 +49,14 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
             token = strtok(NULL, seps);
         }
     } else if (strcmp(instruction, STRING) == 0) {
+        if (token[0] == quota_sep) {
+            token++; /**Step over the quota**/
+            quota_started = 1;
+        }
+        if (quota_started == 0) {
+            printf("There is no starting quota");
+            return FALSE;
+        }
         if (token) {
             node = (LinkedList *) malloc(sizeof(LinkedList));
             node->val = *token; /**Assign each char as int(ascii representation)**/
@@ -63,8 +66,8 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
         }
         token++;
         while (*token) {
-            if (*token == quata_sep && quata_started) {
-                quata_started = 0;
+            if (*token == quota_sep && quota_started) {
+                quota_started = 0;
                 break;
             }
             node = (LinkedList *) malloc(sizeof(LinkedList));
@@ -76,8 +79,9 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
             ppi->members_num += 1;
             token++;
         }
-        if (quata_started == 1) {
-            printf("There is starting quata and no ending quata");
+        if (quota_started == 1) {
+            printf("There is starting quota and no ending quota");
+            return FALSE;
         } else {
             /**We go a valid string**/
             /**Let's add a NULL termination char**/
@@ -103,8 +107,10 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
 
         } else {
             /*todo: there is no label after entry*/
+            return FALSE;
         }
     }
+    return TRUE;
 }
 
 

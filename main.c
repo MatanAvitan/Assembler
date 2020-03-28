@@ -34,7 +34,7 @@ int main() {
     /*NEW*/
     ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
     /*strcpy(ppi->label, ppc->prefix);*/
-    parse_instruction(copy_input, ppi);
+    first_round = parse_instruction(copy_input, ppi);
     
     if(strcmp(ppc->command, TERMINATE) == 0)
     {
@@ -52,7 +52,7 @@ int main() {
                     ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
                     /**The command parser already caught the label**/
                     strcpy(ppi->label, ppc->prefix);
-                    parse_instruction(command_input, ppi);
+                    first_round = parse_instruction(command_input, ppi);
                 }
                 else
                 {
