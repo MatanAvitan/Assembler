@@ -41,12 +41,23 @@
 #define DIGITS_START 48
 #define DIGITS_END 57
 
+#define WORONG_DST_ADDRESSING_METHOD "ERROR! wrong dst addressing method to the command "
+#define WORONG_SRC_ADDRESSING_METHOD "ERROR! wrong src addressing method to the command "
+#define ILLGAL_SRC_METHOD " can not had src operand"
+
 
 int validate_commas(char *command);
+
 int right_count_operands(char* command, int args_num);
+
 int valid_command_name(char* command);
+
 int right_instruction_count_operand(int instruction_type, int members_num);
-int valid_label(char label[]);
-int length_label (char array[]);
+
+int valid_label(char* label);
+
+int length_label (char* array);
+
+int right_addressing_method_to_command(char* command, int dst_method, int src_method);
 
 #endif /*FINAL_PROJECT_VALIDATOR_H*/

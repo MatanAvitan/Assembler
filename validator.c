@@ -264,3 +264,64 @@ int length_label (char array[])
     return count;
 }
 
+
+/*The function chekcs the right addressing members to every command and return false and true*/
+int right_addressing_method_to_command(char* command, int dst_method, int src_method)
+{
+    if((strcmp(command, MOV) == 0) || (strcmp(command, ADD)) || (strcmp(command, SUB)))
+    {
+        if(dst_method ==  INSTANT_ADDRESSING_NO)
+        {
+            printf("%s %s\n", WORONG_DST_ADDRESSING_METHOD, command);
+            return FALSE;
+        }
+    }
+
+    if(strcmp(command, LEA) == 0)
+    {
+        if(src_method == INSTANT_ADDRESSING_NO)
+        {
+            printf("%s %s\n", WORONG_SRC_ADDRESSING_METHOD, command);
+            return FALSE;
+        }
+        if(dst_method == INSTANT_ADDRESSING_NO)
+        {
+            printf("%s %s\n", WORONG_DST_ADDRESSING_METHOD, command);
+            return FALSE; 
+        }
+    }
+
+    if((strcmp(command, CLR) == 0) || (strcmp(command, NOT) == 0) || (strcmp(command, INC) == 0) ||
+        (strcmp(command, DEC) == 0) || (strcmp(command, RED) == 0))
+    {
+        /*TODO: checks if -1*/
+        if(src_method != UNKNOWN_COMMAND_NO)
+        {
+            printf("%s %s %s\n", THE_COMMAND, command, ILLGAL_SRC_METHOD);
+            return FALSE;
+        }
+        if(dst_method == INSTANT_ADDRESSING_NO)
+        {
+            printf("%s %s\n", WORONG_DST_ADDRESSING_METHOD, command);
+            return FALSE;  
+        }
+    }
+
+    if((strcmp(command, JMP) == 0) || (strcmp(command, BNE) == 0) || (strcmp(command, JSR) == 0))
+    {
+        /*TODO: checks if -1*/
+        if(src_method != UNKNOWN_COMMAND_NO)
+        {
+            printf("%s %s %s\n", THE_COMMAND, command, ILLGAL_SRC_METHOD);
+            return FALSE;
+        }
+        if(dst_method == INSTANT_ADDRESSING_NO || dst_method == DIRECT_REGISTER_ADDRESSING_NO)
+        {
+            printf("%s %s\n", WORONG_DST_ADDRESSING_METHOD, command);
+            return FALSE;  
+        }
+    }
+}
+
+
+
