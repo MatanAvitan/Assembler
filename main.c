@@ -13,6 +13,7 @@
 
 int main() {
     char command_input[MAX_LINE] = {0};
+    char copy_input[MAX_LINE] ={0};
     InstructionCount *ic;
     ParsedCommand *ppc;
     ParsedInstruction *ppi;
@@ -20,20 +21,43 @@ int main() {
     SymbolsList *sl = {0};
     ReadingTwoList *rtl = {0};
     int first_round = TRUE, second_round = TRUE;
+    int first_input = 1; /*1 is command, 0 is instruction*/
     int are, is_entry_or_extern = 0, is_labeled_command = 0, backup_row;
+
     read_command(command_input);
+
+    strcpy(copy_input,command_input);
+    
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
-    ppc = parse(command_input, ppc);
+    ppc = parse(copy_input, ppc);
+
+    /*NEW*/
+    ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
+    /*strcpy(ppi->label, ppc->prefix);*/
+    parse_instruction(copy_input, ppi);
+    
+    if(strcmp(ppc->command, TERMINATE) == 0)
+    {
+        first_input = 0;
+    }
+
     ic = (InstructionCount *) malloc(sizeof(InstructionCount));
     ic->row = START_ROW_NUM;
-    while (strcmp(ppc->command, STOP) != 0) {
+    while (/*strcmp(ppc->command, COMMAND_END_FILE) != 0*/ strcmp(command_input, COMMAND_END_FILE) != 0) {
         if (strcmp(ppc->command, TERMINATE) == 0) {
-            if (strlen(ppc->prefix) != 0 || starts_with_valid_instruction(command_input)) {
+            /*if (strlen(ppc->prefix) != 0 || starts_with_valid_instruction(command_input)) {*/
                 /**If the command parser failed to parse the command maybe it's an instruction sentence**/
-                ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
-                /**The command parser already caught the label**/
-                strcpy(ppi->label, ppc->prefix);
-                parse_instruction(command_input, ppi);
+                if(first_input != 0)
+                {
+                    ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
+                    /**The command parser already caught the label**/
+                    strcpy(ppi->label, ppc->prefix);
+                    parse_instruction(command_input, ppi);
+                }
+                else
+                {
+                    first_input = -1;
+                }
                 if (ppi->members_num == 0) {
                     /**Parsing error**/
                     /**Fetch command**/
@@ -46,13 +70,24 @@ int main() {
                             is_entry_or_extern = 1;
                         }
                         is_labeled_command = 0;
-                        if (strlen(ppi->label) &&
-                            (ppi->instruction_type == ENTRY_NO || ppi->instruction_type == EXTERN_NO)) {
-                            /**If it's an entry or extern label than just override the given label by the first given value**/
-                            strcpy(ppi->label, ppi->list.val_for_labels);
-                            add_second_reading_line(&rtl, ppi->label, ppc, ppi, pbc, ic->row);
+                        if (strlen(ppi->label) && (ppi->instruction_type == ENTRY_NO|| ppi->instruction_type == EXTERN_NO)) 
+                        {
+                            if(ppi->instruction_type == EXTERN_NO)
+                            {
+                                ic->row = START_ROW_NUM + ic->ic + ic->dc;
+                                add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val,ppi->list.val_for_labels,
+                                   is_entry_or_extern, is_labeled_command);
+                            }
+                            else
+                            {
+                               /**If it's an entry or extern label than just override the given label by the first given value**/
+                                ic->row = START_ROW_NUM + ic->ic + ic->dc;
+                                strcpy(ppi->label, ppi->list.val_for_labels);
+                                add_second_reading_line(&rtl, ppi->label, ppc, ppi, pbc, ic->row);
+                            }
                         }
-                        if (ppi->instruction_type != ENTRY_NO && ppi->instruction_type != EXTERN_NO) {
+                        if (ppi->instruction_type != ENTRY_NO && ppi->instruction_type != EXTERN_NO) 
+                        {
                             ic->row = START_ROW_NUM + ic->ic + ic->dc;
                             add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val,
                                        ppi->list.val_for_labels,
@@ -60,6 +95,7 @@ int main() {
 
                         }
                     }
+                }
                     pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
                     first_round = instruction_router(ic, ppi, pbc, first_round);
                     /**Fetch command**/
@@ -68,11 +104,11 @@ int main() {
                     free(ppi);
                     free(pbc);
                     continue;
-                }
-            } else {
+            /*} else {
                 /**We got stop command**/
-                break;
-            }
+               /* break;
+            }*/
+            
         } else {
             /**Regular command**/
             pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * MAX_NUM_OF_TRANSLATION_COMMANDS);
@@ -94,7 +130,6 @@ int main() {
 
     }
 
-
     /*if there are error in the first round - the program* will not continue*/
     if (first_round == TRUE) {
         second_round = validate_labels_at_second_running(ic, &sl, &rtl, second_round);
@@ -114,4 +149,3 @@ int main() {
         free(ic);
     }
 }
-

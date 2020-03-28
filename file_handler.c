@@ -35,9 +35,7 @@ void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filenam
 void write_entry_or_extern_to_file(int row_num, char *symbol, char *filename) {
     FILE *pfile = NULL;
     char ic_as_string[IC_CHARS];
-
     pfile = fopen(filename, "a");
-
     /* fopen() return NULL if last operation was unsuccessful */
     if (pfile == NULL) {
         /* File not created hence exit */
@@ -74,6 +72,13 @@ void edit_existing_row_are(int row, int are) {
         fwrite(one_bit, 1, sizeof(one_bit), pfile);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
     } else if (are == 2) {
+        fseek(pfile, LSEEK_START_POS_AT_ROW, SEEK_CUR);
+        fwrite(one_bit, 1, sizeof(one_bit), pfile);
+        fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
+        fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
+    }
+    else if(are == 0)
+    {
         fseek(pfile, LSEEK_START_POS_AT_ROW, SEEK_CUR);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
@@ -129,7 +134,6 @@ void convert_bin_file_to_oct_file(InstructionCount *ic) {
     char *token;
     char sep;
     sep = '\t';
-
     pbfile = fopen(BIN_FILENAME, "r");
     pofile = fopen(OCT_FILENAME, "a");
 

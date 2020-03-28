@@ -47,6 +47,7 @@
 #define STOP "stop"
 #define STOP_NO 15
 #define UNKNOWN_COMMAND_NO -1
+#define COMMAND_END_FILE "end\n"
 
 /* Addressing method */
 #define INSTANT_ADDRESSING_NO 0
@@ -79,10 +80,10 @@
 
 
 /* Output */
-#define BIN_FILENAME "../binary_output.txt"
-#define ENTRY_FILENAME "../ps.ent"
-#define EXTERN_FILENAME "../ps.ext"
-#define OCT_FILENAME "../ps.ob"
+#define BIN_FILENAME "binary_output.txt"
+#define ENTRY_FILENAME "ps.ent"
+#define EXTERN_FILENAME "ps.ext"
+#define OCT_FILENAME "ps.ob"
 #define START_ROW_NUM 100
 #define PBC_COMMAND_LEN 17
 #define OCT_COMMAND_LEN 6

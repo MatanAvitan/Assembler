@@ -35,6 +35,16 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
         strcpy(arg, ppc->dst);
     }
 
+    if(ppc->args_num == 0)
+    {
+        none_operand(ppc->command, ppc,pbc);
+        ic->row = START_ROW_NUM + ic->ic + ic->dc;
+        write_command_to_file(ic, pbc, BIN_FILENAME);
+        ic->dc++;
+        ic->row = START_ROW_NUM + ic->dc + ic->ic;
+        return TRUE;
+    }
+
     /**Instant Address**/
     if (ppc->src_addressing_method == INSTANT_ADDRESSING_NO || ppc->dst_addressing_method == INSTANT_ADDRESSING_NO) {
         if (command_instant_address(ppc->command) == TRUE) {
@@ -180,6 +190,22 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
 
 
 /**auxiliary functions**/
+
+/*just for stop and rts*/
+void none_operand(char* command, ParsedCommand *ppc, BitsCommand *pbc)
+{
+    int are = 2;
+    assign_first_command(ppc, pbc, are);
+    pbc->b3 = 0;
+    pbc->b4 = 0;
+    pbc->b5 = 0;
+    pbc->b6 = 0;
+    pbc->b7 = 0;
+    pbc->b8 = 0;
+    pbc->b9 = 0;
+    pbc->b10 = 0;
+}
+
 
 int to_decimal(char *number) {
     int int_number;
