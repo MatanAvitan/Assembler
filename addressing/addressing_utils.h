@@ -38,6 +38,8 @@ void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, 
 void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, BitsCommand *pbc,
                                                         int are, int is_src_arg_direct_register_addr);
 
+int is_number(char *arg);
+
 int is_label(char *);
 
 

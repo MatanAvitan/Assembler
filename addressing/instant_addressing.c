@@ -11,7 +11,7 @@ void run_instant_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsComman
     if (ppc->args_num == 1) {
         if (ppc->dst_addressing_method == INSTANT_ADDRESSING_NO) {
             /**Second command**/
-            is_src_arg = 0;
+            is_src_arg = -1;
             assign_instant_command(ppc, pbc + 1, are, is_src_arg);
         }
     }
@@ -23,7 +23,8 @@ void run_instant_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsComman
 
             /**Third command**/
 
-            is_src_arg = 0;
+            /*is_src_arg = 0;*/
+            is_src_arg = -1;
             assign_direct_register_value_command(ppc, pbc + 2, are, is_src_arg);
 
             if (is_label(ppc->dst) == TRUE) {
@@ -37,7 +38,8 @@ void run_instant_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsComman
             assign_direct_register_value_command(ppc, pbc + 1, are, is_src_arg);
 
             /**Third command**/
-            is_src_arg = 0;
+            /*is_src_arg = 0;*/
+            is_src_arg = -1;
             assign_instant_command(ppc, pbc + 2, are, is_src_arg);
 
             if (is_label(ppc->src) == TRUE) {
