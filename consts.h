@@ -80,10 +80,10 @@
 
 
 /* Output */
-#define BIN_FILENAME "binary_output.txt"
-#define ENTRY_FILENAME "ps.ent"
-#define EXTERN_FILENAME "ps.ext"
-#define OCT_FILENAME "ps.ob"
+#define BIN_FILENAME "../binary_output.txt"
+#define ENTRY_FILENAME "../ps.ent"
+#define EXTERN_FILENAME "../ps.ext"
+#define OCT_FILENAME "../ps.ob"
 #define START_ROW_NUM 100
 #define PBC_COMMAND_LEN 17
 #define OCT_COMMAND_LEN 6
