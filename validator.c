@@ -200,12 +200,10 @@ int right_instruction_count_operand(int instruction_type, int members_num)
     }
 }
 
-
 /*The function gets the label and checks if it is valid and returs true if the label is valid and else false*/
-int valid_label(char label[])
+int valid_label(char* label)
 {
     int length = 0, i = 0;
-    /*TODO: check if the label donsent exsist - NULL?*/
     if(label != NULL)
     {
         /*65 to 72 ot 97 to 122*/
@@ -219,28 +217,20 @@ int valid_label(char label[])
                 printf(ERROR_LABEL_LENGTH);
                 return FALSE;
             }
-            /*if the last char isnt ':', like a label should end*/
-            else if(strcmp(label[length-1], ":") != 0)
+            /*if the label is with letters or digits*/
+            while (i != length)
             {
-                printf(ERROR_LABEL_LAST_CHAR);
-                return FALSE;
-            }
-            else
-            {
-                /*if the label is with letters or digits*/
-                while (i != length)
+                if((label[i] < CAPITAL_LETTER_START || label[i] > CAPITAL_LETTER_END) && 
+                    (label[i] < LOWER_CASE_LETTER_START || label[i] > LOWER_CASE_LETTER_END) &&
+                    (label[i] < DIGITS_START || label[i] > DIGITS_END))
                 {
-                    if((label[i] < CAPITAL_LETTER_START || label[i] > CAPITAL_LETTER_END) && 
-                        (label[i] < LOWER_CASE_LETTER_START || label[i] > LOWER_CASE_LETTER_END) &&
-                        (label[i] < DIGITS_START || label[i] > DIGITS_END))
-                    {
-                        printf(ERROR_LABEL_ILLEGAL_CHAR);
-                       return FALSE; 
-                    }
-                        
-                    i++;
+                    printf(ERROR_LABEL_ILLEGAL_CHAR);
+                   return FALSE; 
                 }
+                    
+                i++;
             }
+        
             return TRUE;
         }
         else
@@ -251,12 +241,8 @@ int valid_label(char label[])
         }
     }
     /*the label is null - there is not label*/
-    else
-    {
-        return TRUE;
-    }
+     return TRUE;
 }
-
 
 /*The function gets a char array and count the length*/
 int length_label (char array[])
