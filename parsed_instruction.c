@@ -19,7 +19,6 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
     char *token;
     char instruction[MAX_INSTRUCTION_LEN];
     LinkedList *node, *runner;
-
     ppi->members_num = 0;
     token = strtok(command, seps);
     if (token[0] == '.') {
@@ -69,10 +68,16 @@ void parse_instruction(char *command, ParsedInstruction *ppi) {
     } else if ((strcmp(instruction, ENTRY) == 0) || (strcmp(instruction, EXTERN) == 0)) {
         if (*token) {
             node = (LinkedList *) malloc(sizeof(LinkedList));
+
+            /*NEW*/
+            strcpy(ppi->label, token);
+
             strcpy(node->val_for_labels, token); /**Assign each char as int(ascii representation)**/
             node->next = NULL;
             ppi->list = *node;
             ppi->members_num += 1;
+
+            
         } else {
             /*todo: there is no label after entry*/
         }
