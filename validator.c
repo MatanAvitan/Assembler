@@ -268,7 +268,7 @@ int length_label (char array[])
 /*The function chekcs the right addressing members to every command and return false and true*/
 int right_addressing_method_to_command(char* command, int dst_method, int src_method)
 {
-    if((strcmp(command, MOV) == 0) || (strcmp(command, ADD)) || (strcmp(command, SUB)))
+   /* if((strcmp(command, MOV) == 0) || (strcmp(command, ADD)) || (strcmp(command, SUB)))
     {
         if(dst_method ==  INSTANT_ADDRESSING_NO)
         {
@@ -295,7 +295,7 @@ int right_addressing_method_to_command(char* command, int dst_method, int src_me
         (strcmp(command, DEC) == 0) || (strcmp(command, RED) == 0))
     {
         /*TODO: checks if -1*/
-        if(src_method != UNKNOWN_COMMAND_NO)
+       /* if(src_method != UNKNOWN_COMMAND_NO)
         {
             printf("%s %s %s\n", THE_COMMAND, command, ILLGAL_SRC_METHOD);
             return FALSE;
@@ -310,7 +310,7 @@ int right_addressing_method_to_command(char* command, int dst_method, int src_me
     if((strcmp(command, JMP) == 0) || (strcmp(command, BNE) == 0) || (strcmp(command, JSR) == 0))
     {
         /*TODO: checks if -1*/
-        if(src_method != UNKNOWN_COMMAND_NO)
+       /* if(src_method != UNKNOWN_COMMAND_NO)
         {
             printf("%s %s %s\n", THE_COMMAND, command, ILLGAL_SRC_METHOD);
             return FALSE;
@@ -320,8 +320,41 @@ int right_addressing_method_to_command(char* command, int dst_method, int src_me
             printf("%s %s\n", WORONG_DST_ADDRESSING_METHOD, command);
             return FALSE;  
         }
-    }
+    }*/
 }
 
 
+
+int right_count_operands_instruction(ParsedInstruction *ppi)
+{
+    char* instruction_name[MAX_INSTRUCTION_LEN] = {0};
+    if(ppi->instruction_type == DATA_NO)
+        strcpy(instruction_name, DATA);
+    else if(ppi->instruction_type == STRING_NO)
+        strcpy(instruction_name, STRING);
+    else if(ppi->instruction_type == ENTRY_NO)
+        strcpy(instruction_name, ENTRY);
+    else if(ppi->instruction_type == EXTERN_NO)
+        strcpy(instruction_name, EXTERN);
+
+    /*if the instruction has none operdans at all*/
+    if(ppi->members_num == 0)
+    {
+        printf("%s %s %s\n", THE_INSTRUCTION,instruction_name ,LESS_COUNT_OPERANDS_INSTRUCTION);
+        return FALSE;
+    }
+    /*TODO: .string - no more then 1*/
+    /*entry anf extern can have only one operand (one label)*/
+    /*if(ppi->instruction_type == EXTERN_NO || ppi->instruction_type == ENTRY_NO)
+    {
+        if(ppi->members_num > 1)
+        {
+            printf("%s %s %s\n", THE_INSTRUCTION,instruction_name ,MORE_COUNT_OPERANDS_INSTRUCTION);
+            return FALSE;
+        }
+    }*/
+
+
+    return TRUE;
+}
 
