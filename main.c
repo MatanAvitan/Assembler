@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "file_handler.h"
 #include "data_structures/instruction_counter.h"
+#include "validator.h"
 
 
 int main() {
@@ -33,7 +34,7 @@ int main() {
 
     /*NEW*/
     ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
-    /*strcpy(ppi->label, ppc->prefix);*/
+    strcpy(ppi->label, ppc->prefix);
     first_round = parse_instruction(copy_input, ppi);
     
     if(strcmp(ppc->command, TERMINATE) == 0)
@@ -121,6 +122,7 @@ int main() {
                 is_entry_or_extern = 0;
                 is_labeled_command = 1;
                 ic->row = backup_row;
+                first_round = valid_label(ppc->prefix);
                 add_symbol(&sl, ppc->prefix, ic, NULL, NULL, NULL,
                            is_entry_or_extern, is_labeled_command);
             }
