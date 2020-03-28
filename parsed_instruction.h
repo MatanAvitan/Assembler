@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include "consts.h"
 
+#define THE_INSTRUCTION "The instruction "
+#define IllEGAL_INSTRUCTION_NAME " is illegal"
+
+
 typedef struct LinkedList {
     int val;
     char val_for_labels[MAX_INSTRUCTION_LEN];

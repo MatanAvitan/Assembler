@@ -10,6 +10,8 @@
 
 #define THE_LABEL "ERROR! The label "
 #define NOT_DEFINED_LABEL " was never defined in the source code"
+#define DOUBLE_DETEMINATION_EXTERN_ENTRY " has double determination (entry and extern)"
+#define DOUBLE_DETEMINATION_LABEL " has double determination"
 
 typedef struct ReadingTwoList {
     char label_name[MAX_INSTRUCTION_LEN];

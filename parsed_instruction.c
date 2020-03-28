@@ -25,6 +25,11 @@ int parse_instruction(char *command, ParsedInstruction *ppi) {
     if (token[0] == '.') {
         strcpy(instruction, token + 1);
         ppi->instruction_type = get_instruction_type(instruction);
+        if(ppi->instruction_type == UNKNOWN_COMMAND_NO)
+        {
+            printf("%s %s %s\n", THE_INSTRUCTION,instruction, IllEGAL_INSTRUCTION_NAME);
+            return FALSE;
+        }
     }
     token = strtok(NULL, seps);
 
@@ -110,6 +115,10 @@ int parse_instruction(char *command, ParsedInstruction *ppi) {
             return FALSE;
         }
     }
+
+    if(valid_label(ppi->label) == FALSE)
+        return FALSE;
+
     return TRUE;
 }
 

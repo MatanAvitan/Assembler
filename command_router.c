@@ -28,6 +28,12 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
         return FALSE;
     }
 
+    /*right addressing method*/
+    if(right_addressing_method_to_command(ppc->command, ppc->dst_addressing_method, ppc->src_addressing_method) == FALSE)
+    {
+        return FALSE;
+    }
+
     strcpy(arg, ppc->src);
     if (ppc->args_num == 1) {
         /**just jmp or prn**/
