@@ -31,9 +31,8 @@ int main() {
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
     ppc = parse(copy_input, ppc);
 
-    /*NEW*/
     ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
-    /*strcpy(ppi->label, ppc->prefix);*/
+    strcpy(ppi->label, ppc->prefix);
     parse_instruction(copy_input, ppi);
     
     if(strcmp(ppc->command, TERMINATE) == 0)
