@@ -54,37 +54,32 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
     while (rtl_runner) {
         while (psl_runner) {
             if (strcmp(psl_runner->symbol, rtl_runner->label_name) == 0) {
-                
                 is_there_match = 1;
-
                 if (psl_runner->instruction_type == EXTERN_NO) {
                     are = 0; /**Extern**/
                 } else {
-                    are = 1; /**Relative**/
+                    are = 1; /**Relative to the current file**/
                 }
                 if (rtl_runner->ppi_instruction_type != ENTRY_NO && rtl_runner->ppi_instruction_type != EXTERN_NO) {
                     /**You shouldn't edit entry or extern command in the second running**/
                     edit_existing_row_are(rtl_runner->row_num, are);
                     edit_existing_row_label_address(rtl_runner->row_num, psl_runner->row_num);
                 }
-                if (/*rtl_runner->ppi_instruction_type == EXTERN_NO*/psl_runner->instruction_type == EXTERN_NO) {
+                if (rtl_runner->ppi_instruction_type == EXTERN_NO) {
                     write_entry_or_extern_to_file(rtl_runner->row_num, rtl_runner->label_name, EXTERN_FILENAME);
                     edit_existing_row_are(rtl_runner->row_num, are);
                     edit_existing_row_label_address(rtl_runner->row_num, 0);
                 }
+                if (rtl_runner->ppi_instruction_type == ENTRY_NO) {
+                    write_entry_or_extern_to_file(psl_runner->row_num, rtl_runner->label_name, ENTRY_FILENAME);
 
+                }
+                break;
             }
             if (psl_runner->next == NULL)break;
             psl_runner = psl_runner->next;
-
-
         }
-        if(rtl_runner->ppi_instruction_type == ENTRY_NO)
-        {
-                write_entry_or_extern_to_file(rtl_runner->row_num, rtl_runner->label_name, ENTRY_FILENAME);
-  
-        }
-        
+
         if (is_there_match == 0) {
             /**This label was never defined in the source code**/
             no_errors_function = FALSE;
@@ -92,7 +87,6 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
         }
         is_there_match = 0;
         psl_runner = *psl;
-        if (rtl_runner->next == NULL)break;
         rtl_runner = rtl_runner->next;
     }
 

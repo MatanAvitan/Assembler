@@ -13,7 +13,7 @@
 
 int main() {
     char command_input[MAX_LINE] = {0};
-    char copy_input[MAX_LINE] ={0};
+    char copy_input[MAX_LINE] = {0};
     InstructionCount *ic;
     ParsedCommand *ppc;
     ParsedInstruction *ppi;
@@ -26,8 +26,8 @@ int main() {
 
     read_command(command_input);
 
-    strcpy(copy_input,command_input);
-    
+    strcpy(copy_input, command_input);
+
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
     ppc = parse(copy_input, ppc);
 
@@ -35,86 +35,83 @@ int main() {
     ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
     /*strcpy(ppi->label, ppc->prefix);*/
     first_round = parse_instruction(copy_input, ppi);
-    
-    if(strcmp(ppc->command, TERMINATE) == 0)
-    {
+
+    if (strcmp(ppc->command, TERMINATE) == 0) {
         first_input = 0;
     }
 
     ic = (InstructionCount *) malloc(sizeof(InstructionCount));
     ic->row = START_ROW_NUM;
-    while (/*strcmp(ppc->command, COMMAND_END_FILE) != 0*/ strcmp(command_input, COMMAND_END_FILE) != 0) {
+    while (strcmp(command_input, COMMAND_END_FILE) != 0) {
         if (strcmp(ppc->command, TERMINATE) == 0) {
-            /*if (strlen(ppc->prefix) != 0 || starts_with_valid_instruction(command_input)) {*/
-                /**If the command parser failed to parse the command maybe it's an instruction sentence**/
-                if(first_input != 0)
-                {
-                    ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
-                    /**The command parser already caught the label**/
-                    strcpy(ppi->label, ppc->prefix);
-                    first_round = parse_instruction(command_input, ppi);
-                }
-                else
-                {
-                    first_input = -1;
-                }
-                if (ppi->members_num == 0) {
-                    /**Parsing error**/
-                    /**Fetch command**/
-                    read_command(command_input);
-                    continue;
-                } else {
-                    /**We have a valid instruction sentence command**/
-                    if (strlen(ppi->label) != 0) {
-                        if (strlen(ppi->list.val_for_labels) != 0) {
-                            is_entry_or_extern = 1;
-                        }
-                        is_labeled_command = 0;
-                        if (strlen(ppi->label) && (ppi->instruction_type == ENTRY_NO|| ppi->instruction_type == EXTERN_NO)) 
-                        {
-                            if(ppi->instruction_type == EXTERN_NO)
-                            {
-                                ic->row = START_ROW_NUM + ic->ic + ic->dc;
-                                add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val,ppi->list.val_for_labels,
-                                   is_entry_or_extern, is_labeled_command);
-                            }
-                            else
-                            {
-                               /**If it's an entry or extern label than just override the given label by the first given value**/
-                                ic->row = START_ROW_NUM + ic->ic + ic->dc;
-                                strcpy(ppi->label, ppi->list.val_for_labels);
-                                add_second_reading_line(&rtl, ppi->label, ppc, ppi, pbc, ic->row);
-                            }
-                        }
-                        if (ppi->instruction_type != ENTRY_NO && ppi->instruction_type != EXTERN_NO) 
-                        {
+            /**If the command parser failed to parse the command maybe it's an instruction sentence**/
+            if (first_input != 0) {
+                ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
+                /**The command parser already caught the label**/
+                strcpy(ppi->label, ppc->prefix);
+                first_round = parse_instruction(command_input, ppi);
+            } else {
+                first_input = -1;
+            }
+            if (ppi->members_num == 0) {
+                /**Parsing error**/
+                /**Fetch command**/
+                read_command(command_input);
+                continue;
+            } else {
+                /**We have a valid instruction sentence command**/
+                if (strlen(ppi->label) != 0) {
+                    if (strlen(ppi->list.val_for_labels) != 0) {
+                        is_entry_or_extern = 1;
+                    }
+                    is_labeled_command = 0;
+                    if (strlen(ppi->label) &&
+                        (ppi->instruction_type == ENTRY_NO || ppi->instruction_type == EXTERN_NO)) {
+                        if (ppi->instruction_type == EXTERN_NO) {
                             ic->row = START_ROW_NUM + ic->ic + ic->dc;
                             add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val,
                                        ppi->list.val_for_labels,
                                        is_entry_or_extern, is_labeled_command);
-
+                        } else {
+                            /**If it's an entry or extern label than just override the given label by the first given value**/
+                            ic->row = START_ROW_NUM + ic->ic + ic->dc;
+                            strcpy(ppi->label, ppi->list.val_for_labels);
+                            add_second_reading_line(&rtl, ppi->label, ppc, ppi, pbc, ic->row);
                         }
                     }
+                    if (strlen(ppi->label) &&
+                        (ppi->instruction_type != ENTRY_NO && ppi->instruction_type != EXTERN_NO)) {
+                        ic->row = START_ROW_NUM + ic->ic + ic->dc;
+                        add_symbol(&sl, ppi->label, ic, ppi->instruction_type, ppi->list.val,
+                                   ppi->list.val_for_labels,
+                                   is_entry_or_extern, is_labeled_command);
+
+                    }
                 }
-                    pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
-                    first_round = instruction_router(ic, ppi, pbc, first_round);
-                    /**Fetch command**/
-                    read_command(command_input);
-                    ppc = parse(command_input, ppc);
-                    free(ppi);
-                    free(pbc);
-                    continue;
+                /**Let's zero the label for this command in case that the next command will have not have label,
+                 * it cause a bug that the next command will be considered as command with this label.**/
+                strcpy(ppc->prefix, "");
+            }
+            pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
+            first_round = instruction_router(ic, ppi, pbc, first_round);
+
+            /**Fetch command**/
+            read_command(command_input);
+            ppc = parse(command_input, ppc);
+            free(ppi);  /**Free the previous instruction command**/
+            free(pbc);  /**Free the previous command bytes representation**/
+            continue;
             /*} else {
                 /**We got stop command**/
-               /* break;
-            }*/
-            
+            /* break;
+         }*/
+
         } else {
             /**Regular command**/
             pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * MAX_NUM_OF_TRANSLATION_COMMANDS);
             /**Run first time and assign all the declaration variables to three lists A, R, E.
              *Then call to the get_are(command) and pass the output to the command_router function.**/
-            backup_row = ic->row;
+            backup_row = START_ROW_NUM + ic->ic + ic->dc;
             are = 2;
             first_round = command_router(ic, ppc, pbc, are, &rtl, &sl, first_round);
             if (strlen(ppc->prefix)) {
@@ -141,7 +138,7 @@ int main() {
     } else {
         printf(FIRST_ROUND_FAILD);
     }
-    /*if there are errors - the program will not continue*/
+    /**If there are errors - the program will not continue**/
     if (ppc) {
         free(ppc);
     }

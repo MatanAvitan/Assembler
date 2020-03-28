@@ -13,22 +13,24 @@
 #define INVALID_COMMAND_INDIRECT " is invalid command for the following indirect registers"
 
 
-int command_router(InstructionCount *ic,ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl, SymbolsList **psl, int no_errors);
+int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl,
+                   SymbolsList **psl, int no_errors);
 
-int to_decimal(char *number);
 
 int compare_register(char *cmp);
 
 int command_instant_address(char *command);
 
-int command_direct_and_indirect_register_address(char* command);
+int command_direct_and_indirect_register_address(char *command);
 
-int command_indirect_register_address_dst_arg_only(char* command);
+int command_indirect_register_address_dst_arg_only(char *command);
 
-int command_direct_register_address(char* command);
+int command_direct_register_address(char *command);
 
-int command_direct_address_dst_arg_only(char* command);
+int command_direct_address_dst_arg_only(char *command);
 
 int compare_register(char *cmp);
+
+void none_operand(ParsedCommand *ppc, BitsCommand *pbc);
 
 #endif /*FINAL_PROJECT_COMMAND_ROUTER_H*/
