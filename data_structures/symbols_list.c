@@ -7,7 +7,15 @@ void add_symbol(SymbolsList **psl, char *symbol, InstructionCount *ic, int instr
         /**First allocation**/
         sl = (SymbolsList *) malloc(sizeof(SymbolsList));
         strcpy(sl->symbol, symbol);
-        sl->row_num = ic->row;
+        if(instruction_type != EXTERN_NO)
+        {
+          sl->row_num = ic->row;  
+        }
+        else
+        {
+            sl->row_num = 0;
+        }
+        
         sl->instruction_type = instruction_type;
         if (is_entry_or_extern) {
             strcpy(sl->first_value_for_entry_or_extern, first_value_for_entry_or_extern);
@@ -21,7 +29,14 @@ void add_symbol(SymbolsList **psl, char *symbol, InstructionCount *ic, int instr
         while (runner->next)runner = runner->next;
         node = (SymbolsList *) malloc(sizeof(SymbolsList));
         strcpy(node->symbol, symbol);
-        node->row_num = ic->row;
+        if(instruction_type != EXTERN_NO)
+        {
+            node->row_num = ic->row;
+        }
+        else
+        {
+            node->row_num = 0;
+        }  
         node->instruction_type = instruction_type;
         if (is_entry_or_extern) {
             strcpy(node->first_value_for_entry_or_extern, first_value_for_entry_or_extern);

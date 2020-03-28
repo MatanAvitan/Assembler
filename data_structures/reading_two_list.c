@@ -51,11 +51,10 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
     int is_there_match = 0;
     int are;
     int no_errors_function = TRUE;
-
     while (rtl_runner) {
         while (psl_runner) {
             if (strcmp(psl_runner->symbol, rtl_runner->label_name) == 0) {
-                /**The label was used and actually defined**/
+                
                 is_there_match = 1;
 
                 if (psl_runner->instruction_type == EXTERN_NO) {
@@ -68,19 +67,24 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
                     edit_existing_row_are(rtl_runner->row_num, are);
                     edit_existing_row_label_address(rtl_runner->row_num, psl_runner->row_num);
                 }
-                if (rtl_runner->ppi_instruction_type == ENTRY_NO) {
-                    write_entry_or_extern_to_file(psl_runner->row_num, rtl_runner->label_name, ENTRY_FILENAME);
-                    ic->ic++;
-                    ic->row = START_ROW_NUM + ic->ic + ic->dc;
-                } else if (rtl_runner->ppi_instruction_type == EXTERN_NO) {
-                    write_entry_or_extern_to_file(psl_runner->row_num, rtl_runner->label_name, EXTERN_FILENAME);
-                    ic->ic++;
-                    ic->row = START_ROW_NUM + ic->ic + ic->dc;
+                if (/*rtl_runner->ppi_instruction_type == EXTERN_NO*/psl_runner->instruction_type == EXTERN_NO) {
+                    write_entry_or_extern_to_file(rtl_runner->row_num, rtl_runner->label_name, EXTERN_FILENAME);
+                    edit_existing_row_are(rtl_runner->row_num, are);
+                    edit_existing_row_label_address(rtl_runner->row_num, 0);
                 }
+
             }
             if (psl_runner->next == NULL)break;
             psl_runner = psl_runner->next;
+
+
         }
+        if(rtl_runner->ppi_instruction_type == ENTRY_NO)
+        {
+                write_entry_or_extern_to_file(rtl_runner->row_num, rtl_runner->label_name, ENTRY_FILENAME);
+  
+        }
+        
         if (is_there_match == 0) {
             /**This label was never defined in the source code**/
             no_errors_function = FALSE;
