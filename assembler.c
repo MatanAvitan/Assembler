@@ -154,9 +154,12 @@ void run_flow(FILE *pfile, char *filename) {
 
 int main(int argc, char **argv) {
     FILE *pfile;
+    char reading_file[MAX_LINE];
     int i = 1;
     for (; i < argc; i++) {
-        pfile = fopen(argv[i], "r+");
+        strcpy(reading_file, argv[i]);
+        strcat(reading_file, INPUT_FILE_EXTENSION);
+        pfile = fopen(reading_file, "r+");
         run_flow(pfile, argv[i]);
         fclose(pfile);
     }
