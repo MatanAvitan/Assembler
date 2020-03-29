@@ -1,6 +1,7 @@
 #include "assembler.h"
 
 void run_flow(FILE *pfile, char *filename) {
+    char zeroed_command[MAX_LINE] = {0};
     char command_input[MAX_LINE] = {0};
     InstructionCount *ic;
     ParsedCommand *ppc;
@@ -15,12 +16,17 @@ void run_flow(FILE *pfile, char *filename) {
     ic->row = START_ROW_NUM;
 
     do {
+        strcpy(command_input, zeroed_command);
         read_command(pfile, command_input);
         /**Allow ; and \n as a comment**/
         while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
+            strcpy(command_input, zeroed_command);
             read_command(pfile, command_input);
-            /**Achieved end of file**/
-            if (feof(pfile))break;
+        }
+        if (command_input[0] == NULL) {
+            /**We achieved EOF after looping the the above while,
+             * So we need to break out**/
+            break;
         }
         ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
         parse(command_input, ppc);
@@ -34,8 +40,6 @@ void run_flow(FILE *pfile, char *filename) {
                 /**Parsing error**/
                 /**Fetch command**/
                 read_command(pfile, command_input);
-                /**Achieved end of file**/
-                if (feof(pfile))break;
                 /**Allow ; and \n as a comment**/
                 while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
                     read_command(pfile, command_input);
@@ -75,15 +79,13 @@ void run_flow(FILE *pfile, char *filename) {
                 }
                 /**Let's zero the label for this command in case that the next command will have not have label,
                  * it cause a bug that the next command will be considered as command with this label.**/
-                strcpy(ppc->prefix, "");
+                strcpy(ppc->prefix, zeroed_command);
             }
             pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
             first_round = instruction_router(filename, ic, ppi, pbc, first_round);
 
 
             free(ppi);  /**Free the previous instruction command**/
-
-            continue;
         } else {
             /**Regular command**/
             pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * MAX_NUM_OF_TRANSLATION_COMMANDS);
