@@ -1,6 +1,4 @@
 #include "../file_handler.h"
-#include "reading_two_list.h"
-
 
 
 void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, ParsedInstruction *ppi,
@@ -53,15 +51,6 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
     int is_there_match = 0;
     int are;
     int no_errors_function = TRUE;
-
-    if(double_defined_label(rtl) == FALSE)
-        return FALSE;
-
-    if(double_defined_entry_extern(psl,rtl) == FALSE)
-        return FALSE;
-
-    
-
     while (rtl_runner) {
         while (psl_runner) {
             if (strcmp(psl_runner->symbol, rtl_runner->label_name) == 0) {
@@ -105,58 +94,4 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
         return TRUE;
     }
     return FALSE;
-}
-
-/*The function chekcs if the label was double detemination of extern and entry*/
-int double_defined_entry_extern (SymbolsList **psl, ReadingTwoList **rtl)
-{
-    SymbolsList *psl_runner;
-    ReadingTwoList *rtl_runner;
-    psl_runner = *psl;
-    rtl_runner = *rtl; 
-    while(rtl_runner)
-    {
-        while(psl_runner)
-        {
-           if (strcmp(psl_runner->symbol, rtl_runner->label_name) == 0)
-                if(psl_runner->instruction_type == EXTERN_NO && rtl_runner->ppi_instruction_type == ENTRY_NO)
-                {
-                    printf("%s %s %s\n", THE_LABEL, rtl_runner->label_name, DOUBLE_DETEMINATION_EXTERN_ENTRY);
-                    return FALSE;
-                }
-            if (psl_runner->next == NULL)break;
-            psl_runner = psl_runner->next;
-        }
-        if (rtl_runner->next == NULL)break;
-        rtl_runner = rtl_runner->next;
-    }
-}
-
-/*The function chekcs if the label was double detemination*/
-int double_defined_label(ReadingTwoList **rtl)
-{
-     ReadingTwoList *rtl_runner_one, *rtl_runner_second;
-     rtl_runner_one = *rtl;
-     rtl_runner_second = rtl_runner_one;
-
-     while(rtl_runner_one)
-     {
-        while(rtl_runner_second)
-        {
-            if (strcmp(rtl_runner_one->label_name, rtl_runner_second->label_name) == 0)
-                if(rtl_runner_one->ppi_instruction_type != ENTRY_NO && rtl_runner_second->ppi_instruction_type != ENTRY_NO)
-                {
-                    printf("%s %s %s\n", THE_LABEL, rtl_runner_one->label_name, DOUBLE_DETEMINATION_LABEL);
-                    return FALSE;
-                }
-
-            if(rtl_runner_second->next == NULL) break;
-            rtl_runner_second = rtl_runner_second->next;
-        }
-        if(rtl_runner_one->next == NULL)break;
-        rtl_runner_one = rtl_runner_one->next;
-     }
-
-     return TRUE;
-
 }

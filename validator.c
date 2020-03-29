@@ -129,7 +129,7 @@ int validate_commas(char *command) {
 /*we assume the command is right and alreday checked*/
 int right_count_operands(char* command, int args_num)
 {
-    if((strcmp(command, MOV) == 0) || strcmp(command, CMP) == 0 || strcmp(command, ADD) == 0 
+    if((strcmp(command, MOV) == 0) || strcmp(command, CMP) == 0 || strcmp(command, ADD) == 0
         || strcmp(command, SUB) == 0 || strcmp(command, LEA) == 0)
     {
         /*command need 2 operand*/
@@ -142,7 +142,7 @@ int right_count_operands(char* command, int args_num)
     else if(strcmp(command, CLR) == 0 || strcmp(command, NOT) == 0 ||
             strcmp(command, INC) == 0 || strcmp(command, DEC) == 0 ||
             strcmp(command, JMP) == 0 || strcmp(command, BNE) == 0 ||
-            strcmp(command, RED) == 0 || strcmp(command, PRN) == 0 || 
+            strcmp(command, RED) == 0 || strcmp(command, PRN) == 0 ||
             strcmp(command, JSR) == 0)
     {
         /*command need 1 operand*/
@@ -169,11 +169,11 @@ int right_count_operands(char* command, int args_num)
 /*The function gets a command and returns true if the command is valid and else returns false*/
 int valid_command_name(char* command)
 {
-    if(strcmp(command, MOV) == 0 || strcmp(command, CMP) == 0 || strcmp(command, ADD) == 0 
-        || strcmp(command, SUB) == 0 || strcmp(command, LEA) == 0 || strcmp(command, CLR) == 0 
-        || strcmp(command, NOT) == 0 || strcmp(command, INC) == 0 || strcmp(command, DEC) == 0 
+    if(strcmp(command, MOV) == 0 || strcmp(command, CMP) == 0 || strcmp(command, ADD) == 0
+        || strcmp(command, SUB) == 0 || strcmp(command, LEA) == 0 || strcmp(command, CLR) == 0
+        || strcmp(command, NOT) == 0 || strcmp(command, INC) == 0 || strcmp(command, DEC) == 0
         || strcmp(command, JMP) == 0 || strcmp(command, BNE) == 0 || strcmp(command, RED) == 0
-        || strcmp(command, PRN) == 0 || strcmp(command, JSR) == 0 || strcmp(command, RTS) == 0 
+        || strcmp(command, PRN) == 0 || strcmp(command, JSR) == 0 || strcmp(command, RTS) == 0
         || strcmp(command, STOP) == 0)
         return TRUE;
     printf("%s %s %s\n", THE_COMMAND, command, INVALID_COMMAND);
@@ -185,11 +185,11 @@ int right_instruction_count_operand(int instruction_type, int members_num)
 {
    /*TODO: string - we need to check that there is only one string, one "".*/
 
-   if(instruction_type == ENTRY_NO || instruction_type  == EXTERN_NO) 
+   if(instruction_type == ENTRY_NO || instruction_type  == EXTERN_NO)
    {
         /*need 1 parameter*/
         if(members_num == 1)
-            return TRUE; 
+            return TRUE;
         return FALSE;
    }
    else if(instruction_type == DATA_NO || instruction_type == STRING_NO)
@@ -210,7 +210,7 @@ int valid_label(char* label)
         if((label[0] >= CAPITAL_LETTER_START && label[0] <= CAPITAL_LETTER_END) || (label[0] >= LOWER_CASE_LETTER_START || label[0] <= LOWER_CASE_LETTER_END))
         {
             length = length_label(label);
-           
+
             /*if the label is too long*/
             if(length > 31)
             {
@@ -220,17 +220,17 @@ int valid_label(char* label)
             /*if the label is with letters or digits*/
             while (i != length)
             {
-                if((label[i] < CAPITAL_LETTER_START || label[i] > CAPITAL_LETTER_END) && 
+                if((label[i] < CAPITAL_LETTER_START || label[i] > CAPITAL_LETTER_END) &&
                     (label[i] < LOWER_CASE_LETTER_START || label[i] > LOWER_CASE_LETTER_END) &&
                     (label[i] < DIGITS_START || label[i] > DIGITS_END))
                 {
                     printf(ERROR_LABEL_ILLEGAL_CHAR);
-                   return FALSE; 
+                   return FALSE;
                 }
-                    
+
                 i++;
             }
-        
+
             return TRUE;
         }
         else
@@ -287,7 +287,7 @@ int right_addressing_method_to_command(char* command, int dst_method, int src_me
         if(dst_method == INSTANT_ADDRESSING_NO)
         {
             printf("%s %s\n", WORONG_DST_ADDRESSING_METHOD, command);
-            return FALSE; 
+            return FALSE;
         }
     }
 
@@ -303,7 +303,7 @@ int right_addressing_method_to_command(char* command, int dst_method, int src_me
         if(dst_method == INSTANT_ADDRESSING_NO)
         {
             printf("%s %s\n", WORONG_DST_ADDRESSING_METHOD, command);
-            return FALSE;  
+            return FALSE;
         }
     }
 
@@ -318,43 +318,7 @@ int right_addressing_method_to_command(char* command, int dst_method, int src_me
         if(dst_method == INSTANT_ADDRESSING_NO || dst_method == DIRECT_REGISTER_ADDRESSING_NO)
         {
             printf("%s %s\n", WORONG_DST_ADDRESSING_METHOD, command);
-            return FALSE;  
-        }
-    }*/
-}
-
-
-
-int right_count_operands_instruction(ParsedInstruction *ppi)
-{
-    char* instruction_name[MAX_INSTRUCTION_LEN] = {0};
-    if(ppi->instruction_type == DATA_NO)
-        strcpy(instruction_name, DATA);
-    else if(ppi->instruction_type == STRING_NO)
-        strcpy(instruction_name, STRING);
-    else if(ppi->instruction_type == ENTRY_NO)
-        strcpy(instruction_name, ENTRY);
-    else if(ppi->instruction_type == EXTERN_NO)
-        strcpy(instruction_name, EXTERN);
-
-    /*if the instruction has none operdans at all*/
-    if(ppi->members_num == 0)
-    {
-        printf("%s %s %s\n", THE_INSTRUCTION,instruction_name ,LESS_COUNT_OPERANDS_INSTRUCTION);
-        return FALSE;
-    }
-    /*TODO: .string - no more then 1*/
-    /*entry anf extern can have only one operand (one label)*/
-    /*if(ppi->instruction_type == EXTERN_NO || ppi->instruction_type == ENTRY_NO)
-    {
-        if(ppi->members_num > 1)
-        {
-            printf("%s %s %s\n", THE_INSTRUCTION,instruction_name ,MORE_COUNT_OPERANDS_INSTRUCTION);
             return FALSE;
         }
     }*/
-
-
-    return TRUE;
 }
-
