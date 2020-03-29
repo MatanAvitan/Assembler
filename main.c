@@ -26,13 +26,15 @@ int main() {
     int are, is_entry_or_extern = 0, is_labeled_command = 0, backup_row;
 
     read_command(command_input);
-
+    /**Allow ; and \n as a comment**/
+    while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
+        read_command(command_input);
+    }
     strcpy(copy_input, command_input);
 
     ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
     ppc = parse(copy_input, ppc);
 
-    /*NEW*/
     ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
     strcpy(ppi->label, ppc->prefix);
     first_round = parse_instruction(copy_input, ppi);
@@ -58,6 +60,10 @@ int main() {
                 /**Parsing error**/
                 /**Fetch command**/
                 read_command(command_input);
+                /**Allow ; and \n as a comment**/
+                while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
+                    read_command(command_input);
+                }
                 continue;
             } else {
                 /**We have a valid instruction sentence command**/
@@ -98,6 +104,10 @@ int main() {
 
             /**Fetch command**/
             read_command(command_input);
+            /**Allow ; and \n as a comment**/
+            while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
+                read_command(command_input);
+            }
             ppc = parse(command_input, ppc);
             free(ppi);  /**Free the previous instruction command**/
             free(pbc);  /**Free the previous command bytes representation**/
@@ -123,7 +133,12 @@ int main() {
                 add_symbol(&sl, ppc->prefix, ic, NULL, NULL, NULL,
                            is_entry_or_extern, is_labeled_command);
             }
+            /**Fetch command**/
             read_command(command_input);
+            /**Allow ; and \n as a comment**/
+            while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
+                read_command(command_input);
+            }
             ppc = parse(command_input, ppc);
         }
 

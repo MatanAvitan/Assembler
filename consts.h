@@ -77,6 +77,7 @@
 #define TERMINATE "terminate"
 #define NEW_LINE "\n"
 #define NEW_LINE_AS_CHAR '\n'
+#define COMMENT_MARK_CHAT ';'
 
 
 /* Output */
