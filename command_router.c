@@ -18,19 +18,19 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
     /**integity checks**/
 
     /*valid command name*/
-    if (valid_command_name(ppc->command) == FALSE) {
+    if (valid_command_name(ppc->command,ic->row) == FALSE) {
         no_error_function = FALSE;
         return FALSE;
     }
 
     /*right count operands*/
-    if (right_count_operands(ppc->command, ppc->args_num) == FALSE) {
+    if (right_count_operands(ppc->command, ppc->args_num,ic->row) == FALSE) {
         no_error_function = FALSE;
         return FALSE;
     }
 
     /*right addressing method*/
-    if (right_addressing_method_to_command(ppc->command, ppc->dst_addressing_method, ppc->src_addressing_method) ==
+    if (right_addressing_method_to_command(ppc->command, ppc->dst_addressing_method, ppc->src_addressing_method,ic->row) ==
         FALSE) {
         return FALSE;
     }
