@@ -41,6 +41,7 @@ int to_opcode(char *command) {
     return opcode;
 }
 
+/*The function gets the opcode and insert the bit into the pbc*/
 void opcode_binary_to_bits(BitsCommand *pbc, char opcode_binary[]) {
     pbc->b11 = opcode_binary[MAX_BITS - 1];
     pbc->b12 = opcode_binary[MAX_BITS - 2];
@@ -48,6 +49,7 @@ void opcode_binary_to_bits(BitsCommand *pbc, char opcode_binary[]) {
     pbc->b14 = opcode_binary[MAX_BITS - 4];
 }
 
+/*The function convert the opcode to binary number and insert it into the bits*/
 void assign_command_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     int opcode;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -61,6 +63,7 @@ void assign_command_bits(ParsedCommand *ppc, BitsCommand *pbc) {
 
 }
 
+/*The function turn on src bits (7-10 bits)*/
 void assign_src_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     switch (ppc->src_addressing_method) {
         case INSTANT_ADDRESSING_NO:
