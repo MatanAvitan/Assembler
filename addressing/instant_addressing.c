@@ -1,8 +1,9 @@
 #include "instant_addressing.h"
 
-/*The function translating the command to bits by instant addressing method*/
+
 void run_instant_addressing(char *filename, InstructionCount *ic,
                             ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
+    /**The function translating the command to bits by instant addressing method**/
 
     /**In both addressing methods the are is 1**/
     int is_src_arg = 0, i = 0;

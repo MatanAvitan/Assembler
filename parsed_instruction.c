@@ -120,7 +120,6 @@ int parse_instruction(InstructionCount *ic, char *command, ParsedInstruction *pp
 
 
         } else {
-            /*todo: there is no label after entry*/
             return FALSE;
         }
     }
@@ -133,6 +132,7 @@ int parse_instruction(InstructionCount *ic, char *command, ParsedInstruction *pp
 
 
 int starts_with_valid_instruction(char *str) {
+    /**Check whether the given string starts with one of the following instructions**/
     return (starts_with(DOT_DATA, str) ||
             starts_with(DOT_STRING, str) ||
             starts_with(DOT_ENTRY, str) ||

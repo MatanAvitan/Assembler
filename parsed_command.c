@@ -12,6 +12,8 @@ ParsedCommand *get_error_parser(ParsedCommand *ppc) {
 }
 
 ParsedCommand *parse(char *command, ParsedCommand *ppc) {
+    /**Parse the given input to a predefined struct called ppc.
+     * the ppc has the important extracted information from the given command**/
     char seps[] = ":";
     char coma_and_space_seps[] = ", ";
     char space_sep = ' ';
@@ -28,12 +30,12 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
     strcpy(prefix, token);
     token = strtok(NULL, seps);
 
-    /*If the second token is not null then the : separator separates between the label and the rest of the command
-     *else the second argument just be null*/
+    /**If the second token is not null then the : separator separates between the label and the rest of the command
+     *else the second argument just be null**/
     if (token) {
         strcpy(command_without_prefix, token);
         strcpy(ppc->prefix, prefix);
-        /*Remove unneeded spaces */
+        /**Remove unneeded spaces **/
         strcpy(command, command_without_prefix);
         /**This is an instruction sentence because there is a label**/
         token = strtok(command_without_prefix, &space_sep);
@@ -45,9 +47,6 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
         return get_error_parser(ppc);
     }
     command += n;
-    /*if (!validate_commas(command)) {
-        return get_error_parser(ppc);
-    }*/
     src_token = strtok(command, coma_and_space_seps);
     if (src_token) /**If there is no first arg than src_token is null**/
     {
@@ -101,7 +100,7 @@ ParsedCommand *parse(char *command, ParsedCommand *ppc) {
         ppc->args_num += 1;
     }
 
-    /*If there is only one args than we assigned the dst to the src so we need to swap between them*/
+    /**If there is only one args than we assigned the dst to the src so we need to swap between them**/
     if (ppc->args_num == 1) {
         strcpy(ppc->dst, ppc->src);
         ppc->dst_addressing_method = ppc->src_addressing_method;

@@ -1,8 +1,10 @@
 #include "direct_register_addressing.h"
 
-/*The function translating the command to bits by direct register addressing method*/
+
 void run_direct_register_addressing(char *filename, InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are,
                                     ReadingTwoList **rtl) {
+    /**The function translating the command to bits by direct register addressing method**/
+
     int is_src_arg = 0, i = 0;
     int num_of_command = 2; /**If there is no label the number of output command is 2**/
 
@@ -30,7 +32,6 @@ void run_direct_register_addressing(char *filename, InstructionCount *ic, Parsed
         } else if (ppc->src_addressing_method == DIRECT_REGISTER_ADDRESSING_NO &&
                    ppc->dst_addressing_method == DIRECT_ADDRESSING_NO) {
             /**The src arg is direct register and the dst arg is unknown**/
-            /*if(is_number())*/
             is_src_arg = 1;
             assign_direct_and_indirect_register_number_command(ppc, pbc + 1, are, is_src_arg);
 

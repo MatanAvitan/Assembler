@@ -2,6 +2,8 @@
 
 void add_symbol(SymbolsList **psl, char *symbol, InstructionCount *ic, int instruction_type, int first_value,
                 char *first_value_for_entry_or_extern, int is_entry_or_extern, int is_labeled_command) {
+    /**Add symbol to the symbol list for validating in the second reading of the binary file**/
+
     SymbolsList *sl, *node, *runner;
     if (!*psl) {
         /**First allocation**/
@@ -45,27 +47,5 @@ void add_symbol(SymbolsList **psl, char *symbol, InstructionCount *ic, int instr
         node->is_labeled_command = is_labeled_command;
         node->next = NULL;
         runner->next = node;
-    }
-}
-
-
-/*TODO: add this function to the second reading function to check all the symbol before checking the labels that mentioned in the file*/
-/*just for entry or extern*/
-/*The function gets a symbols_list head, the name of the symbol and instruction_type*/
-int is_already_defined(SymbolsList **psl, char *symbol, int instruction_type) {
-    SymbolsList *runner;
-    if (!*psl) return TRUE;
-    else {
-        runner = *psl;
-        while (runner->next) {
-            /*if the label is alreday defined*/
-            if (strcmp(symbol, runner->symbol) == 0)
-                if (instruction_type != runner->instruction_type) {
-                    printf("ERROR! label alreday defined\n");
-                    return FALSE;
-                }
-            runner = runner->next;
-        }
-        return TRUE;
     }
 }

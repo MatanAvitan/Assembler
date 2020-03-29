@@ -23,6 +23,9 @@ void assign_arg_to_all_bits(BitsCommand *pbc, char *binary_arg) {
 
 
 int instruction_router(char *filename, InstructionCount *ic, ParsedInstruction *ppi, BitsCommand *pbc, int no_errors) {
+    /**Router for the instruction command,
+     * routes between the predefined instruction: data, string, entry and extern**/
+
     int i = 0;
     int no_error_function = TRUE;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

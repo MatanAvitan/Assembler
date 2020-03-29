@@ -9,6 +9,8 @@
 
 
 void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filename) {
+    /**The function writes the given command to the binary file*/
+
     char pcommand[PBC_COMMAND_LEN], bin_filename[MAX_LINE];
     char ic_as_string[IC_CHARS];
     FILE *pfile = NULL;
@@ -36,6 +38,8 @@ void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filenam
 }
 
 void write_entry_or_extern_to_file(int row_num, char *symbol, char *filename) {
+    /**The function write the entry and extern values to the relevan files*/
+
     FILE *pfile = NULL;
     char ic_as_string[IC_CHARS];
     pfile = fopen(filename, "a");
@@ -57,6 +61,8 @@ void write_entry_or_extern_to_file(int row_num, char *symbol, char *filename) {
 }
 
 void edit_existing_row_are(char *filename, int row, int are) {
+    /**The function changes the relevant are bits in the second reading of the binary file*/
+
     FILE *pfile;
     char buffer[MAX_LINE];
     char zero_bit[1], one_bit[1];
@@ -94,6 +100,8 @@ void edit_existing_row_are(char *filename, int row, int are) {
 }
 
 void edit_existing_row_label_address(char *filename, int row_num, int adress_of_label) {
+    /**The function changes the relevant address bits in the second reading of the binary file*/
+
     char binary_label_address[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     if (dec_to_binary(adress_of_label, MAX_BITS, binary_label_address)) {
@@ -104,6 +112,8 @@ void edit_existing_row_label_address(char *filename, int row_num, int adress_of_
 }
 
 void change_bits_second_reading(char *filename, int row, char *binary_label_address) {
+    /**The function changes the relevant values bits in the second reading of the binary file*/
+
     FILE *pfile;
     int i = 0;
     char buffer[MAX_LINE], bin_filename[MAX_LINE];
@@ -132,8 +142,9 @@ void change_bits_second_reading(char *filename, int row, char *binary_label_addr
 }
 
 
-/**The function reads the binary base file and converts it to oct base file**/
 void convert_bin_file_to_oct_file(char *filename, InstructionCount *ic) {
+    /**The function reads the binary base file and converts it to oct base file**/
+
     FILE *pbfile = NULL;
     FILE *pofile = NULL;
     char buffer[MAX_LINE];

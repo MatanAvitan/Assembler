@@ -63,8 +63,6 @@ int command_router(char *filename, InstructionCount *ic, ParsedCommand *ppc, Bit
     }
 
     /**direct address**/
-    /*TODO: we need to check if the label is already or will defined*/
-    /*right command for direct address*/
     if (command_direct_and_indirect_register_address(ppc->command) == TRUE) {
         if (ppc->args_num == 1) {
             if (compare_register(ppc->dst) == FALSE) {
@@ -196,11 +194,10 @@ int command_router(char *filename, InstructionCount *ic, ParsedCommand *ppc, Bit
     return FALSE;
 }
 
-
 /**auxiliary functions**/
 
-/*just for stop and rts*/
 void none_operand(ParsedCommand *ppc, BitsCommand *pbc) {
+    /**just for stop and rts**/
     int are = 2;
     assign_first_command(ppc, pbc, are);
     pbc->b3 = 0;
@@ -215,6 +212,7 @@ void none_operand(ParsedCommand *ppc, BitsCommand *pbc) {
 
 
 int compare_register(char *cmp) {
+    /**Is the arg one of the following registers**/
     if (((strcmp(cmp, R0)) == 0) || ((strcmp(cmp, R1)) == 0) || ((strcmp(cmp, R2)) == 0) || ((strcmp(cmp, R3)) == 0) ||
         ((strcmp(cmp, R4)) == 0) || ((strcmp(cmp, R5)) == 0) || ((strcmp(cmp, R6)) == 0) ||
         ((strcmp(cmp, R7)) == 0))
@@ -223,6 +221,7 @@ int compare_register(char *cmp) {
 }
 
 int command_instant_address(char *command) {
+    /**Is the arg one of the following commands**/
     if ((strcmp(command, MOV)) == 0 || (strcmp(command, CMP)) == 0 || (strcmp(command, ADD)) == 0
         || (strcmp(command, SUB)) == 0 || (strcmp(command, PRN)) == 0)
         return TRUE;
@@ -230,6 +229,7 @@ int command_instant_address(char *command) {
 }
 
 int command_direct_and_indirect_register_address(char *command) {
+    /**Is the arg one of the following direct and indirect registers**/
     if (((strcmp(command, MOV)) == 0) || ((strcmp(command, CMP)) == 0) || ((strcmp(command, ADD)) == 0) ||
         ((strcmp(command, SUB)) == 0) || ((strcmp(command, LEA)) == 0) || ((strcmp(command, CLR)) == 0) ||
         ((strcmp(command, NOT)) == 0) || ((strcmp(command, INC)) == 0) || ((strcmp(command, DEC)) == 0) ||
@@ -240,6 +240,8 @@ int command_direct_and_indirect_register_address(char *command) {
 }
 
 int command_indirect_register_address_dst_arg_only(char *command) {
+    /**Is the arg one of the following registers as a single arg that represents the dst arg
+     * for indirect register address**/
     if (((strcmp(command, CLR)) == 0) || ((strcmp(command, LEA)) == 0) ||
         ((strcmp(command, NOT)) == 0) || ((strcmp(command, INC)) == 0) || ((strcmp(command, DEC)) == 0) ||
         ((strcmp(command, JMP)) == 0) || ((strcmp(command, BNE)) == 0) || ((strcmp(command, RED)) == 0) ||
@@ -249,6 +251,7 @@ int command_indirect_register_address_dst_arg_only(char *command) {
 }
 
 int command_direct_register_address(char *command) {
+    /**Is the arg one of the following registers**/
     if (((strcmp(command, MOV)) == 0) || ((strcmp(command, CMP)) == 0) || ((strcmp(command, ADD)) == 0) ||
         ((strcmp(command, SUB)) == 0) || ((strcmp(command, LEA)) == 0) || ((strcmp(command, CLR)) == 0) ||
         ((strcmp(command, NOT)) == 0) || ((strcmp(command, INC)) == 0) || ((strcmp(command, DEC)) == 0) ||
@@ -258,6 +261,7 @@ int command_direct_register_address(char *command) {
 }
 
 int command_direct_address_dst_arg_only(char *command) {
+    /**Is the arg one of the following registers as a single arg that represents the dst arg for direct address**/
     if (((strcmp(command, CLR)) == 0) ||
         ((strcmp(command, NOT)) == 0) || ((strcmp(command, INC)) == 0) || ((strcmp(command, DEC)) == 0) ||
         ((strcmp(command, JMP)) == 0) || ((strcmp(command, BNE)) == 0) || ((strcmp(command, RED)) == 0) ||

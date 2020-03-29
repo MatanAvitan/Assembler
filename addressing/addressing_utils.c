@@ -1,7 +1,8 @@
 #include "addressing_utils.h"
 
-/*The function gets a command and returns the right opcode*/
+
 int to_opcode(char *command) {
+    /**The function gets a command and returns the right opcode**/
 
     /**Default value**/
     int opcode = UNKNOWN_COMMAND_NO;
@@ -41,16 +42,18 @@ int to_opcode(char *command) {
     return opcode;
 }
 
-/*The function gets the opcode and insert the bit into the pbc*/
+
 void opcode_binary_to_bits(BitsCommand *pbc, char opcode_binary[]) {
+    /**The function gets the opcode and insert the bit into the pbc**/
     pbc->b11 = opcode_binary[MAX_BITS - 1];
     pbc->b12 = opcode_binary[MAX_BITS - 2];
     pbc->b13 = opcode_binary[MAX_BITS - 3];
     pbc->b14 = opcode_binary[MAX_BITS - 4];
 }
 
-/*The function convert the opcode to binary number and insert it into the bits*/
+
 void assign_command_bits(ParsedCommand *ppc, BitsCommand *pbc) {
+    /**The function convert the opcode to binary number and insert it into the bits**/
     int opcode;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     opcode = to_opcode(ppc->command);
@@ -63,8 +66,10 @@ void assign_command_bits(ParsedCommand *ppc, BitsCommand *pbc) {
 
 }
 
-/*The function turn on src bits (7-10 bits)*/
+
 void assign_src_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
+    /**The function turns on src bits (7-10 bits)**/
+
     switch (ppc->src_addressing_method) {
         case INSTANT_ADDRESSING_NO:
             pbc->b7 = 1;
@@ -84,8 +89,10 @@ void assign_src_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     }
 }
 
-/*The function turn on dst bits (3-6 bits)*/
+
 void assign_dst_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
+    /**The function turn on dst bits (3-6 bits)**/
+
     switch (ppc->dst_addressing_method) {
         case INSTANT_ADDRESSING_NO:
             pbc->b3 = 1;
@@ -105,8 +112,9 @@ void assign_dst_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     }
 }
 
-/*The function gets the ARE bit (0-2) and turn on the desirable bit*/
+
 void assign_are_bits(BitsCommand *pbc, int are) {
+    /**The function gets the ARE bit (0-2) and turn on the desirable bit**/
     switch (are) {
         case 0:
             pbc->b0 = 1;
@@ -122,8 +130,9 @@ void assign_are_bits(BitsCommand *pbc, int are) {
     }
 }
 
-/*The function covert the pbc to be an string (pchar)*/
+
 void convert_pbc_to_pchar(char *pcommand, BitsCommand *pbc) {
+    /**The function covert the pbc to be an string (pchar)**/
     pcommand[14] = pbc->b0 + '0';
     pcommand[13] = pbc->b1 + '0';
     pcommand[12] = pbc->b2 + '0';
@@ -144,8 +153,10 @@ void convert_pbc_to_pchar(char *pcommand, BitsCommand *pbc) {
 
 }
 
-/*The function assign the first command on all the commands*/
+
 void assign_first_command(ParsedCommand *ppc, BitsCommand *pbc, int are) {
+    /**The function assign the first command on all the commands**/
+
     /**First command**/
     /**Set the command bits: 11-14**/
     assign_command_bits(ppc, pbc);
@@ -160,9 +171,10 @@ void assign_first_command(ParsedCommand *ppc, BitsCommand *pbc, int are) {
     assign_are_bits(pbc, are);
 }
 
-/*The function assign are to bit 3-14.*/
-/*The function gets a binary number and insert to the right pbc*/
+
 void assign_arg_to_bit_3_till_14(BitsCommand *pbc, char binary_arg[], int is_src_arg) {
+    /**The function assign are to bit 3-14.**/
+    /**The function gets a binary number and insert to the right pbc**/
     pbc->b3 = binary_arg[MAX_BITS - 1];
     pbc->b4 = binary_arg[MAX_BITS - 2];
     pbc->b5 = binary_arg[MAX_BITS - 3];
@@ -178,23 +190,27 @@ void assign_arg_to_bit_3_till_14(BitsCommand *pbc, char binary_arg[], int is_src
 
 }
 
-/*The function insert to 3-5 bit the binary number*/
-void assign_arg_to_bit_3_till_5(BitsCommand *pbc, char binary_arg[]) {
+
+void assign_arg_to_bit_3_till_5(BitsCommand *pbc, char *binary_arg) {
+    /**The function insert to 3-5 bit the binary number**/
     pbc->b3 = binary_arg[MAX_BITS - 1];
     pbc->b4 = binary_arg[MAX_BITS - 2];
     pbc->b5 = binary_arg[MAX_BITS - 3];
 }
 
-/*The function insert to 6-8 bit the binary number*/
-void assign_arg_to_bit_6_till_8(BitsCommand *pbc, char binary_arg[]) {
+
+void assign_arg_to_bit_6_till_8(BitsCommand *pbc, char *binary_arg) {
+    /**The function insert to 6-8 bit the binary number**/
     pbc->b6 = binary_arg[MAX_BITS - 1];
     pbc->b7 = binary_arg[MAX_BITS - 2];
     pbc->b8 = binary_arg[MAX_BITS - 3];
 
 }
 
-/*The function */
-void assign_register_number_to_bit(BitsCommand *pbc, char binary_arg[], int is_src_reg) {
+
+void assign_register_number_to_bit(BitsCommand *pbc, char *binary_arg, int is_src_reg) {
+    /**The function assign the register num to the desired bit according to the fact that he could be
+     * src or dst **/
     if (is_src_reg) {
         pbc->b6 = binary_arg[MAX_BITS - 1];
         pbc->b7 = binary_arg[MAX_BITS - 2];
@@ -208,6 +224,7 @@ void assign_register_number_to_bit(BitsCommand *pbc, char binary_arg[], int is_s
 
 
 void assign_instant_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
+    /**Assign the instant command constant number to his bit representation**/
     int arg_as_dec;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     char instant_arg[5];
@@ -232,6 +249,7 @@ void assign_instant_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int i
 }
 
 void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
+    /**Assign the direct register command value to his bit representation**/
     int arg_as_dec;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     char direct_register_arg[5];
@@ -250,7 +268,7 @@ void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, 
         } else if (ppc->dst_addressing_method != 1 && is_src_arg != 1) {
             assign_arg_to_bit_3_till_5(pbc, covert_binary);
         } else {
-            /**Set the instant arg bits: 3-14
+            /**Set the direct register arg bits: 3-14
              * In case there is label**/
             assign_arg_to_bit_3_till_14(pbc, covert_binary, is_src_arg);
         }
@@ -264,6 +282,7 @@ void assign_direct_register_value_command(ParsedCommand *ppc, BitsCommand *pbc, 
 
 
 void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, BitsCommand *pbc, int are, int is_src_arg) {
+    /**Assign the direct and indirect register command number to his bit representation**/
     int arg_as_dec;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     char register_number;
@@ -284,20 +303,20 @@ void assign_direct_and_indirect_register_number_command(ParsedCommand *ppc, Bits
         } else if (ppc->dst_addressing_method != 1 && is_src_arg != 1) {
             assign_arg_to_bit_3_till_5(pbc, covert_binary);
         } else {
-            /**Set the instant arg bits: 3-14
+            /**Set the direct and indirect register arg bits: 3-14
              * In case there is label**/
             assign_arg_to_bit_3_till_14(pbc, covert_binary, is_src_arg);
         }
     } else {
         printf("ERROR - the number is too big\n");
     }
-
     /**Set the src arg bits: 0-2**/
     assign_are_bits(pbc, are);
 }
 
 
 int is_label(char *arg) {
+    /**Check if the given arg is a label or not**/
     if (strlen(arg) == 0) return FALSE;
     else if (compare_register(arg) == TRUE) {
         return FALSE;
@@ -311,11 +330,5 @@ int is_label(char *arg) {
         }
     }
     return TRUE;
-}
-
-int is_number(char *arg) {
-    if (strlen(arg) == 0)
-        return TRUE;
-    return FALSE;
 }
 

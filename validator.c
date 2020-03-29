@@ -125,7 +125,6 @@ int right_addressing_method_to_command(char *command, int dst_method, int src_me
 
     if ((strcmp(command, CLR) == 0) || (strcmp(command, NOT) == 0) || (strcmp(command, INC) == 0) ||
         (strcmp(command, DEC) == 0) || (strcmp(command, RED) == 0)) {
-        /*TODO: checks if -1*/
         if (src_method != UNKNOWN_COMMAND_NO) {
             printf("%s %d %s %s %s\n", ERROR_IN_LINE, row, THE_COMMAND, command, ILLEGAL_SRC_METHOD);
             return FALSE;
@@ -137,7 +136,6 @@ int right_addressing_method_to_command(char *command, int dst_method, int src_me
     }
 
     if ((strcmp(command, JMP) == 0) || (strcmp(command, BNE) == 0) || (strcmp(command, JSR) == 0)) {
-        /*TODO: checks if -1*/
         if (src_method != UNKNOWN_COMMAND_NO) {
             printf("%s %d %s %s %s\n", ERROR_IN_LINE, row, THE_COMMAND, command, ILLEGAL_SRC_METHOD);
             return FALSE;

@@ -1,5 +1,6 @@
 #include "utils.h"
 
+/**This file has general purpose, static functions that relevant for the entire project**/
 
 void swap(char array[], int i, int j) {
     int temp = 0;

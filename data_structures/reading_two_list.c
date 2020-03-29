@@ -1,8 +1,10 @@
 #include "../file_handler.h"
 
-/*The function gets the parameter to add a line to second round. create a new node of ReadingTwoList*/
+
 void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, ParsedInstruction *ppi,
                              BitsCommand *pbc, int row_num) {
+    /**The function gets the parameter to add a line to second round. create a new node of ReadingTwoList**/
+
     ReadingTwoList *sl, *node, *runner;
     if (!*rtl) {
         /**First allocation**/
@@ -43,9 +45,10 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
 
 }
 
-/*This function ran on the second round. ran over the symbol list and thr reading two list and changs the lines*/
+
 int validate_labels_at_second_running(char *filename, InstructionCount *ic, SymbolsList **psl, ReadingTwoList **rtl,
                                       int no_errors) {
+    /**This function ran on the second round. ran over the symbol list and thr reading two list and changes the lines**/
     SymbolsList *psl_runner;
     ReadingTwoList *rtl_runner;
     int is_there_match;
