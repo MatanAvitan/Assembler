@@ -192,7 +192,8 @@ int command_router(char *filename, InstructionCount *ic, ParsedCommand *ppc, Bit
 
     }
     free(arg);
-    /*if we here - none of the option is correct - the sentence isn't correct*/
+    /**If we here - none of the option is correct - the sentence isn't correct**/
+    return FALSE;
 }
 
 

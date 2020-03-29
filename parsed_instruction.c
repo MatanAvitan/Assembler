@@ -1,4 +1,5 @@
 #include "parsed_instruction.h"
+#include "validator.h"
 
 #define PARSING_ERROR_MSG "ERROR! in line %d Cannot parse command\n"
 #define THERE_IS_NO_ENDING_QUOTA_ERROR_MSG "ERROR! in line %d There is starting quota and no ending quota"
@@ -12,17 +13,18 @@ int get_instruction_type(char *instruction) {
         return ENTRY_NO;
     if (strcmp(instruction, EXTERN) == 0)
         return EXTERN_NO;
-
+    return -1;
 }
 
 int parse_instruction(InstructionCount *ic, char *command, ParsedInstruction *ppi) {
     char seps[] = " ,\t\n", quota_sep = '"';
     char *token;
     char instruction[MAX_INSTRUCTION_LEN];
+    int quota_started;
     LinkedList *node, *runner;
     ppi->members_num = 0;
     token = strtok(command, seps);
-    int quota_started = 0;
+    quota_started = 0;
     if (token == NULL) {
         ic->row = START_ROW_NUM + ic->ic + ic->dc;
         printf(PARSING_ERROR_MSG, ic->row);
@@ -98,7 +100,7 @@ int parse_instruction(InstructionCount *ic, char *command, ParsedInstruction *pp
             /**We go a valid string**/
             /**Let's add a NULL termination char**/
             node = (LinkedList *) malloc(sizeof(LinkedList));
-            node->val = NULL;/**Assign each char as int(ascii representation)**/
+            node->val = 0;    /**Assign each char as int(ascii representation)**/
             node->next = NULL;
             runner = &ppi->list;
             while (runner->next) runner = runner->next;
@@ -123,7 +125,7 @@ int parse_instruction(InstructionCount *ic, char *command, ParsedInstruction *pp
         }
     }
 
-    if (valid_label(ppi->label) == FALSE)
+    if (valid_label(ppi->label, sizeof(ppi->label)/ sizeof(char)) == FALSE)
         return FALSE;
 
     return TRUE;

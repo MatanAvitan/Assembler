@@ -40,7 +40,7 @@ int instruction_router(char *filename, InstructionCount *ic, ParsedInstruction *
                 ic->row = START_ROW_NUM + ic->ic + ic->dc;
             } else {
                 no_error_function = FALSE;
-                printf("%s %s %s\n", THE_NUMBER, temp_arg, TOO_BIG_NUMBER);
+                printf("%s %d %s\n", THE_NUMBER, temp_arg, TOO_BIG_NUMBER);
             }
             temp_head = temp_head->next;
             i++;

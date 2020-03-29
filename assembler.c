@@ -23,7 +23,7 @@ void run_flow(FILE *pfile, char *filename) {
             strcpy(command_input, zeroed_command);
             read_command(pfile, command_input);
         }
-        if (command_input[0] == NULL) {
+        if (command_input[0] == 0) {
             /**We achieved EOF after looping the the above while,
              * So we need to break out**/
             break;
@@ -98,8 +98,8 @@ void run_flow(FILE *pfile, char *filename) {
                 is_entry_or_extern = 0;
                 is_labeled_command = 1;
                 ic->row = backup_row;
-                first_round = valid_label(ppc->prefix);
-                add_symbol(&sl, ppc->prefix, ic, NULL, NULL, NULL,
+                first_round = valid_label(ppc->prefix, sizeof(ppc->prefix) / sizeof(char));
+                add_symbol(&sl, ppc->prefix, ic, 0, 0, 0,
                            is_entry_or_extern, is_labeled_command);
             }
         }
@@ -113,10 +113,10 @@ void run_flow(FILE *pfile, char *filename) {
         if (first_round == TRUE && second_round == TRUE) {
             convert_bin_file_to_oct_file(filename, ic);
         } else {
-            printf(SECOND_ROUND_FAILD);
+            printf(SECOND_ROUND_FAILED);
         }
     } else {
-        printf(FIRST_ROUND_FAILD);
+        printf(FIRST_ROUND_FAILED);
     }
     /**If there are errors - the program will not continue**/
     if (ic) {
@@ -135,5 +135,6 @@ int main(int argc, char **argv) {
         run_flow(pfile, argv[i]);
         fclose(pfile);
     }
+    return 1;
 }
 

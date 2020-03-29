@@ -111,7 +111,7 @@ char *convert_bin_to_oct(char *bin_command, char *oct_command) {
             oct = 0;
         }
     }
-    oct_command[5] = NULL;
+    oct_command[5] = 0;
     return oct_command;
 }
 

@@ -15,7 +15,7 @@ typedef struct SymbolsList {
     int first_value;
     int is_labeled_command;
     char first_value_for_entry_or_extern[MAX_INSTRUCTION_LEN];
-    struct symbols_list *next;
+    struct SymbolsList *next;
 } SymbolsList;
 
 void add_symbol(SymbolsList **psl, char *symbol, InstructionCount *ic, int instruction_type, int first_value,

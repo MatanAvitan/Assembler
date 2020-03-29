@@ -47,13 +47,14 @@ int validate_labels_at_second_running(char *filename, InstructionCount *ic, Symb
                                       int no_errors) {
     SymbolsList *psl_runner;
     ReadingTwoList *rtl_runner;
-    psl_runner = *psl;
-    rtl_runner = *rtl;
-    int is_there_match = 0;
+    int is_there_match;
     int are;
     int no_errors_function = TRUE;
     char entry_filename[MAX_LINE];
     char extern_filename[MAX_LINE];
+    psl_runner = *psl;
+    rtl_runner = *rtl;
+    is_there_match = 0;
     strcpy(entry_filename, filename);
     strcpy(extern_filename, filename);
     strcat(entry_filename, ENTRY_FILENAME_EXT);

@@ -1,3 +1,7 @@
+#ifndef FINAL_PROJECT_CONSTS_H
+#define FINAL_PROJECT_CONSTS_H
+
+
 /* Input */
 #define MAX_LINE 80
 #define MAX_ARG_SIZE 5
@@ -94,8 +98,8 @@
 /*Errors*/
 #define THE_NUMBER "ERROR! The number "
 #define TOO_BIG_NUMBER " is too big"
-#define THE_ADDRESS "ERROR! The address "
-#define ADRESS_TO_BIG_NUMBER " is not correct binary number"
-#define UNABLE_CREATE_FILE "Unable to create file\n"
-#define FIRST_ROUND_FAILD "The program failed on the first round, please try again\n"
-#define SECOND_ROUND_FAILD "The program failed on the second round, please try again\n"
+#define FIRST_ROUND_FAILED "The program failed on the first round, please try again\n"
+#define SECOND_ROUND_FAILED "The program failed on the second round, please try again\n"
+typedef int make_iso_compilers_happy;
+#endif /*FINAL_PROJECT_CONSTS_H*/
+

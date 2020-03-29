@@ -168,7 +168,7 @@ void convert_bin_file_to_oct_file(char *filename, InstructionCount *ic) {
     first_line[0] = sep;
     sprintf(first_line + 1, "%d\t", ic->ic);
     fputs(first_line, pofile);
-    first_line[1] = NULL;/**Let's copy from bit 1*/
+    first_line[1] = 0;    /**Let's copy from bit 1*/
     sprintf(first_line + 1, "%d\n", ic->dc);
     fputs(first_line, pofile);
     while (!feof(pbfile)) {
@@ -183,7 +183,7 @@ void convert_bin_file_to_oct_file(char *filename, InstructionCount *ic) {
 
         strcpy(oct_output + 5, convert_bin_to_oct(binary_to_convert, oct_command));
         oct_output[10] = NEW_LINE_AS_CHAR;
-        oct_output[11] = NULL;
+        oct_output[11] = 0;
         fputs(oct_output, pofile);
     }
 

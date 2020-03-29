@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "consts.h"
+#include "input.h"
 
 void read_command(FILE *pfile, char *command_input) {
     /** Read command from file **/

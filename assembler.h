@@ -17,4 +17,4 @@
 
 void run_flow(FILE *pfile, char *filename);
 
-#endif //FINAL_PROJECT_ASSEMBLER_H
+#endif /*FINAL_PROJECT_ASSEMBLER_H*/
