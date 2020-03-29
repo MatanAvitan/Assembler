@@ -8,6 +8,7 @@
 #include "reading_two_list.h"
 #include "symbols_list.h"
 
+/*errors of second round*/
 #define ERROR_IN_LINE "ERROR! in line"
 #define THE_LABEL "The label "
 #define NOT_DEFINED_LABEL " was never defined in the source code"
@@ -27,5 +28,11 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
                              BitsCommand *pbc, int row_num);
 
 int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, ReadingTwoList **rtl, int no_errors);
+
+/*The function chekcs if the label was double detemination*/
+int double_defined_label(SymbolsList **psl);
+
+/*The function chekcs if the label was double detemination of extern and entry or label command*/
+int double_defined_entry_extern (SymbolsList **psl, ReadingTwoList **rtl);
 
 #endif /*FINAL_PROJECT_READING_TWO_LIST_H*/
