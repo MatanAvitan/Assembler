@@ -1,5 +1,6 @@
 #include "indirect_register_addressing.h"
 
+/*The function translating the command to bits by indirect register addressing method*/
 void run_indirect_register_addressing(char *filename, InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are,
                                       ReadingTwoList **rtl) {
     int is_src_arg = 0, i = 0;
