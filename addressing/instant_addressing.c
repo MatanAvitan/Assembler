@@ -1,6 +1,6 @@
 #include "instant_addressing.h"
 
-
+/*The function translating the command to bits by instant addressing method*/
 void run_instant_addressing(char *filename, InstructionCount *ic,
                             ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
 
