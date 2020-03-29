@@ -15,13 +15,16 @@ int get_instruction_type(char *instruction) {
 
 int parse_instruction(char *command, ParsedInstruction *ppi) {
     char seps[] = " ,\t\n", quota_sep = '"';
-    char label[MAX_INSTRUCTION_LEN];
     char *token;
     char instruction[MAX_INSTRUCTION_LEN];
     LinkedList *node, *runner;
     ppi->members_num = 0;
     token = strtok(command, seps);
     int quota_started = 0;
+    if(token==NULL){
+        printf("Cannot parse command");
+        return FALSE;
+    }
     if (token[0] == '.') {
         strcpy(instruction, token + 1);
         ppi->instruction_type = get_instruction_type(instruction);
