@@ -1,2 +1,2 @@
 
-void read_command(char *command_input);
+void read_command(char *filename, char *command_input);

@@ -38,9 +38,7 @@ int instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsCommand
                 write_command_to_file(ic, pbc + i, BIN_FILENAME);
                 ic->dc++;
                 ic->row = START_ROW_NUM + ic->ic + ic->dc;
-            }
-            else
-            {
+            } else {
                 no_error_function = FALSE;
                 printf("%s %s %s\n", THE_NUMBER, temp_arg, TOO_BIG_NUMBER);
             }
@@ -49,7 +47,7 @@ int instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsCommand
         }
 
     }
-    if(no_errors == TRUE && no_error_function == TRUE)
+    if (no_errors == TRUE && no_error_function == TRUE)
         return TRUE;
     return FALSE;
     /**Else we got an entry or extern which will be handled by the second reading**/

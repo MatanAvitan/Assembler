@@ -76,9 +76,7 @@ void edit_existing_row_are(int row, int are) {
         fwrite(one_bit, 1, sizeof(one_bit), pfile);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
-    }
-    else if(are == 0)
-    {
+    } else if (are == 0) {
         fseek(pfile, LSEEK_START_POS_AT_ROW, SEEK_CUR);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
         fwrite(zero_bit, 1, sizeof(zero_bit), pfile);
@@ -123,7 +121,7 @@ void change_bits_second_reading(int row, char *binary_label_address) {
 
 
 /**The function reads the binary base file and converts it to oct base file**/
-void convert_bin_file_to_oct_file(InstructionCount *ic) {
+void convert_bin_file_to_oct_file(char *filename, InstructionCount *ic) {
     FILE *pbfile = NULL;
     FILE *pofile = NULL;
     char buffer[MAX_LINE];
@@ -135,7 +133,8 @@ void convert_bin_file_to_oct_file(InstructionCount *ic) {
     char sep;
     sep = '\t';
     pbfile = fopen(BIN_FILENAME, "r");
-    pofile = fopen(OCT_FILENAME, "a");
+    strcat(filename, OCT_FILENAME_EXT);
+    pofile = fopen(filename, "a");
 
     if (pbfile == NULL) {
         /* File not created hence exit */

@@ -48,16 +48,16 @@
 
 int validate_commas(char *command);
 
-int right_count_operands(char* command, int args_num);
+int right_count_operands(char *command, int args_num);
 
-int valid_command_name(char* command);
+int valid_command_name(char *command);
 
 int right_instruction_count_operand(int instruction_type, int members_num);
 
-int valid_label(char* label);
+int valid_label(char *label);
 
-int length_label (char* array);
+int length_label(char *array);
 
-int right_addressing_method_to_command(char* command, int dst_method, int src_method);
+int right_addressing_method_to_command(char *command, int dst_method, int src_method);
 
 #endif /*FINAL_PROJECT_VALIDATOR_H*/

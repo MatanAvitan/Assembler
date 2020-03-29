@@ -9,7 +9,8 @@
 #include "data_structures/reading_two_list.h"
 
 
-int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl,
+int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are,
+                   ReadingTwoList **rtl,
                    SymbolsList **psl, int no_errors) {
     char *arg = (char *) malloc(sizeof(char *));
     int no_error_function = TRUE;
@@ -29,8 +30,8 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
     }
 
     /*right addressing method*/
-    if(right_addressing_method_to_command(ppc->command, ppc->dst_addressing_method, ppc->src_addressing_method) == FALSE)
-    {
+    if (right_addressing_method_to_command(ppc->command, ppc->dst_addressing_method, ppc->src_addressing_method) ==
+        FALSE) {
         return FALSE;
     }
 

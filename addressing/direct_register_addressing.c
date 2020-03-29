@@ -10,7 +10,7 @@ void run_direct_register_addressing(InstructionCount *ic, ParsedCommand *ppc, Bi
 
     /**Second command**/
     if (ppc->args_num == 1) {
-        is_src_arg =  -1;
+        is_src_arg = -1;
         assign_direct_and_indirect_register_number_command(ppc, pbc + 1, are, is_src_arg);
     }
     if (ppc->args_num == 2) {

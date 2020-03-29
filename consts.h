@@ -4,6 +4,7 @@
 #define MAX_INSTRUCTION_LEN 6
 #define MAX_BITS 15
 #define IC_CHARS 6
+#define FILE_EXTENSION ".as"
 
 /* Assembly language */
 #define R0 "r0"
@@ -82,9 +83,9 @@
 
 /* Output */
 #define BIN_FILENAME "../binary_output.txt"
-#define ENTRY_FILENAME "../ps.ent"
-#define EXTERN_FILENAME "../ps.ext"
-#define OCT_FILENAME "../ps.ob"
+#define ENTRY_FILENAME_EXT ".ent"
+#define EXTERN_FILENAME_EXT ".ext"
+#define OCT_FILENAME_EXT ".ob"
 #define START_ROW_NUM 100
 #define PBC_COMMAND_LEN 17
 #define OCT_COMMAND_LEN 6

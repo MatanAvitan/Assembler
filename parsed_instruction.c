@@ -1,5 +1,5 @@
 #include "parsed_instruction.h"
-#include "utils.h"
+
 
 int get_instruction_type(char *instruction) {
     if (strcmp(instruction, DATA) == 0)

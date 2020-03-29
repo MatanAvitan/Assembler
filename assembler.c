@@ -1,18 +1,6 @@
-#include <stdlib.h>
-#include "consts.h"
-#include "input.h"
-#include "command_router.h"
-#include "parsed_instruction.h"
-#include "instruction_router.h"
-#include "data_structures/symbols_list.h"
-#include "data_structures/reading_two_list.h"
-#include "utils.h"
-#include "file_handler.h"
-#include "data_structures/instruction_counter.h"
-#include "validator.h"
+#include "assembler.h"
 
-
-int main() {
+void run_flow(FILE *pfile, char *filename) {
     char command_input[MAX_LINE] = {0};
     char copy_input[MAX_LINE] = {0};
     InstructionCount *ic;
@@ -25,10 +13,10 @@ int main() {
     int first_input = 1; /*1 is command, 0 is instruction*/
     int are, is_entry_or_extern = 0, is_labeled_command = 0, backup_row;
 
-    read_command(command_input);
+    read_command(pfile, command_input);
     /**Allow ; and \n as a comment**/
     while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
-        read_command(command_input);
+        read_command(pfile, command_input);
     }
     strcpy(copy_input, command_input);
 
@@ -59,10 +47,10 @@ int main() {
             if (ppi->members_num == 0) {
                 /**Parsing error**/
                 /**Fetch command**/
-                read_command(command_input);
+                read_command(pfile, command_input);
                 /**Allow ; and \n as a comment**/
                 while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
-                    read_command(command_input);
+                    read_command(pfile, command_input);
                 }
                 continue;
             } else {
@@ -103,10 +91,10 @@ int main() {
             first_round = instruction_router(ic, ppi, pbc, first_round);
 
             /**Fetch command**/
-            read_command(command_input);
+            read_command(pfile, command_input);
             /**Allow ; and \n as a comment**/
             while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
-                read_command(command_input);
+                read_command(pfile, command_input);
             }
             ppc = parse(command_input, ppc);
             free(ppi);  /**Free the previous instruction command**/
@@ -134,10 +122,10 @@ int main() {
                            is_entry_or_extern, is_labeled_command);
             }
             /**Fetch command**/
-            read_command(command_input);
+            read_command(pfile, command_input);
             /**Allow ; and \n as a comment**/
             while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
-                read_command(command_input);
+                read_command(pfile, command_input);
             }
             ppc = parse(command_input, ppc);
         }
@@ -146,9 +134,9 @@ int main() {
 
     /*if there are error in the first round - the program* will not continue*/
     if (first_round == TRUE) {
-        second_round = validate_labels_at_second_running(ic, &sl, &rtl, second_round);
+        second_round = validate_labels_at_second_running(filename, ic, &sl, &rtl, second_round);
         if (first_round == TRUE && second_round == TRUE) {
-            convert_bin_file_to_oct_file(ic);
+            convert_bin_file_to_oct_file(filename, ic);
         } else {
             printf(SECOND_ROUND_FAILD);
         }
@@ -163,3 +151,14 @@ int main() {
         free(ic);
     }
 }
+
+int main(int argc, char **argv) {
+    FILE *pfile;
+    int i = 1;
+    for (; i < argc; i++) {
+        pfile = fopen(argv[i], "r+");
+        run_flow(pfile, argv[i]);
+        fclose(pfile);
+    }
+}
+

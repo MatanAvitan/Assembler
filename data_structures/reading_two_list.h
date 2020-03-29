@@ -25,6 +25,6 @@ typedef struct ReadingTwoList {
 void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, ParsedInstruction *ppi,
                              BitsCommand *pbc, int row_num);
 
-int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, ReadingTwoList **rtl, int no_errors);
+int validate_labels_at_second_running(char *filename, InstructionCount *ic, SymbolsList **psl, ReadingTwoList **rtl, int no_errors);
 
 #endif /*FINAL_PROJECT_READING_TWO_LIST_H*/

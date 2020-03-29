@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "utils.h"
 #include "consts.h"
 
 #define THE_INSTRUCTION "The instruction "
