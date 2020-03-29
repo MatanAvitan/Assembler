@@ -65,7 +65,7 @@ int validate_labels_at_second_running(InstructionCount *ic, SymbolsList **psl, R
                     edit_existing_row_are(rtl_runner->row_num, are);
                     edit_existing_row_label_address(rtl_runner->row_num, psl_runner->row_num);
                 }
-                if (rtl_runner->ppi_instruction_type == EXTERN_NO) {
+                if (psl_runner->instruction_type == EXTERN_NO) {
                     write_entry_or_extern_to_file(rtl_runner->row_num, rtl_runner->label_name, EXTERN_FILENAME);
                     edit_existing_row_are(rtl_runner->row_num, are);
                     edit_existing_row_label_address(rtl_runner->row_num, 0);

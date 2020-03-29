@@ -32,7 +32,7 @@ void run_direct_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsCommand
         /**Write the command to the bin file**/
         ic->row = START_ROW_NUM + ic->ic + ic->dc;
         write_command_to_file(ic, pbc + i, BIN_FILENAME);
-        ic->dc++;
+        ic->ic++;
         ic->row = START_ROW_NUM + ic->dc + ic->ic;
     }
 }

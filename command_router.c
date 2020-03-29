@@ -44,7 +44,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
         none_operand(ppc, pbc);
         ic->row = START_ROW_NUM + ic->ic + ic->dc;
         write_command_to_file(ic, pbc, BIN_FILENAME);
-        ic->dc++;
+        ic->ic++;
         ic->row = START_ROW_NUM + ic->dc + ic->ic;
         return TRUE;
     }
