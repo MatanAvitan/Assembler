@@ -8,7 +8,8 @@
 #include "reading_two_list.h"
 #include "symbols_list.h"
 
-#define THE_LABEL "ERROR! The label "
+#define ERROR_IN_LINE "ERROR! in line"
+#define THE_LABEL "The label "
 #define NOT_DEFINED_LABEL " was never defined in the source code"
 #define DOUBLE_DETEMINATION_EXTERN_ENTRY " has double determination (entry and extern)"
 #define DOUBLE_DETEMINATION_LABEL " has double determination"
