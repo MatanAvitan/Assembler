@@ -11,7 +11,7 @@
 #include "../command_router.h"
 #include "../data_structures/reading_two_list.h"
 
-void run_instant_addressing(InstructionCount *ic, ParsedCommand *, BitsCommand *,
+void run_instant_addressing(char *filename, InstructionCount *ic, ParsedCommand *, BitsCommand *,
                             int, ReadingTwoList **);
 
 #endif /*FINAL_PROJECT_INSTANT_ADDRESSING_H*/

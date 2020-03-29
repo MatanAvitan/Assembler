@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "utils.h"
 #include "consts.h"
+#include "data_structures/instruction_counter.h"
 
 #define THE_INSTRUCTION "The instruction "
 #define IllEGAL_INSTRUCTION_NAME " is illegal"
@@ -25,7 +26,7 @@ typedef struct ParsedInstruction {
 } ParsedInstruction;
 
 
-int parse_instruction(char *command, ParsedInstruction *ppi);
+int parse_instruction(InstructionCount *ic, char *command, ParsedInstruction *ppi);
 
 int starts_with_valid_instruction(char *str);
 

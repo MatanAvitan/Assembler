@@ -69,13 +69,13 @@ int validate_labels_at_second_running(char *filename, InstructionCount *ic, Symb
                 }
                 if (rtl_runner->ppi_instruction_type != ENTRY_NO && rtl_runner->ppi_instruction_type != EXTERN_NO) {
                     /**You shouldn't edit entry or extern command in the second running**/
-                    edit_existing_row_are(rtl_runner->row_num, are);
-                    edit_existing_row_label_address(rtl_runner->row_num, psl_runner->row_num);
+                    edit_existing_row_are(filename, rtl_runner->row_num, are);
+                    edit_existing_row_label_address(filename, rtl_runner->row_num, psl_runner->row_num);
                 }
                 if (psl_runner->instruction_type == EXTERN_NO) {
                     write_entry_or_extern_to_file(rtl_runner->row_num, rtl_runner->label_name, extern_filename);
-                    edit_existing_row_are(rtl_runner->row_num, are);
-                    edit_existing_row_label_address(rtl_runner->row_num, 0);
+                    edit_existing_row_are(filename, rtl_runner->row_num, are);
+                    edit_existing_row_label_address(filename, rtl_runner->row_num, 0);
                 }
                 if (rtl_runner->ppi_instruction_type == ENTRY_NO) {
                     write_entry_or_extern_to_file(psl_runner->row_num, rtl_runner->label_name, entry_filename);

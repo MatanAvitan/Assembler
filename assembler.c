@@ -2,7 +2,6 @@
 
 void run_flow(FILE *pfile, char *filename) {
     char command_input[MAX_LINE] = {0};
-    char copy_input[MAX_LINE] = {0};
     InstructionCount *ic;
     ParsedCommand *ppc;
     ParsedInstruction *ppi;
@@ -10,47 +9,38 @@ void run_flow(FILE *pfile, char *filename) {
     SymbolsList *sl = {0};
     ReadingTwoList *rtl = {0};
     int first_round = TRUE, second_round = TRUE;
-    int first_input = 1; /*1 is command, 0 is instruction*/
     int are, is_entry_or_extern = 0, is_labeled_command = 0, backup_row;
-
-    read_command(pfile, command_input);
-    /**Allow ; and \n as a comment**/
-    while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
-        read_command(pfile, command_input);
-    }
-    strcpy(copy_input, command_input);
-
-    ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
-    ppc = parse(copy_input, ppc);
-
-    ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
-    strcpy(ppi->label, ppc->prefix);
-    first_round = parse_instruction(copy_input, ppi);
-
-    if (strcmp(ppc->command, TERMINATE) == 0) {
-        first_input = 0;
-    }
 
     ic = (InstructionCount *) malloc(sizeof(InstructionCount));
     ic->row = START_ROW_NUM;
-    while (strcmp(command_input, COMMAND_END_FILE) != 0) {
+
+    do {
+        read_command(pfile, command_input);
+        /**Allow ; and \n as a comment**/
+        while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
+            read_command(pfile, command_input);
+            /**Achieved end of file**/
+            if (feof(pfile))break;
+        }
+        ppc = (ParsedCommand *) malloc(sizeof(ParsedCommand));
+        parse(command_input, ppc);
         if (strcmp(ppc->command, TERMINATE) == 0) {
             /**If the command parser failed to parse the command maybe it's an instruction sentence**/
-            if (first_input != 0) {
-                ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
-                /**The command parser already caught the label**/
-                strcpy(ppi->label, ppc->prefix);
-                first_round = parse_instruction(command_input, ppi);
-            } else {
-                first_input = -1;
-            }
+            ppi = (ParsedInstruction *) malloc(sizeof(ParsedInstruction));
+            /**The command parser already caught the label**/
+            strcpy(ppi->label, ppc->prefix);
+            first_round = parse_instruction(ic, command_input, ppi);
             if (ppi->members_num == 0) {
                 /**Parsing error**/
                 /**Fetch command**/
                 read_command(pfile, command_input);
+                /**Achieved end of file**/
+                if (feof(pfile))break;
                 /**Allow ; and \n as a comment**/
                 while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
                     read_command(pfile, command_input);
+                    /**Achieved end of file**/
+                    if (feof(pfile))break;
                 }
                 continue;
             } else {
@@ -88,23 +78,12 @@ void run_flow(FILE *pfile, char *filename) {
                 strcpy(ppc->prefix, "");
             }
             pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * ppi->members_num);
-            first_round = instruction_router(ic, ppi, pbc, first_round);
+            first_round = instruction_router(filename, ic, ppi, pbc, first_round);
 
-            /**Fetch command**/
-            read_command(pfile, command_input);
-            /**Allow ; and \n as a comment**/
-            while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
-                read_command(pfile, command_input);
-            }
-            ppc = parse(command_input, ppc);
+
             free(ppi);  /**Free the previous instruction command**/
-            free(pbc);  /**Free the previous command bytes representation**/
-            continue;
-            /*} else {
-                /**We got stop command**/
-            /* break;
-         }*/
 
+            continue;
         } else {
             /**Regular command**/
             pbc = (BitsCommand *) malloc(sizeof(BitsCommand) * MAX_NUM_OF_TRANSLATION_COMMANDS);
@@ -112,7 +91,7 @@ void run_flow(FILE *pfile, char *filename) {
              *Then call to the get_are(command) and pass the output to the command_router function.**/
             backup_row = START_ROW_NUM + ic->ic + ic->dc;
             are = 2;
-            first_round = command_router(ic, ppc, pbc, are, &rtl, &sl, first_round);
+            first_round = command_router(filename, ic, ppc, pbc, are, &rtl, &sl, first_round);
             if (strlen(ppc->prefix)) {
                 is_entry_or_extern = 0;
                 is_labeled_command = 1;
@@ -121,18 +100,12 @@ void run_flow(FILE *pfile, char *filename) {
                 add_symbol(&sl, ppc->prefix, ic, NULL, NULL, NULL,
                            is_entry_or_extern, is_labeled_command);
             }
-            /**Fetch command**/
-            read_command(pfile, command_input);
-            /**Allow ; and \n as a comment**/
-            while (command_input[0] == COMMENT_MARK_CHAT || command_input[0] == NEW_LINE_AS_CHAR) {
-                read_command(pfile, command_input);
-            }
-            ppc = parse(command_input, ppc);
         }
+        free(ppc);
+        free(pbc);  /**Free the previous command bytes representation**/
+    } while (!feof(pfile));
 
-    }
-
-    /*if there are error in the first round - the program* will not continue*/
+    /**If there are error in the first round - the program* will not continue**/
     if (first_round == TRUE) {
         second_round = validate_labels_at_second_running(filename, ic, &sl, &rtl, second_round);
         if (first_round == TRUE && second_round == TRUE) {
@@ -144,9 +117,6 @@ void run_flow(FILE *pfile, char *filename) {
         printf(FIRST_ROUND_FAILD);
     }
     /**If there are errors - the program will not continue**/
-    if (ppc) {
-        free(ppc);
-    }
     if (ic) {
         free(ic);
     }

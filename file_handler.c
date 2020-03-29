@@ -9,12 +9,15 @@
 
 
 void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filename) {
-    char pcommand[PBC_COMMAND_LEN];
+    char pcommand[PBC_COMMAND_LEN], bin_filename[MAX_LINE];
     char ic_as_string[IC_CHARS];
     FILE *pfile = NULL;
     convert_pbc_to_pchar(pcommand, pbc);
 
-    pfile = fopen(filename, "a");
+    /**Build bin filename**/
+    strcpy(bin_filename, filename);
+    strcat(bin_filename, BIN_FILENAME_EXT);
+    pfile = fopen(bin_filename, "a");
 
     /* fopen() return NULL if last operation was unsuccessful */
     if (pfile == NULL) {
@@ -23,11 +26,11 @@ void write_command_to_file(InstructionCount *ic, BitsCommand *pbc, char *filenam
         exit(EXIT_FAILURE);
     }
 
-    /* Write data to file */
+    /** Write data to file **/
     int_to_string(ic->row, ic_as_string);
     fputs(ic_as_string, pfile);
     fputs(pcommand, pfile);
-    /* Close file to save file data */
+    /** Close file to save file content **/
     fclose(pfile);
 
 }
@@ -36,7 +39,7 @@ void write_entry_or_extern_to_file(int row_num, char *symbol, char *filename) {
     FILE *pfile = NULL;
     char ic_as_string[IC_CHARS];
     pfile = fopen(filename, "a");
-    /* fopen() return NULL if last operation was unsuccessful */
+    /** fopen() return NULL if last operation was unsuccessful **/
     if (pfile == NULL) {
         /* File not created hence exit */
         printf("Unable to create file.\n");
@@ -53,14 +56,19 @@ void write_entry_or_extern_to_file(int row_num, char *symbol, char *filename) {
 
 }
 
-void edit_existing_row_are(int row, int are) {
+void edit_existing_row_are(char *filename, int row, int are) {
     FILE *pfile;
     char buffer[MAX_LINE];
     char zero_bit[1], one_bit[1];
+    char bin_filename[MAX_LINE];
     zero_bit[0] = '0';
     one_bit[0] = '1';
     row = row - START_ROW_NUM;
-    pfile = fopen(BIN_FILENAME, "r+");
+
+    /**Build bin filename**/
+    strcpy(bin_filename, filename);
+    strcat(bin_filename, BIN_FILENAME_EXT);
+    pfile = fopen(bin_filename, "r+");
 
     while (row) {
         fgets(buffer, MAX_LINE, pfile);
@@ -85,25 +93,29 @@ void edit_existing_row_are(int row, int are) {
     fclose(pfile);
 }
 
-void edit_existing_row_label_address(int row_num, int adress_of_label) {
+void edit_existing_row_label_address(char *filename, int row_num, int adress_of_label) {
     char binary_label_address[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     if (dec_to_binary(adress_of_label, MAX_BITS, binary_label_address)) {
-        change_bits_second_reading(row_num, binary_label_address);
+        change_bits_second_reading(filename, row_num, binary_label_address);
     } else {
         printf("ERROR!\n");
     }
 }
 
-void change_bits_second_reading(int row, char *binary_label_address) {
+void change_bits_second_reading(char *filename, int row, char *binary_label_address) {
     FILE *pfile;
     int i = 0;
-    char buffer[MAX_LINE];
+    char buffer[MAX_LINE], bin_filename[MAX_LINE];
     char zero_bit[1] = {0}, one_bit[1] = {0};
     zero_bit[0] = '0';
     one_bit[0] = '1';
     row = row - START_ROW_NUM;
-    pfile = fopen(BIN_FILENAME, "r+");
+
+    /**Build bin filename**/
+    strcpy(bin_filename, filename);
+    strcat(bin_filename, BIN_FILENAME_EXT);
+    pfile = fopen(bin_filename, "r+");
 
     while (row) {
         fgets(buffer, MAX_LINE, pfile);
@@ -125,6 +137,7 @@ void convert_bin_file_to_oct_file(char *filename, InstructionCount *ic) {
     FILE *pbfile = NULL;
     FILE *pofile = NULL;
     char buffer[MAX_LINE];
+    char bin_filename[MAX_LINE];
     char oct_output[OCT_OUTPUT_LINE_SIZE];
     char oct_command[OCT_COMMAND_LEN];
     char first_line[OCT_OUTPUT_LINE_SIZE];
@@ -132,7 +145,13 @@ void convert_bin_file_to_oct_file(char *filename, InstructionCount *ic) {
     char *token;
     char sep;
     sep = '\t';
-    pbfile = fopen(BIN_FILENAME, "r");
+
+    /**Open bin file to read**/
+    strcpy(bin_filename, filename);
+    strcat(bin_filename, BIN_FILENAME_EXT);
+    pbfile = fopen(bin_filename, "r");
+
+    /**Open Oct file to write**/
     strcat(filename, OCT_FILENAME_EXT);
     pofile = fopen(filename, "a");
 
@@ -155,7 +174,7 @@ void convert_bin_file_to_oct_file(char *filename, InstructionCount *ic) {
     while (!feof(pbfile)) {
         fgets(buffer, MAX_LINE, pbfile);
         token = strtok(buffer, &sep);
-        if (token == NULL) break;/**We achieved non parseable string**/
+        if (token == NULL) break; /**We achieved non parseable string**/
         strcpy(oct_output, token);
         oct_output[4] = sep;
         token = strtok(NULL, &sep);
@@ -168,7 +187,7 @@ void convert_bin_file_to_oct_file(char *filename, InstructionCount *ic) {
         fputs(oct_output, pofile);
     }
 
-    /* Close file to save file data */
+    /** Close file to save file data **/
     fclose(pbfile);
     fclose(pofile);
 }

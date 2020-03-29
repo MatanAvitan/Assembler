@@ -1,5 +1,7 @@
 #include "parsed_instruction.h"
 
+#define PARSING_ERROR_MSG "ERROR! in line %d Cannot parse command\n"
+#define THERE_IS_NO_ENDING_QUOTA_ERROR_MSG "ERROR! in line %d There is starting quota and no ending quota"
 
 int get_instruction_type(char *instruction) {
     if (strcmp(instruction, DATA) == 0)
@@ -13,7 +15,7 @@ int get_instruction_type(char *instruction) {
 
 }
 
-int parse_instruction(char *command, ParsedInstruction *ppi) {
+int parse_instruction(InstructionCount *ic, char *command, ParsedInstruction *ppi) {
     char seps[] = " ,\t\n", quota_sep = '"';
     char *token;
     char instruction[MAX_INSTRUCTION_LEN];
@@ -21,16 +23,16 @@ int parse_instruction(char *command, ParsedInstruction *ppi) {
     ppi->members_num = 0;
     token = strtok(command, seps);
     int quota_started = 0;
-    if(token==NULL){
-        printf("Cannot parse command");
+    if (token == NULL) {
+        ic->row = START_ROW_NUM + ic->ic + ic->dc;
+        printf(PARSING_ERROR_MSG, ic->row);
         return FALSE;
     }
     if (token[0] == '.') {
         strcpy(instruction, token + 1);
         ppi->instruction_type = get_instruction_type(instruction);
-        if(ppi->instruction_type == UNKNOWN_COMMAND_NO)
-        {
-            printf("%s %s %s\n", THE_INSTRUCTION,instruction, IllEGAL_INSTRUCTION_NAME);
+        if (ppi->instruction_type == UNKNOWN_COMMAND_NO) {
+            printf("%s %s %s\n", THE_INSTRUCTION, instruction, IllEGAL_INSTRUCTION_NAME);
             return FALSE;
         }
     }
@@ -88,7 +90,9 @@ int parse_instruction(char *command, ParsedInstruction *ppi) {
             token++;
         }
         if (quota_started == 1) {
-            printf("There is starting quota and no ending quota");
+            /**Refresh the rows counter**/
+            ic->row = START_ROW_NUM + ic->ic + ic->dc;
+            printf(THERE_IS_NO_ENDING_QUOTA_ERROR_MSG, ic->row);
             return FALSE;
         } else {
             /**We go a valid string**/
@@ -119,7 +123,7 @@ int parse_instruction(char *command, ParsedInstruction *ppi) {
         }
     }
 
-    if(valid_label(ppi->label) == FALSE)
+    if (valid_label(ppi->label) == FALSE)
         return FALSE;
 
     return TRUE;

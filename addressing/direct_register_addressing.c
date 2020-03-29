@@ -1,6 +1,6 @@
 #include "direct_register_addressing.h"
 
-void run_direct_register_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are,
+void run_direct_register_addressing(char *filename, InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are,
                                     ReadingTwoList **rtl) {
     int is_src_arg = 0, i = 0;
     int num_of_command = 2; /**If there is no label the number of output command is 2**/
@@ -56,7 +56,7 @@ void run_direct_register_addressing(InstructionCount *ic, ParsedCommand *ppc, Bi
     for (; i < num_of_command; i++) {
         /**Write the command to the bin file**/
         ic->row = START_ROW_NUM + ic->ic + ic->dc;
-        write_command_to_file(ic, pbc + i, BIN_FILENAME);
+        write_command_to_file(ic, pbc + i, filename);
         ic->ic++;
         ic->row = START_ROW_NUM + ic->dc + ic->ic;
 

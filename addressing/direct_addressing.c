@@ -3,10 +3,8 @@
 
 #include "direct_addressing.h"
 
-extern ic;
 
-
-void run_direct_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
+void run_direct_addressing(char *filename,InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl) {
 
     /**FIRST*/
 
@@ -31,7 +29,7 @@ void run_direct_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsCommand
     for (; i < ppc->args_num + 1; i++) {
         /**Write the command to the bin file**/
         ic->row = START_ROW_NUM + ic->ic + ic->dc;
-        write_command_to_file(ic, pbc + i, BIN_FILENAME);
+        write_command_to_file(ic, pbc + i, filename);
         ic->ic++;
         ic->row = START_ROW_NUM + ic->dc + ic->ic;
     }

@@ -9,28 +9,30 @@
 #include "data_structures/reading_two_list.h"
 
 
-int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are,
+int command_router(char *filename, InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are,
                    ReadingTwoList **rtl,
                    SymbolsList **psl, int no_errors) {
     char *arg = (char *) malloc(sizeof(char *));
     int no_error_function = TRUE;
+    /**Router that sends the given command to the desired addressing method**/
 
-    /**integity checks**/
-
+    /**Refresh rows counter**/
+    ic->row = START_ROW_NUM + ic->ic + ic->dc;
     /*valid command name*/
-    if (valid_command_name(ppc->command,ic->row) == FALSE) {
+    if (valid_command_name(ppc->command, ic->row) == FALSE) {
         no_error_function = FALSE;
         return FALSE;
     }
 
     /*right count operands*/
-    if (right_count_operands(ppc->command, ppc->args_num,ic->row) == FALSE) {
+    if (right_count_operands(ppc->command, ppc->args_num, ic->row) == FALSE) {
         no_error_function = FALSE;
         return FALSE;
     }
 
     /*right addressing method*/
-    if (right_addressing_method_to_command(ppc->command, ppc->dst_addressing_method, ppc->src_addressing_method,ic->row) ==
+    if (right_addressing_method_to_command(ppc->command, ppc->dst_addressing_method, ppc->src_addressing_method,
+                                           ic->row) ==
         FALSE) {
         return FALSE;
     }
@@ -44,7 +46,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
     if (ppc->args_num == 0) {
         none_operand(ppc, pbc);
         ic->row = START_ROW_NUM + ic->ic + ic->dc;
-        write_command_to_file(ic, pbc, BIN_FILENAME);
+        write_command_to_file(ic, pbc, filename);
         ic->ic++;
         ic->row = START_ROW_NUM + ic->dc + ic->ic;
         return TRUE;
@@ -53,7 +55,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
     /**Instant Address**/
     if (ppc->src_addressing_method == INSTANT_ADDRESSING_NO || ppc->dst_addressing_method == INSTANT_ADDRESSING_NO) {
         if (command_instant_address(ppc->command) == TRUE) {
-            run_instant_addressing(ic, ppc, pbc, are, rtl);
+            run_instant_addressing(filename, ic, ppc, pbc, are, rtl);
         }
         if (no_errors == TRUE && no_error_function == TRUE)
             return TRUE;
@@ -66,7 +68,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
     if (command_direct_and_indirect_register_address(ppc->command) == TRUE) {
         if (ppc->args_num == 1) {
             if (compare_register(ppc->dst) == FALSE) {
-                run_direct_addressing(ic, ppc, pbc, are, rtl);
+                run_direct_addressing(filename, ic, ppc, pbc, are, rtl);
                 if (no_errors == TRUE && no_error_function == TRUE)
                     return TRUE;
                 return FALSE;
@@ -74,7 +76,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
         } else if (ppc->args_num == 2) {
             if (compare_register(ppc->src) == FALSE &&
                 compare_register(ppc->dst) == FALSE) {
-                run_direct_addressing(ic, ppc, pbc, are, rtl);
+                run_direct_addressing(filename, ic, ppc, pbc, are, rtl);
                 if (no_errors == TRUE && no_error_function == TRUE)
                     return TRUE;
                 return FALSE;
@@ -102,7 +104,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
             printf("%s %s %s\n", THE_COMMMAND, ppc->command, INVALID_COMMAND_INDIRECT);
             no_error_function = FALSE;
         }
-        run_indirect_register_addressing(ic, ppc, pbc, are, rtl);
+        run_indirect_register_addressing(filename, ic, ppc, pbc, are, rtl);
         if (no_errors == TRUE && no_error_function == TRUE)
             return TRUE;
         return FALSE;
@@ -111,11 +113,11 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
             /**Only dst is indirect register**/
             if (ppc->dst_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO) {
                 if (compare_register(ppc->dst) == FALSE) {
-                    /*Invalid source register name*/
+                    /**Invalid source register name**/
                     printf("%s %s %s\n", THE_REGISTER, ppc->dst, INVALID_REGISTER_NAME);
                     no_error_function = FALSE;
                 } else {
-                    run_indirect_register_addressing(ic, ppc, pbc, are, rtl);
+                    run_indirect_register_addressing(filename, ic, ppc, pbc, are, rtl);
                     if (no_errors == TRUE && no_error_function == TRUE)
                         return TRUE;
                     return FALSE;
@@ -126,11 +128,11 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
     } else {
         if (ppc->src_addressing_method == INDIRECT_REGISTER_ADDRESSING_NO) {
             if (compare_register(ppc->src) == FALSE) {
-                /*Invalid source register name*/
+                /**Invalid source register name**/
                 printf("%s %s %s\n", THE_REGISTER, ppc->src, INVALID_REGISTER_NAME);
                 no_error_function = FALSE;
             } else {
-                run_indirect_register_addressing(ic, ppc, pbc, are, rtl);
+                run_indirect_register_addressing(filename, ic, ppc, pbc, are, rtl);
                 if (no_errors == TRUE && no_error_function == TRUE)
                     return TRUE;
                 return FALSE;
@@ -157,7 +159,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
             printf("%s %s %s\n", THE_COMMMAND, ppc->command, INVALID_COMMAND_INDIRECT);
             no_error_function = FALSE;
         }
-        run_direct_register_addressing(ic, ppc, pbc, are, rtl);
+        run_direct_register_addressing(filename, ic, ppc, pbc, are, rtl);
         if (no_errors == TRUE && no_error_function == TRUE)
             return TRUE;
         return FALSE;
@@ -171,7 +173,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
                 }
             }
         }
-        run_direct_register_addressing(ic, ppc, pbc, are, rtl);
+        run_direct_register_addressing(filename, ic, ppc, pbc, are, rtl);
         if (no_errors == TRUE && no_error_function == TRUE)
             return TRUE;
         return FALSE;
@@ -181,7 +183,7 @@ int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, i
                 printf("%s %s %s\n", THE_REGISTER, ppc->src, INVALID_REGISTER_NAME);
                 no_error_function = FALSE;
             } else {
-                run_direct_register_addressing(ic, ppc, pbc, are, rtl);
+                run_direct_register_addressing(filename, ic, ppc, pbc, are, rtl);
                 if (no_errors == TRUE && no_error_function == TRUE)
                     return TRUE;
                 return FALSE;

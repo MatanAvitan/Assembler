@@ -82,7 +82,7 @@
 
 
 /* Output */
-#define BIN_FILENAME "binary_output.txt"
+#define BIN_FILENAME_EXT ".bin"
 #define ENTRY_FILENAME_EXT ".ent"
 #define EXTERN_FILENAME_EXT ".ext"
 #define OCT_FILENAME_EXT ".ob"
@@ -97,5 +97,5 @@
 #define THE_ADDRESS "ERROR! The address "
 #define ADRESS_TO_BIG_NUMBER " is not correct binary number"
 #define UNABLE_CREATE_FILE "Unable to create file\n"
-#define FIRST_ROUND_FAILD "The program faild on the first round, please try.as agin\n"
-#define SECOND_ROUND_FAILD "The program faild on the second round, please try.as agin\n"
+#define FIRST_ROUND_FAILD "The program failed on the first round, please try again\n"
+#define SECOND_ROUND_FAILD "The program failed on the second round, please try again\n"

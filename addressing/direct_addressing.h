@@ -11,6 +11,6 @@
 #include "../file_handler.h"
 #include "../data_structures/reading_two_list.h"
 
-void run_direct_addressing(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl);
+void run_direct_addressing(char *filename, InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are, ReadingTwoList **rtl);
 
 #endif /*FINAL_PROJECT_DIRECT_ADDRESSING_H*/

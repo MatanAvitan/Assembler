@@ -13,8 +13,8 @@
 #define INVALID_COMMAND_INDIRECT " is invalid command for the following indirect registers"
 
 
-int command_router(InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc, int are,
-                   ReadingTwoList **rtl,
+int command_router(char *filename, InstructionCount *ic, ParsedCommand *ppc, BitsCommand *pbc,
+                   int are, ReadingTwoList **rtl,
                    SymbolsList **psl, int no_errors);
 
 

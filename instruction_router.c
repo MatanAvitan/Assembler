@@ -22,7 +22,7 @@ void assign_arg_to_all_bits(BitsCommand *pbc, char *binary_arg) {
 }
 
 
-int instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsCommand *pbc, int no_errors) {
+int instruction_router(char *filename, InstructionCount *ic, ParsedInstruction *ppi, BitsCommand *pbc, int no_errors) {
     int i = 0;
     int no_error_function = TRUE;
     char covert_binary[MAX_BITS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -35,7 +35,7 @@ int instruction_router(InstructionCount *ic, ParsedInstruction *ppi, BitsCommand
             if (dec_to_binary(temp_arg, MAX_BITS, covert_binary)) {
                 assign_arg_to_all_bits(pbc + i, covert_binary);
                 ic->row = START_ROW_NUM + ic->ic + ic->dc;
-                write_command_to_file(ic, pbc + i, BIN_FILENAME);
+                write_command_to_file(ic, pbc + i, filename);
                 ic->dc++;
                 ic->row = START_ROW_NUM + ic->ic + ic->dc;
             } else {
