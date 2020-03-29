@@ -178,12 +178,14 @@ void assign_arg_to_bit_3_till_14(BitsCommand *pbc, char binary_arg[], int is_src
 
 }
 
+/*The function insert to 3-5 bit the binary number*/
 void assign_arg_to_bit_3_till_5(BitsCommand *pbc, char binary_arg[]) {
     pbc->b3 = binary_arg[MAX_BITS - 1];
     pbc->b4 = binary_arg[MAX_BITS - 2];
     pbc->b5 = binary_arg[MAX_BITS - 3];
 }
 
+/*The function insert to 6-8 bit the binary number*/
 void assign_arg_to_bit_6_till_8(BitsCommand *pbc, char binary_arg[]) {
     pbc->b6 = binary_arg[MAX_BITS - 1];
     pbc->b7 = binary_arg[MAX_BITS - 2];
@@ -191,6 +193,7 @@ void assign_arg_to_bit_6_till_8(BitsCommand *pbc, char binary_arg[]) {
 
 }
 
+/*The function */
 void assign_register_number_to_bit(BitsCommand *pbc, char binary_arg[], int is_src_reg) {
     if (is_src_reg) {
         pbc->b6 = binary_arg[MAX_BITS - 1];
