@@ -84,7 +84,7 @@ void assign_src_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     }
 }
 
-
+/*The function turn on dst bits (3-6 bits)*/
 void assign_dst_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     switch (ppc->dst_addressing_method) {
         case INSTANT_ADDRESSING_NO:
@@ -105,6 +105,7 @@ void assign_dst_arg_bits(ParsedCommand *ppc, BitsCommand *pbc) {
     }
 }
 
+/*The function gets the ARE bit (0-2) and turn on the desirable bit*/
 void assign_are_bits(BitsCommand *pbc, int are) {
     switch (are) {
         case 0:
@@ -121,6 +122,7 @@ void assign_are_bits(BitsCommand *pbc, int are) {
     }
 }
 
+/*The function covert the pbc to be an string (pchar)*/
 void convert_pbc_to_pchar(char *pcommand, BitsCommand *pbc) {
     pcommand[14] = pbc->b0 + '0';
     pcommand[13] = pbc->b1 + '0';
@@ -142,6 +144,7 @@ void convert_pbc_to_pchar(char *pcommand, BitsCommand *pbc) {
 
 }
 
+/*The function assign the first command on all the commands*/
 void assign_first_command(ParsedCommand *ppc, BitsCommand *pbc, int are) {
     /**First command**/
     /**Set the command bits: 11-14**/
@@ -157,6 +160,8 @@ void assign_first_command(ParsedCommand *ppc, BitsCommand *pbc, int are) {
     assign_are_bits(pbc, are);
 }
 
+/*The function assign are to bit 3-14.*/
+/*The function gets a binary number and insert to the right pbc*/
 void assign_arg_to_bit_3_till_14(BitsCommand *pbc, char binary_arg[], int is_src_arg) {
     pbc->b3 = binary_arg[MAX_BITS - 1];
     pbc->b4 = binary_arg[MAX_BITS - 2];
