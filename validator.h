@@ -24,15 +24,18 @@
 #define OUT_OF_RANGE_MSG "Invalid set member – value out of range\n"
 #define EMPTY_SET "‫‪The‬‬ ‫‪set‬‬ ‫‪is‬‬ ‫‪empty\n‬‬"
 
+
+#define ERROR_IN_LINE "ERROR! in line"
+#define THE_COMMAND "the command "
+
 /*error messange - label*/
 #define ERROR_LABEL_FIRST_CHAR "ERROR! the label doesn't start with a letter\n"
 #define ERROR_LABEL_LENGTH "ERROR! the label maximum length is 31, the label is too longer\n"
 #define ERROR_LABEL_LAST_CHAR "ERROR! the label should end with ':'\n"
 #define ERROR_LABEL_ILLEGAL_CHAR "ERROR! the label should include only letters and digits\n"
 
-#define THE_COMMAND "ERROR! The command "
 #define INVALID_COMMAND " is invalid"
-#define INCORRENT_COUNT_OPERANDS "ERROR! num of operands is incorrect\n"
+#define INCORRENT_COUNT_OPERANDS "num of operands is incorrect\n"
 
 #define CAPITAL_LETTER_START 65
 #define CAPITAL_LETTER_END 90
@@ -41,23 +44,25 @@
 #define DIGITS_START 48
 #define DIGITS_END 57
 
-#define WORONG_DST_ADDRESSING_METHOD "ERROR! wrong dst addressing method to the command "
-#define WORONG_SRC_ADDRESSING_METHOD "ERROR! wrong src addressing method to the command "
+#define WORONG_DST_ADDRESSING_METHOD "wrong dst addressing method to the command "
+#define WORONG_SRC_ADDRESSING_METHOD "wrong src addressing method to the command "
 #define ILLGAL_SRC_METHOD " can not had src operand"
 
 
 int validate_commas(char *command);
 
-int right_count_operands(char *command, int args_num);
+int right_count_operands(char* command, int args_num, int row);
 
-int valid_command_name(char *command);
+int valid_command_name(char* command, int row);
 
-int right_instruction_count_operand(int instruction_type, int members_num);
+int right_instruction_count_operand(int instruction_type, int members_num, int row);
 
-int valid_label(char *label);
+int valid_label(char* label);
 
-int length_label(char *array);
+int length_label (char* array);
 
-int right_addressing_method_to_command(char *command, int dst_method, int src_method);
+int right_addressing_method_to_command(char* command, int dst_method, int src_method, int row);
+
+/*int right_count_operands_instruction(ParsedInstruction *ppi);*/
 
 #endif /*FINAL_PROJECT_VALIDATOR_H*/
