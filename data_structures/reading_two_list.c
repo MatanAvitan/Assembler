@@ -1,6 +1,6 @@
 #include "../file_handler.h"
 
-
+/*The function gets the parameter to add a line to second round. create a new node of ReadingTwoList*/
 void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedCommand *ppc, ParsedInstruction *ppi,
                              BitsCommand *pbc, int row_num) {
     ReadingTwoList *sl, *node, *runner;
@@ -43,6 +43,7 @@ void add_second_reading_line(ReadingTwoList **rtl, char *label_name, ParsedComma
 
 }
 
+/*This function ran on the second round. ran over the symbol list and thr reading two list and changs the lines*/
 int validate_labels_at_second_running(char *filename, InstructionCount *ic, SymbolsList **psl, ReadingTwoList **rtl,
                                       int no_errors) {
     SymbolsList *psl_runner;
@@ -73,11 +74,13 @@ int validate_labels_at_second_running(char *filename, InstructionCount *ic, Symb
                     edit_existing_row_are(filename, rtl_runner->row_num, are);
                     edit_existing_row_label_address(filename, rtl_runner->row_num, psl_runner->row_num);
                 }
+                /*if extern - you should write to extern file and change the line to 0 address*/
                 if (psl_runner->instruction_type == EXTERN_NO) {
                     write_entry_or_extern_to_file(rtl_runner->row_num, rtl_runner->label_name, extern_filename);
                     edit_existing_row_are(filename, rtl_runner->row_num, are);
                     edit_existing_row_label_address(filename, rtl_runner->row_num, 0);
                 }
+                /*if entry - only write to the entry file*/
                 if (rtl_runner->ppi_instruction_type == ENTRY_NO) {
                     write_entry_or_extern_to_file(psl_runner->row_num, rtl_runner->label_name, entry_filename);
 
